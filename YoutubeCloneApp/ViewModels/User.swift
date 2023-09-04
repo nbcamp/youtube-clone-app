@@ -15,9 +15,12 @@ final class User {
 }
 
 extension User {
+    func toModel() -> UserModel { .init(from: self) }
+}
+
+extension User {
     var uiAvatar: UIImage? {
         get { avatar != nil ? .init(base64: avatar!) : nil }
         set { avatar = newValue?.base64 }
     }
 }
-

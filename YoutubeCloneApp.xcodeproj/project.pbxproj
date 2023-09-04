@@ -35,6 +35,7 @@
 		3336472F2AA5B0D100C37275 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336472E2AA5B0D100C37275 /* UserModel.swift */; };
 		333647312AA5B0D800C37275 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647302AA5B0D800C37275 /* User.swift */; };
 		333647332AA5B12800C37275 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647322AA5B12800C37275 /* Extensions.swift */; };
+		333647352AA5CBEF00C37275 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647342AA5CBEF00C37275 /* Events.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		3336472E2AA5B0D100C37275 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		333647302AA5B0D800C37275 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		333647322AA5B12800C37275 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		333647342AA5CBEF00C37275 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +143,7 @@
 		333646F42AA5987000C37275 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				333647342AA5CBEF00C37275 /* Events.swift */,
 				333646FA2AA5A8B200C37275 /* TypedViewController.swift */,
 				333646E22AA597C900C37275 /* RootViewController.swift */,
 				333646FE2AA5A9D700C37275 /* SignInViewController.swift */,
@@ -313,6 +316,7 @@
 				333647022AA5A9F500C37275 /* SignInView.swift in Sources */,
 				333646FB2AA5A8B200C37275 /* TypedViewController.swift in Sources */,
 				333647312AA5B0D800C37275 /* User.swift in Sources */,
+				333647352AA5CBEF00C37275 /* Events.swift in Sources */,
 				333647162AA5AC5B00C37275 /* DetailView.swift in Sources */,
 				333646FF2AA5A9D700C37275 /* SignInViewController.swift in Sources */,
 				333646DF2AA597C900C37275 /* AppDelegate.swift in Sources */,
