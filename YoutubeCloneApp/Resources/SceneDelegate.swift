@@ -7,7 +7,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
-        
+
+        AuthService.shared.storage = UserDefaultsStorage.shared
         window?.rootViewController = RootViewController()
     }
 
