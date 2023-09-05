@@ -1,28 +1,66 @@
+import Foundation
+
 final class YoutubeService {
     static let shared: YoutubeService = .init()
     private init() {}
 
-    private(set) var videos: [YoutubeVideo] = []
-    private(set) var loading = false
+    @Publishable private(set) var videos: [YoutubeVideo] = []
+    @Publishable private(set) var loading = false
 
-    private var nextPageToken: String?
+    @Publishable private(set) var refreshing = false
+    @Publishable private(set) var completed = false
+
+    private var initialized = false
+    private var nextPageToken: String? {
+        didSet { completed = nextPageToken == nil && !videos.isEmpty }
+    }
 
     func loadVideos(errorHandler: @escaping (Error) -> Void) {
         Task {
             loading = true
+            await _loadVideos(errorHandler: errorHandler)
+            loading = false
+            initialized = true
+        }
+    }
+
+    func refreshVideos(errorHandler: @escaping (Error) -> Void) {
+        guard initialized else { return }
+        Task {
+            refreshing = true
+            await _loadVideos(errorHandler: errorHandler)
+            refreshing = false
+        }
+    }
+
+    func loadMoreVideos(errorHandler: @escaping (Error) -> Void) {
+        Task {
+            await _loadVideos(next: true, errorHandler: errorHandler)
+        }
+    }
+
+    private func _loadVideos(
+        next: Bool = false,
+        errorHandler: @escaping (Error) -> Void
+    ) async {
+        Task {
+            var queryItems: [URLQueryItem] = [
+                .init(name: "part", value: "snippet"),
+                .init(name: "chart", value: "mostPopular")
+            ]
+
+            if next, let nextPageToken {
+                queryItems.append(.init(name: "pageToken", value: nextPageToken))
+            }
+
             let videoListResult = await APIService.shared.fetch(
                 url: "/videos",
                 model: YoutubeVideoListResponseModel.self,
-                queryItems: [
-                    .init(name: "part", value: "snippet"),
-                    .init(name: "chart", value: "mostPopular")
-                ]
+                queryItems: queryItems
             )
 
             guard case let .success(videoList) = videoListResult else {
-                errorHandler(videoListResult.mapError { $0 } as! Error)
-                loading = false
-                return
+                return errorHandler(videoListResult.mapError { $0 } as! Error)
             }
 
             let channelListResult = await APIService.shared.fetch(
@@ -40,9 +78,7 @@ final class YoutubeService {
             )
 
             guard case let .success(channelList) = channelListResult else {
-                errorHandler(videoListResult.mapError { $0 } as! Error)
-                loading = false
-                return
+                return errorHandler(videoListResult.mapError { $0 } as! Error)
             }
 
             let channelMap: [String: YoutubeChannelSnippetModel] = channelList.items.reduce([:]) { partialResult, channel in
@@ -51,7 +87,7 @@ final class YoutubeService {
                 return copied
             }
 
-            videos = videoList.items.map {
+            let videos: [YoutubeVideo] = videoList.items.map {
                 let channel = channelMap[$0.snippet.channelId]
 
                 let videoThumbnail = YoutubeVideo.Thumbnail(
@@ -79,10 +115,14 @@ final class YoutubeService {
                     )
                 )
             }
-            print(videos)
+
+            if next {
+                self.videos.append(contentsOf: videos)
+            } else {
+                self.videos = videos
+            }
 
             nextPageToken = videoList.nextPageToken
-            loading = false
         }
     }
 }
