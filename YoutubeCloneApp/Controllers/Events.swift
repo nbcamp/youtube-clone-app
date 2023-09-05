@@ -1,8 +1,8 @@
 struct SignInEvent: EventProtocol {
     struct Payload {
-        var email: String
-        var password: String
+        let email: String
+        let password: String
     }
 
-    var payload: Payload
+    let payload: Payload
 }
