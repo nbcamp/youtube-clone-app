@@ -36,6 +36,15 @@
 		333647312AA5B0D800C37275 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647302AA5B0D800C37275 /* User.swift */; };
 		333647332AA5B12800C37275 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647322AA5B12800C37275 /* Extensions.swift */; };
 		333647352AA5CBEF00C37275 /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647342AA5CBEF00C37275 /* Events.swift */; };
+		333647392AA6E7E700C37275 /* YoutubeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647382AA6E7E700C37275 /* YoutubeService.swift */; };
+		3336473B2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336473A2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift */; };
+		3336473D2AA6EAB700C37275 /* YoutubePageInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336473C2AA6EAB700C37275 /* YoutubePageInfoModel.swift */; };
+		333647402AA6EB0B00C37275 /* YoutubeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336473F2AA6EB0B00C37275 /* YoutubeVideoModel.swift */; };
+		333647422AA6EC8300C37275 /* YoutubeVideoThumbnailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647412AA6EC8300C37275 /* YoutubeVideoThumbnailModel.swift */; };
+		333647442AA6F12900C37275 /* YoutubeVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647432AA6F12900C37275 /* YoutubeVideo.swift */; };
+		333647462AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */; };
+		333647482AA70DA500C37275 /* YoutubeChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647472AA70DA500C37275 /* YoutubeChannelModel.swift */; };
+		3336474A2AA70DD600C37275 /* YoutubeThumbnailList'Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +79,17 @@
 		333647302AA5B0D800C37275 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		333647322AA5B12800C37275 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		333647342AA5CBEF00C37275 /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		333647362AA6E25A00C37275 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		333647372AA6E2A100C37275 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
+		333647382AA6E7E700C37275 /* YoutubeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeService.swift; sourceTree = "<group>"; };
+		3336473A2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoListResponseModel.swift; sourceTree = "<group>"; };
+		3336473C2AA6EAB700C37275 /* YoutubePageInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePageInfoModel.swift; sourceTree = "<group>"; };
+		3336473F2AA6EB0B00C37275 /* YoutubeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoModel.swift; sourceTree = "<group>"; };
+		333647412AA6EC8300C37275 /* YoutubeVideoThumbnailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoThumbnailModel.swift; sourceTree = "<group>"; };
+		333647432AA6F12900C37275 /* YoutubeVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideo.swift; sourceTree = "<group>"; };
+		333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelListResponseModel.swift; sourceTree = "<group>"; };
+		333647472AA70DA500C37275 /* YoutubeChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelModel.swift; sourceTree = "<group>"; };
+		333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoutubeThumbnailList'Model.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +141,8 @@
 				333646E02AA597C900C37275 /* SceneDelegate.swift */,
 				333646DE2AA597C900C37275 /* AppDelegate.swift */,
 				333647322AA5B12800C37275 /* Extensions.swift */,
+				333647372AA6E2A100C37275 /* Secrets.example.xcconfig */,
+				333647362AA6E25A00C37275 /* Secrets.xcconfig */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -176,6 +198,7 @@
 			children = (
 				3336470A2AA5AB8B00C37275 /* APIService.swift */,
 				3336470C2AA5AB9C00C37275 /* AuthService.swift */,
+				333647382AA6E7E700C37275 /* YoutubeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -228,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				3336472E2AA5B0D100C37275 /* UserModel.swift */,
+				3336473E2AA6EABB00C37275 /* Youtube */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -236,8 +260,23 @@
 			isa = PBXGroup;
 			children = (
 				333647302AA5B0D800C37275 /* User.swift */,
+				333647432AA6F12900C37275 /* YoutubeVideo.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		3336473E2AA6EABB00C37275 /* Youtube */ = {
+			isa = PBXGroup;
+			children = (
+				3336473A2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift */,
+				3336473F2AA6EB0B00C37275 /* YoutubeVideoModel.swift */,
+				333647412AA6EC8300C37275 /* YoutubeVideoThumbnailModel.swift */,
+				333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */,
+				333647472AA70DA500C37275 /* YoutubeChannelModel.swift */,
+				3336473C2AA6EAB700C37275 /* YoutubePageInfoModel.swift */,
+				333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */,
+			);
+			path = Youtube;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -312,25 +351,34 @@
 			files = (
 				333647212AA5AFAC00C37275 /* Publishable.swift in Sources */,
 				333647232AA5AFC300C37275 /* EventBus.swift in Sources */,
+				333647402AA6EB0B00C37275 /* YoutubeVideoModel.swift in Sources */,
+				3336473B2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift in Sources */,
+				333647462AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift in Sources */,
 				333646E32AA597C900C37275 /* RootViewController.swift in Sources */,
 				333647022AA5A9F500C37275 /* SignInView.swift in Sources */,
 				333646FB2AA5A8B200C37275 /* TypedViewController.swift in Sources */,
 				333647312AA5B0D800C37275 /* User.swift in Sources */,
+				333647422AA6EC8300C37275 /* YoutubeVideoThumbnailModel.swift in Sources */,
 				333647352AA5CBEF00C37275 /* Events.swift in Sources */,
 				333647162AA5AC5B00C37275 /* DetailView.swift in Sources */,
+				3336474A2AA70DD600C37275 /* YoutubeThumbnailList'Model.swift in Sources */,
 				333646FF2AA5A9D700C37275 /* SignInViewController.swift in Sources */,
 				333646DF2AA597C900C37275 /* AppDelegate.swift in Sources */,
 				3336470D2AA5AB9C00C37275 /* AuthService.swift in Sources */,
+				333647442AA6F12900C37275 /* YoutubeVideo.swift in Sources */,
 				3336471C2AA5AD9100C37275 /* ProfileViewController.swift in Sources */,
 				3336472F2AA5B0D100C37275 /* UserModel.swift in Sources */,
 				333647292AA5AFF200C37275 /* UserDefaultsStorage.swift in Sources */,
 				3336471A2AA5AD8300C37275 /* DetailViewController.swift in Sources */,
+				3336473D2AA6EAB700C37275 /* YoutubePageInfoModel.swift in Sources */,
 				333647182AA5AC6B00C37275 /* ProfileView.swift in Sources */,
 				333647052AA5AB1900C37275 /* SignUpView.swift in Sources */,
 				3336470B2AA5AB8B00C37275 /* APIService.swift in Sources */,
 				333647082AA5AB5C00C37275 /* SignUpViewController.swift in Sources */,
 				333647102AA5ABD500C37275 /* HomeView.swift in Sources */,
 				333647262AA5AFD600C37275 /* Storage.swift in Sources */,
+				333647392AA6E7E700C37275 /* YoutubeService.swift in Sources */,
+				333647482AA70DA500C37275 /* YoutubeChannelModel.swift in Sources */,
 				333646E12AA597C900C37275 /* SceneDelegate.swift in Sources */,
 				333647332AA5B12800C37275 /* Extensions.swift in Sources */,
 				333647122AA5ABEC00C37275 /* HomeViewController.swift in Sources */,
@@ -470,6 +518,7 @@
 		};
 		333646F02AA597CA00C37275 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 333647362AA6E25A00C37275 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
