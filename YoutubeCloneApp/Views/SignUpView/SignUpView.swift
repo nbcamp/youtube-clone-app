@@ -18,6 +18,7 @@ final class SignUpView: UIView, RootView {
         return textField
     }()
 
+    
     private let emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "이메일"
