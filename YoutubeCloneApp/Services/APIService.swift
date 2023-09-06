@@ -11,16 +11,9 @@ enum APIError: Error {
     case unknownError(cause: Error)
 }
 
-final class APIConfig {
-    var baseUrl: String = ""
-    var queryItems: [URLQueryItem] = []
-}
-
 final class APIService {
     static var shared: APIService = .init()
     private init() {}
-
-    static let config = APIConfig()
 
     private let decoder = JSONDecoder()
 
@@ -36,7 +29,7 @@ final class APIService {
         func load() {
             Task {
                 do {
-                    let url = try createUrl(string: "\(Self.config.baseUrl)\(url)", queryItems: Self.config.queryItems + queryItems)
+                    let url = try createUrl(string: url, queryItems: queryItems)
                     let (data, _) = try await URLSession.shared.data(for: createRequest(url: url))
                     let model = try decoder.decode(T.self, from: data)
                     completion(.success(model))
@@ -58,7 +51,7 @@ final class APIService {
         queryItems: [URLQueryItem] = []
     ) async -> Result<T, APIError> {
         do {
-            let url = try createUrl(string: "\(Self.config.baseUrl)\(url)", queryItems: Self.config.queryItems + queryItems)
+            let url = try createUrl(string: url, queryItems: queryItems)
             let (data, response) = try await URLSession.shared.data(for: createRequest(url: url))
             if let res = response as? HTTPURLResponse, 400 ..< 600 ~= res.statusCode {
                 debugPrint(try JSONSerialization.jsonObject(with: data))

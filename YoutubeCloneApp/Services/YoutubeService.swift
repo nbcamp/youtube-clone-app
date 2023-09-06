@@ -14,6 +14,9 @@ final class YoutubeService {
         didSet { completed = nextPageToken == nil && !videos.isEmpty }
     }
 
+    private var BASE_URL = "https://www.googleapis.com/youtube/v3"
+    private var API_KEY: String = (Bundle.main.object(forInfoDictionaryKey: "Secrets") as? [String: String])?["YOUTUBE_API_KEY"] ?? ""
+
     func loadVideos(errorHandler: @escaping (Error) -> Void) {
         Task {
             loading = true
@@ -44,8 +47,9 @@ final class YoutubeService {
     ) async {
         Task {
             var queryItems: [URLQueryItem] = [
+                .init(name: "key", value: API_KEY),
                 .init(name: "part", value: "snippet"),
-                .init(name: "chart", value: "mostPopular")
+                .init(name: "chart", value: "mostPopular"),
             ]
 
             if next, let nextPageToken {
@@ -53,7 +57,7 @@ final class YoutubeService {
             }
 
             let videoListResult = await APIService.shared.fetch(
-                url: "/videos",
+                url: "\(BASE_URL)/videos",
                 model: YoutubeVideoListResponseModel.self,
                 queryItems: queryItems
             )
@@ -63,16 +67,17 @@ final class YoutubeService {
             }
 
             let channelListResult = await APIService.shared.fetch(
-                url: "/channels",
+                url: "\(BASE_URL)/channels",
                 model: YoutubeChannelListResponseModel.self,
                 queryItems: [
+                    .init(name: "key", value: API_KEY),
                     .init(name: "part", value: "snippet"),
                     .init(
                         name: "id",
                         value: videoList.items
                             .map { $0.snippet.channelId }
                             .joined(separator: ",")
-                    )
+                    ),
                 ]
             )
 

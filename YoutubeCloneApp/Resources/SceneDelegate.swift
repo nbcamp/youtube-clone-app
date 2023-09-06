@@ -8,10 +8,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
 
-        let apiKey = (Bundle.main.object(forInfoDictionaryKey: "Secrets") as? [String: String])?["YOUTUBE_API_KEY"] ?? ""
-        APIService.config.baseUrl = "https://www.googleapis.com/youtube/v3"
-        APIService.config.queryItems = [.init(name: "key", value: apiKey)]
-
         AuthService.shared.storage = UserDefaultsStorage.shared
         window?.rootViewController = RootViewController()
     }
