@@ -3,4 +3,3 @@ struct YoutubeVideoThumbnailModel: Codable {
     let width: Int
     let height: Int
 }
-

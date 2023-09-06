@@ -8,4 +8,3 @@ struct YoutubeChannelSnippetModel: Codable {
     let description: String
     var thumbnails: YoutubeThumbnailListModel
 }
-

@@ -6,7 +6,6 @@ final class YoutubeService {
 
     @Publishable private(set) var videos: [YoutubeVideo] = []
     @Publishable private(set) var loading = false
-
     @Publishable private(set) var refreshing = false
     @Publishable private(set) var completed = false
 
