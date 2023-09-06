@@ -1,17 +1,79 @@
 import UIKit
 
-final class SignInViewController: TypedViewController<SignInView> {
+final class SignInViewController: TypedViewController<SignInView>, UITextFieldDelegate {
+
+    override func loadView() {
+        let signInView = SignInView()
+        view = signInView
+        signInView.initializeUI()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        guard let signInView = view as? SignInView else { fatalError("View is not of type SignInView") }
+
+        signInView.emailTextField.delegate = self
+        signInView.passwordTextField.delegate = self
+
+        signInView.signUpButton.addTarget(self, action: #selector(handleSignUpButtonDirectly), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        guard let activeTextField = UIResponder.currentFirstResponder as? UITextField else { return }
+        
+        let convertedTextFieldRect = activeTextField.convert(activeTextField.bounds, to: self.view)
+        let textFieldBottomPoint = convertedTextFieldRect.origin.y + convertedTextFieldRect.size.height
+        let keyboardTopPoint = self.view.frame.size.height - keyboardSize.height
+        
+        if textFieldBottomPoint > keyboardTopPoint {
+            let overlap = textFieldBottomPoint - keyboardTopPoint
+            self.view.transform = CGAffineTransform(translationX: 0, y: -overlap - 10)
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        self.view.transform = .identity
+    }
+
+
+
+
+    @objc private func handleSignUpButtonDirectly() {
+        print("tap")
+        let signUpVC = SignUpViewController()
+        navigationController?.pushViewController(signUpVC, animated: true)
+    }
+    
+    private func handleSignUpButtonTapped(listener: SignInViewController, _: Void) {
+        let signUpVC = SignUpViewController()
+        listener.navigationController?.pushViewController(signUpVC, animated: true)
+    }
+    
+    private func handleSignIn(listener: SignInViewController, payload: SignInEvent.Payload) {
+        print(payload.email, payload.password)
+        listener.dismiss(animated: true)
+    }
+
+ 
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        print("textFieldShouldBeginEditing called for textField: \(textField)")
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        EventBus.shared.on(SignInEvent.self, by: self) { listener, payload in
-            print(payload.email, payload.password)
-            AuthService.shared.login(
-                email: payload.email,
-                password: payload.password
-            )
-            listener.dismiss(animated: true)
-        }
+        EventBus.shared.on(SignUpButtonTappedEvent.self, by: self, handleSignUpButtonTapped)
+        EventBus.shared.on(SignInEvent.self, by: self, handleSignIn)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -19,3 +81,19 @@ final class SignInViewController: TypedViewController<SignInView> {
         EventBus.shared.reset(self)
     }
 }
+
+
+extension UIResponder {
+    private static weak var _currentFirstResponder: UIResponder?
+    
+    static var currentFirstResponder: UIResponder? {
+        _currentFirstResponder = nil
+        UIApplication.shared.sendAction(#selector(findFirstResponder(sender:)), to: nil, from: nil, for: nil)
+        return _currentFirstResponder
+    }
+    
+    @objc private func findFirstResponder(sender: Any) {
+        UIResponder._currentFirstResponder = self
+    }
+}
+
