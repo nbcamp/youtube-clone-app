@@ -22,7 +22,6 @@ final class SignInView: UIView, RootView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Enter your email"
         textField.borderStyle = .roundedRect
-        textField.isUserInteractionEnabled = true
         return textField
     }()
 
@@ -40,7 +39,6 @@ final class SignInView: UIView, RootView {
         textField.placeholder = "Enter your password"
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
-        textField.isUserInteractionEnabled = true
         return textField
     }()
 
@@ -63,25 +61,17 @@ final class SignInView: UIView, RootView {
     }()
 
     var onSignUpButtonTapped: (() -> Void)?
-   
-    let scrollView: UIScrollView = {
-        let sv = UIScrollView()
-        sv.translatesAutoresizingMaskIntoConstraints = false
-        return sv
-    }()
-    
+
     func initializeUI() {
         backgroundColor = .white
 
-
-        addSubview(scrollView)
-        scrollView.addSubview(imageView)
-        scrollView.addSubview(emailLabel)
-        scrollView.addSubview(emailTextField)
-        scrollView.addSubview(passwordLabel)
-        scrollView.addSubview(passwordTextField)
-        scrollView.addSubview(signInButton)
-        scrollView.addSubview(signUpButton)
+        addSubview(imageView)
+        addSubview(emailLabel)
+        addSubview(emailTextField)
+        addSubview(passwordLabel)
+        addSubview(passwordTextField)
+        addSubview(signInButton)
+        addSubview(signUpButton)
 
         setupConstraints()
 
@@ -121,15 +111,8 @@ final class SignInView: UIView, RootView {
             signUpButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 10),
             signUpButton.centerXAnchor.constraint(equalTo: centerXAnchor),
             signUpButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
-            signUpButton.heightAnchor.constraint(equalToConstant: 44),
-            
-            scrollView.topAnchor.constraint(equalTo: topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            signUpButton.heightAnchor.constraint(equalToConstant: 44)
         ])
-
-
     }
 
     @objc private func signInButtonTapped() {

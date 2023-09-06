@@ -9,6 +9,7 @@ extension EventProtocol {
     static var id: String { String(describing: Self.self) }
 }
 
+
 struct SignUpButtonTappedEvent: EventProtocol {
     typealias Payload = Void
     var payload: Void = ()

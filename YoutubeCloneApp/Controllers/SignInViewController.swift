@@ -18,8 +18,11 @@ final class SignInViewController: TypedViewController<SignInView>, UITextFieldDe
 
         signInView.signUpButton.addTarget(self, action: #selector(handleSignUpButtonDirectly), for: .touchUpInside)
         
+        signInView.signInButton.addTarget(self, action: #selector(handleSigninButtonTapped), for: .touchUpInside)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        EventBus.shared.on(SignInEvent.self, by: self, handleSignIn)
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -40,7 +43,21 @@ final class SignInViewController: TypedViewController<SignInView>, UITextFieldDe
         self.view.transform = .identity
     }
 
+    @objc private func handleSigninButtonTapped() {
+        guard let signInView = view as? SignInView,
+              let email = signInView.emailTextField.text,
+              let password = signInView.passwordTextField.text else {
+            return
+        }
 
+        AuthService.shared.signIn(email: email, password: password) { (success) in
+            if success {
+                print("signin success")
+            } else {
+                print("signin fail")
+            }
+        }
+    }
 
 
     @objc private func handleSignUpButtonDirectly() {
@@ -53,11 +70,27 @@ final class SignInViewController: TypedViewController<SignInView>, UITextFieldDe
         let signUpVC = SignUpViewController()
         listener.navigationController?.pushViewController(signUpVC, animated: true)
     }
+    struct SignInEvent: EventProtocol {
+        typealias Payload = (email: String, password: String)
+        var payload: Payload
+    }
+
     
     private func handleSignIn(listener: SignInViewController, payload: SignInEvent.Payload) {
-        print(payload.email, payload.password)
-        listener.dismiss(animated: true)
+        AuthService.shared.signIn(email: payload.email, password: payload.password) { (success) in
+            if success {
+                print("signin success")
+
+                let homeVC = HomeViewController()
+                listener.navigationController?.pushViewController(homeVC, animated: true)
+                
+            } else {
+                print("signin fail")
+
+            }
+        }
     }
+
 
  
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
@@ -96,4 +129,3 @@ extension UIResponder {
         UIResponder._currentFirstResponder = self
     }
 }
-

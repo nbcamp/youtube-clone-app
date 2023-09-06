@@ -49,7 +49,7 @@ final class SignUpView: UIView, RootView {
         return textField
     }()
 
-    private let signUpButton: UIButton = {
+    let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("SignUp", for: .normal)
         button.backgroundColor = .blue
@@ -159,6 +159,7 @@ final class SignUpView: UIView, RootView {
             signUpButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)

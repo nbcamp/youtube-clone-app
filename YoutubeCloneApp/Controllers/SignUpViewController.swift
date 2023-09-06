@@ -11,8 +11,27 @@ class SignUpViewController: TypedViewController<SignUpView>, UITextFieldDelegate
         rootView.emailTF.delegate = self
         rootView.passwordTF.delegate = self
         rootView.confirmPasswordTF.delegate = self
+        rootView.signUpButton.addTarget(self, action: #selector(handleSignUpButtonTapped), for: .touchUpInside)
     }
 
+    @objc private func handleSignUpButtonTapped() {
+        guard let email = rootView.emailTF.text,
+              let password = rootView.passwordTF.text,
+              let confirmPassword = rootView.confirmPasswordTF.text,
+              password == confirmPassword else {
+            
+            return
+        }
+
+        AuthService.shared.signUp(email: email, password: password) { (success) in
+            if success {
+                print("success")
+            } else {
+                print("fail")
+            }
+        }
+    }
+    
     @objc private func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
