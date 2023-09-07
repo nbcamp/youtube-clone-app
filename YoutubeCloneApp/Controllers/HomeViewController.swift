@@ -16,7 +16,7 @@ final class HomeViewController: TypedViewController<HomeView> {
             listener.navigationController?.pushViewController(DetailViewController(), animated: true)
         }
         
-        EventBus.shared.on(CollectionViewRefresh.self, by: self) { (listener, payload) in
+        EventBus.shared.on(RefreshVideos.self, by: self) { (listener, payload) in
 //            let refreshControl = UIRefreshControl()
         }
     }

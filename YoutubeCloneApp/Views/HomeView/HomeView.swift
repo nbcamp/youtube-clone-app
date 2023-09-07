@@ -25,7 +25,6 @@ final class HomeView: UIView, RootView {
         return videoCollectionView
     }()
     
-    //collectionView 속성
     func configureCollectionView() {
         videoCollectionView.register(HomeVideoCell.self, forCellWithReuseIdentifier: HomeVideoCell.identifier)
         videoCollectionView.delegate = self
@@ -58,7 +57,6 @@ final class HomeView: UIView, RootView {
     private func observeUserChanged(user: User?) {
         guard let user else { return }
         user.$name.subscribe(by: self, immediate: true) { (subscriber, changes) in
-//            subscriber.label.text = changes.new
         }
     }
 }
@@ -70,9 +68,7 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeVideoCell", for: indexPath) as? HomeVideoCell else {
-            return UICollectionViewCell()
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeVideoCell", for: indexPath) as! HomeVideoCell
         
         cell.thumbnailImage.image = imageList[indexPath.row]
         cell.channelIconImage.image = iconList[indexPath.row]
@@ -85,8 +81,6 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        print(collectionView.bounds.width)
         return CGSize(width: (collectionView.bounds.width), height: 280)
     }
     

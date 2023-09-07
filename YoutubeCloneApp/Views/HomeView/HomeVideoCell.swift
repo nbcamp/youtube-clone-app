@@ -7,14 +7,13 @@
 
 import UIKit
 
-class HomeVideoCell: UICollectionViewCell {
-    static let identifier = "HomeVideoCell"
+class HomeVideoCell: UICollectionViewCell, Identifier {
     
     //cell 스타일 지정?
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        cellPrint()
+        setupCell()
     }
     required init?(coder: NSCoder) {
         fatalError("Not implemented required init?(coder: NSCoder)")
@@ -87,24 +86,26 @@ class HomeVideoCell: UICollectionViewCell {
         return uploadDateLabel
     }()
     
-    func cellPrint() {
+    func setupCell() {
         contentView.addSubview(thumbnailImage)
         contentView.addSubview(channelIconImage)
         contentView.addSubview(textBoxStackView)
         
-        thumbnailImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        thumbnailImage.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        thumbnailImage.widthAnchor.constraint(equalToConstant: contentView.bounds.width).isActive = true
-        thumbnailImage.heightAnchor.constraint(equalToConstant: 208).isActive = true
-        
-        channelIconImage.widthAnchor.constraint(equalToConstant: 40).isActive = true
-        channelIconImage.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        channelIconImage.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 5).isActive = true
-        channelIconImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        
-        textBoxStackView.topAnchor.constraint(equalTo: channelIconImage.topAnchor).isActive = true
-        textBoxStackView.leadingAnchor.constraint(equalTo: channelIconImage.trailingAnchor, constant: 10).isActive = true
-        textBoxStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10).isActive = true
+        NSLayoutConstraint.activate([
+            thumbnailImage.topAnchor.constraint(equalTo: contentView.topAnchor),
+            thumbnailImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            thumbnailImage.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
+            thumbnailImage.heightAnchor.constraint(equalToConstant: 208),
+            
+            channelIconImage.widthAnchor.constraint(equalToConstant: 40),
+            channelIconImage.heightAnchor.constraint(equalToConstant: 40),
+            channelIconImage.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 5),
+            channelIconImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            
+            textBoxStackView.topAnchor.constraint(equalTo: channelIconImage.topAnchor),
+            textBoxStackView.leadingAnchor.constraint(equalTo: channelIconImage.trailingAnchor, constant: 10),
+            textBoxStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+        ])
     }
 }
 

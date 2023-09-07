@@ -34,6 +34,6 @@ struct PushToDetailViewEvent: EventProtocol {
 }
 
 //새로고침 이벤트 등록
-struct CollectionViewRefresh: EventProtocol {
+struct RefreshVideos: EventProtocol {
     let payload: Void = ()
 }
