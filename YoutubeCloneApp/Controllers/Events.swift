@@ -17,3 +17,13 @@ struct SignUpEvent: EventProtocol {
 
     let payload: Payload
 }
+
+//이벤트 등록
+struct PushToDetailViewEvent: EventProtocol {
+    let payload: Void = ()
+}
+
+//
+struct CollectionViewRefresh: EventProtocol {
+    let payload: Void = ()
+}
