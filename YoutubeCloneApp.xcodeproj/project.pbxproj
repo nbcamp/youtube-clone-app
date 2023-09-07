@@ -90,6 +90,7 @@
 		333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelListResponseModel.swift; sourceTree = "<group>"; };
 		333647472AA70DA500C37275 /* YoutubeChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelModel.swift; sourceTree = "<group>"; };
 		333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoutubeThumbnailList'Model.swift"; sourceTree = "<group>"; };
+		554BA0AD2AA99B4900BFBDC5 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
