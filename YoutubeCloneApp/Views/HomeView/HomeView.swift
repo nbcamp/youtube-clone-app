@@ -5,10 +5,8 @@ final class HomeView: UIView, RootView {
         didSet { observeUserChanged(user: user) }
     }
     
-    //새로고침
     let refreshControl = UIRefreshControl()
     
-    //더미데이터 - 삭제예정
     let imageList = [UIImage(systemName: "photo"), UIImage(systemName: "photo.fill"), UIImage(named: "one"), UIImage(named: "one"), UIImage(named: "one"), UIImage(named: "one")]
     let iconList = [UIImage(systemName: "sun.max.circle"), UIImage(systemName: "globe.europe.africa.fill"), UIImage(named: "icon"), UIImage(named: "icon"), UIImage(named: "icon"), UIImage(named: "icon")]
     let titleList = ["Header Laber 1Header Laber 1Header Laber 1Header Laber 1Header Laber 1Header Laber 1Header Laber 1", "Header Laber 2", "Header Laber 3", "Header Laber 4", "Header Laber 5", "Header Laber 6"]
@@ -16,7 +14,6 @@ final class HomeView: UIView, RootView {
     let countList = ["조회수 2000만회", "조회수 70만회", "조회수 1만회", "조회수 4000회", "조회수 999회", "조회수 300만회",]
     let dateList = ["1일 전", "10년 전", "7시간 전", "8개월 전", "1일 전", "10시간 전", ]
     
-    //home화면에 노출될 비디오 리스트 CollectionView
     private lazy var videoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let videoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -37,7 +34,6 @@ final class HomeView: UIView, RootView {
         videoCollectionView.reloadData()
     }
     
-    //새로고침 동작
     @objc func refreshCollectionView() {
         refreshControl.endRefreshing()
     }
@@ -61,7 +57,6 @@ final class HomeView: UIView, RootView {
     }
 }
 
-//collectionView extension
 extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageList.count
@@ -73,10 +68,9 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         cell.thumbnailImage.image = imageList[indexPath.row]
         cell.channelIconImage.image = iconList[indexPath.row]
         cell.titleLabel.text = titleList[indexPath.row]
-        cell.channelNameLabel.text = channelList[indexPath.row]
-        cell.viewCountLabel.text = countList[indexPath.row]
+        cell.channelNameLabel.text = String("\(channelList[indexPath.row])﹒")
+        cell.viewCountLabel.text = String("\(countList[indexPath.row])﹒")
         cell.uploadDateLabel.text = dateList[indexPath.row]
-        
         return cell
     }
     
@@ -84,12 +78,10 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
         return CGSize(width: (collectionView.bounds.width), height: 280)
     }
     
-    //셀 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
     
-    //이벤트 사용
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         EventBus.shared.emit(PushToDetailViewEvent())
     }

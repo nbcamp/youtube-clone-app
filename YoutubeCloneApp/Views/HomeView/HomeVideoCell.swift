@@ -9,7 +9,6 @@ import UIKit
 
 class HomeVideoCell: UICollectionViewCell, Identifier {
     
-    //cell 스타일 지정?
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -57,7 +56,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         let labelStackView = UIStackView(arrangedSubviews: [channelNameLabel, viewCountLabel, uploadDateLabel])
         labelStackView.axis = .horizontal
         labelStackView.alignment = .center
-        labelStackView.spacing = 10.0
+        labelStackView.spacing = 0
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         return labelStackView
     }()
@@ -108,4 +107,3 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         ])
     }
 }
-
