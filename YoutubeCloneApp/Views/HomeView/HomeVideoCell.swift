@@ -20,29 +20,22 @@ class HomeVideoCell: UICollectionViewCell {
         fatalError("Not implemented required init?(coder: NSCoder)")
     }
     
-    //
-    let thumbnailImage: UIImageView = {
+    lazy var thumbnailImage: UIImageView = {
         let thumbnailImage = UIImageView()
         thumbnailImage.contentMode = .scaleToFill
-//        thumbnailImage.contentMode = .scaleAspectFit
-//        thumbnailImage.contentMode = .scaleAspectFill
         thumbnailImage.backgroundColor = .white
         thumbnailImage.translatesAutoresizingMaskIntoConstraints = false
         return thumbnailImage
     }()
     
-    //
-    let channelIconImage: UIImageView = {
+    lazy var channelIconImage: UIImageView = {
         let channelIconImage = UIImageView()
         channelIconImage.contentMode = .scaleToFill
-//        channelIconImage.contentMode = .scaleAspectFit
-//        channelIconImage.contentMode = .scaleAspectFill
         channelIconImage.backgroundColor = .white
         channelIconImage.translatesAutoresizingMaskIntoConstraints = false
         return channelIconImage
     }()
     
-    //
     lazy var textBoxStackView = {
         let TextBoxStackView = UIStackView(arrangedSubviews: [titleLabel, labelStackView])
         TextBoxStackView.axis = .vertical
@@ -52,7 +45,6 @@ class HomeVideoCell: UICollectionViewCell {
         return TextBoxStackView
     }()
     
-    //
     lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.font = .systemFont(ofSize: 16, weight: .regular)
@@ -62,7 +54,6 @@ class HomeVideoCell: UICollectionViewCell {
         return title
     }()
     
-    //
     lazy var labelStackView = {
         let labelStackView = UIStackView(arrangedSubviews: [channelNameLabel, viewCountLabel, uploadDateLabel])
         labelStackView.axis = .horizontal
@@ -72,7 +63,6 @@ class HomeVideoCell: UICollectionViewCell {
         return labelStackView
     }()
     
-    //
     lazy var channelNameLabel: UILabel = {
         let channelNameLabel = UILabel()
         channelNameLabel.font = .systemFont(ofSize: 13, weight: .regular)
@@ -81,7 +71,6 @@ class HomeVideoCell: UICollectionViewCell {
         return channelNameLabel
     }()
     
-    //
     lazy var viewCountLabel: UILabel = {
         let viewCountLabel = UILabel()
         viewCountLabel.font = .systemFont(ofSize: 13, weight: .regular)
@@ -90,7 +79,6 @@ class HomeVideoCell: UICollectionViewCell {
         return viewCountLabel
     }()
     
-    //
     lazy var uploadDateLabel: UILabel = {
         let uploadDateLabel = UILabel()
         uploadDateLabel.font = .systemFont(ofSize: 13, weight: .regular)
@@ -99,8 +87,6 @@ class HomeVideoCell: UICollectionViewCell {
         return uploadDateLabel
     }()
     
-    
-    //
     func cellPrint() {
         contentView.addSubview(thumbnailImage)
         contentView.addSubview(channelIconImage)
