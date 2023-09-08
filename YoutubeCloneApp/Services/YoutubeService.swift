@@ -17,7 +17,7 @@ final class YoutubeService {
     private var BASE_URL = "https://www.googleapis.com/youtube/v3"
     private var API_KEY: String = Env.YoutubeApiKey
 
-    func loadVideos(errorHandler: @escaping (Error) -> Void) {
+    func loadVideos(errorHandler: @escaping (APIError) -> Void) {
         Task {
             loading = true
             await _loadVideos(errorHandler: errorHandler)
@@ -26,7 +26,7 @@ final class YoutubeService {
         }
     }
 
-    func refreshVideos(errorHandler: @escaping (Error) -> Void) {
+    func refreshVideos(errorHandler: @escaping (APIError) -> Void) {
         guard initialized else { return }
         Task {
             refreshing = true
@@ -35,7 +35,7 @@ final class YoutubeService {
         }
     }
 
-    func loadMoreVideos(errorHandler: @escaping (Error) -> Void) {
+    func loadMoreVideos(errorHandler: @escaping (APIError) -> Void) {
         Task {
             await _loadVideos(next: true, errorHandler: errorHandler)
         }
@@ -43,7 +43,7 @@ final class YoutubeService {
 
     private func _loadVideos(
         next: Bool = false,
-        errorHandler: @escaping (Error) -> Void
+        errorHandler: @escaping (APIError) -> Void
     ) async {
         Task {
             var queryItems: [URLQueryItem] = [
@@ -62,9 +62,8 @@ final class YoutubeService {
                 queryItems: queryItems
             )
 
-            guard case let .success(videoList) = videoListResult else {
-                return errorHandler(videoListResult.mapError { $0 } as! Error)
-            }
+            if case let .failure(error) = videoListResult { return errorHandler(error) }
+            guard case let .success(videoList) = videoListResult else { return }
 
             let channelListResult = await APIService.shared.fetch(
                 url: "\(BASE_URL)/channels",
@@ -81,9 +80,8 @@ final class YoutubeService {
                 ]
             )
 
-            guard case let .success(channelList) = channelListResult else {
-                return errorHandler(videoListResult.mapError { $0 } as! Error)
-            }
+            if case let .failure(error) = channelListResult { return errorHandler(error) }
+            guard case let .success(channelList) = channelListResult else { return }
 
             let channelMap = channelList.items.reduce(into: [:]) {
                 $0.updateValue($1.snippet, forKey: $1.id)
