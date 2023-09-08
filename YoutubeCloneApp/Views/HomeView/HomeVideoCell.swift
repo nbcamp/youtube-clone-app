@@ -109,8 +109,8 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
     
     func configure(video: YoutubeVideo) {
         
-        if let imageUrl = URL(string: video.thumbnail.url) {
-            thumbnailImage.load(url: imageUrl) { [weak self] loadedImage in
+        if let thumbnailImageUrl = URL(string: video.thumbnail.url) {
+            thumbnailImage.load(url: thumbnailImageUrl) { [weak self] loadedImage in
                 if let image = loadedImage {
                     self?.thumbnailImage.image = image
                 } else {
@@ -119,8 +119,8 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
             }
         }
         
-        if let imageUrl2 = URL(string: video.channel.thumbnail.url) {
-            channelIconImage.load(url: imageUrl2) { [weak self] loadedImage in
+        if let channelIconUrl = URL(string: video.channel.thumbnail.url) {
+            channelIconImage.load(url: channelIconUrl) { [weak self] loadedImage in
                 if let image = loadedImage {
                     self?.channelIconImage.image = image
                 } else {
@@ -131,7 +131,12 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         
         titleLabel.text = video.title
         channelNameLabel.text = "\(video.channel.name)﹒"
-//        viewCountLabel.text = "\(video.viewCount)﹒"
+        
+        let formatter = NumberFormatter()
+        let randomViewCount = Int.random(in: 1...100000000)
+        let formatted = formatter.viewCount(views: randomViewCount)
+        viewCountLabel.text = formatted
+
 //        uploadDateLabel.text = video.uploadDate
     }
 }

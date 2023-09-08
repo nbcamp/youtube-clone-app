@@ -75,3 +75,23 @@ extension UIImageView {
         }
     }
 }
+
+extension NumberFormatter {
+    func viewCount(views: Int) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        
+        if views >= 1000 && views < 1000 {
+            formatter.maximumFractionDigits = 1
+            return "조회수 \(formatter.string(from: NSNumber(value: Double(views) / 1000))!)천회﹒"
+        } else if views >= 10000 && views < 100000000 {
+            formatter.maximumFractionDigits = 1
+            return "조회수 \(formatter.string(from: NSNumber(value: Double(views) / 10000))!)만회﹒"
+        } else if views >= 100000000 {
+            formatter.maximumFractionDigits = 1
+            return "조회수 \(formatter.string(from: NSNumber(value: Double(views) / 100000000))!)억회﹒"
+        } else {
+            return "\(formatter.string(from: NSNumber(value: views))!)회"
+        }
+    }
+}
