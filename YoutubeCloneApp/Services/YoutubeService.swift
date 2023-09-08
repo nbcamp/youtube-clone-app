@@ -15,7 +15,7 @@ final class YoutubeService {
     }
 
     private var BASE_URL = "https://www.googleapis.com/youtube/v3"
-    private var API_KEY: String = (Bundle.main.object(forInfoDictionaryKey: "Secrets") as? [String: String])?["YOUTUBE_API_KEY"] ?? ""
+    private var API_KEY: String = Env.YoutubeApiKey
 
     func loadVideos(errorHandler: @escaping (Error) -> Void) {
         Task {

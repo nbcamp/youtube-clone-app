@@ -5,6 +5,44 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <PreActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "source $SRCROOT/.env&#10;ENV_FILE=$SRCROOT/YoutubeCloneApp/Utilities/Env.swift&#10;&#10;while IFS=&quot;=&quot; read -r key value; do&#10;    if grep -q &quot;$key&quot; &quot;$ENV_FILE&quot;; then&#10;        sed -i &apos;&apos; &quot;s/$key/$value/g&quot; &quot;$ENV_FILE&quot;&#10;    fi&#10;done &lt; &lt;(env | grep &quot;^ENV_VAR_&quot;)&#10;"
+               shellToInvoke = "/bin/bash">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "333646DA2AA597C900C37275"
+                     BuildableName = "YoutubeCloneApp.app"
+                     BlueprintName = "YoutubeCloneApp"
+                     ReferencedContainer = "container:YoutubeCloneApp.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PreActions>
+      <PostActions>
+         <ExecutionAction
+            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+            <ActionContent
+               title = "Run Script"
+               scriptText = "source $SRCROOT/.env&#10;ENV_FILE=$SRCROOT/YoutubeCloneApp/Utilities/Env.swift&#10;&#10;while IFS=&quot;=&quot; read -r key value; do&#10;    if grep -q &quot;$value&quot; &quot;$ENV_FILE&quot;; then&#10;        sed -i &apos;&apos; &quot;s/$value/$key/g&quot; &quot;$ENV_FILE&quot;&#10;    fi&#10;done &lt; &lt;(env | grep &quot;^ENV_VAR_&quot;)&#10;"
+               shellToInvoke = "/bin/bash">
+               <EnvironmentBuildable>
+                  <BuildableReference
+                     BuildableIdentifier = "primary"
+                     BlueprintIdentifier = "333646DA2AA597C900C37275"
+                     BuildableName = "YoutubeCloneApp.app"
+                     BlueprintName = "YoutubeCloneApp"
+                     ReferencedContainer = "container:YoutubeCloneApp.xcodeproj">
+                  </BuildableReference>
+               </EnvironmentBuildable>
+            </ActionContent>
+         </ExecutionAction>
+      </PostActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
