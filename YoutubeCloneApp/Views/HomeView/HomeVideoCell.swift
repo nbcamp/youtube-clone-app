@@ -106,4 +106,12 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
             textBoxStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
         ])
     }
+    
+    func configure(video: YoutubeVideo) {
+        
+        titleLabel.text = video.title
+        channelNameLabel.text = "\(video.channel.name)﹒"
+//        viewCountLabel.text = "\(video.viewCount)﹒"
+//        uploadDateLabel.text = video.uploadDate
+    }
 }

@@ -5,14 +5,7 @@ final class HomeView: UIView, RootView {
         didSet { observeUserChanged(user: user) }
     }
     
-    let refreshControl = UIRefreshControl()
-    
-    let imageList = [UIImage(systemName: "photo"), UIImage(systemName: "photo.fill"), UIImage(named: "one"), UIImage(named: "one"), UIImage(named: "one"), UIImage(named: "one")]
-    let iconList = [UIImage(systemName: "sun.max.circle"), UIImage(systemName: "globe.europe.africa.fill"), UIImage(named: "icon"), UIImage(named: "icon"), UIImage(named: "icon"), UIImage(named: "icon")]
-    let titleList = ["Header Laber 1Header Laber 1Header Laber 1Header Laber 1Header Laber 1Header Laber 1Header Laber 1", "Header Laber 2", "Header Laber 3", "Header Laber 4", "Header Laber 5", "Header Laber 6"]
-    let channelList = ["무한도전", "오분순삭", "무비띵크_Movie Think", "개발하는 정대리", "김종국 GYM JONG KOOK", "ITSub잇섭"]
-    let countList = ["조회수 2000만회", "조회수 70만회", "조회수 1만회", "조회수 4000회", "조회수 999회", "조회수 300만회",]
-    let dateList = ["1일 전", "10년 전", "7시간 전", "8개월 전", "1일 전", "10시간 전", ]
+    var refreshControl = UIRefreshControl()
     
     private lazy var videoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -48,6 +41,18 @@ final class HomeView: UIView, RootView {
             videoCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             videoCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        //
+        YoutubeService.shared.$videos.subscribe(by: self) { (subscriber, changes) in
+            
+            DispatchQueue.main.async {
+                subscriber.videoCollectionView.reloadData()
+            }
+        }
+        
+        YoutubeService.shared.loadVideos { error in
+            print("Error loading videos: \(error)")
+        }
     }
 
     private func observeUserChanged(user: User?) {
@@ -59,18 +64,16 @@ final class HomeView: UIView, RootView {
 
 extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageList.count
+//        return imageList.count
+        return YoutubeService.shared.videos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeVideoCell", for: indexPath) as! HomeVideoCell
         
-        cell.thumbnailImage.image = imageList[indexPath.row]
-        cell.channelIconImage.image = iconList[indexPath.row]
-        cell.titleLabel.text = titleList[indexPath.row]
-        cell.channelNameLabel.text = String("\(channelList[indexPath.row])﹒")
-        cell.viewCountLabel.text = String("\(countList[indexPath.row])﹒")
-        cell.uploadDateLabel.text = dateList[indexPath.row]
+        let video = YoutubeService.shared.videos[indexPath.item]
+        cell.configure(video: video)
+        
         return cell
     }
     
