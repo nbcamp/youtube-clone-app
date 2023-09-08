@@ -85,10 +85,8 @@ final class YoutubeService {
                 return errorHandler(videoListResult.mapError { $0 } as! Error)
             }
 
-            let channelMap: [String: YoutubeChannelSnippetModel] = channelList.items.reduce([:]) { partialResult, channel in
-                var copied = partialResult
-                copied.updateValue(channel.snippet, forKey: channel.id)
-                return copied
+            let channelMap = channelList.items.reduce(into: [:]) {
+                $0.updateValue($1.snippet, forKey: $1.id)
             }
 
             let videos: [YoutubeVideo] = videoList.items.map {

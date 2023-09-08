@@ -1,7 +1,7 @@
 @propertyWrapper
 final class Publishable<Property> {
     typealias Changes = (old: Property, new: Property)
-    typealias EventCallback<Subscriber: AnyObject> = ((subscriber: Subscriber, property: Changes)) -> Void
+    typealias EventCallback<Subscriber: AnyObject> = ((subscriber: Subscriber, changes: Changes)) -> Void
 
     struct Publisher<Subscriber: AnyObject> {
         let callback: EventCallback<Subscriber>
@@ -33,7 +33,7 @@ final class Publishable<Property> {
         unsubscribe(by: self)
         let anyCallback: EventCallback<AnyObject> = { args in
             guard let subscriber = args.subscriber as? Subscriber else { return }
-            callback((subscriber, args.property))
+            callback((subscriber, args.changes))
         }
         publishers.append(.init(callback: anyCallback, subscriber: .init(subscriber)))
         if immediate { callback((subscriber, (value, value))) }
