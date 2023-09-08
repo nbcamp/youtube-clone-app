@@ -118,6 +118,7 @@
 			children = (
 				333646DD2AA597C900C37275 /* YoutubeCloneApp */,
 				333646DC2AA597C900C37275 /* Products */,
+				B8031F272AAB49D1006BECFF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -291,6 +292,14 @@
 				333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */,
 			);
 			path = Youtube;
+			sourceTree = "<group>";
+		};
+		B8031F272AAB49D1006BECFF /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B8031F262AA99860006BECFF /* Secrets.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -538,7 +547,6 @@
 		};
 		333646F02AA597CA00C37275 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8031F262AA99860006BECFF /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

@@ -79,19 +79,21 @@ extension UIImageView {
 extension NumberFormatter {
     func viewCount(views: Int) -> String {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
+//        formatter.numberStyle = .decimal
         
-        if views >= 1000 && views < 1000 {
+        switch views {
+        case 1..<1000:
+            formatter.maximumFractionDigits = 0
+            return "조회수 \(formatter.string(from: NSNumber(value: Double(views)))!)회﹒"
+        case 1000..<10000:
             formatter.maximumFractionDigits = 1
             return "조회수 \(formatter.string(from: NSNumber(value: Double(views) / 1000))!)천회﹒"
-        } else if views >= 10000 && views < 100000000 {
-            formatter.maximumFractionDigits = 1
+        case 10000..<100000000:
+            formatter.maximumFractionDigits = 0
             return "조회수 \(formatter.string(from: NSNumber(value: Double(views) / 10000))!)만회﹒"
-        } else if views >= 100000000 {
+        default:
             formatter.maximumFractionDigits = 1
             return "조회수 \(formatter.string(from: NSNumber(value: Double(views) / 100000000))!)억회﹒"
-        } else {
-            return "\(formatter.string(from: NSNumber(value: views))!)회"
         }
     }
 }

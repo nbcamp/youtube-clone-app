@@ -133,10 +133,9 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         channelNameLabel.text = "\(video.channel.name)﹒"
         
         let formatter = NumberFormatter()
-        let randomViewCount = Int.random(in: 1...100000000)
+        let randomViewCount = Int.random(in: 1...999999999)
         let formatted = formatter.viewCount(views: randomViewCount)
         viewCountLabel.text = formatted
-
 //        uploadDateLabel.text = video.uploadDate
     }
 }
