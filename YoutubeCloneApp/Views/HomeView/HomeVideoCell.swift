@@ -18,23 +18,25 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         fatalError("Not implemented required init?(coder: NSCoder)")
     }
     
-    lazy var thumbnailImage: UIImageView = {
+    private lazy var thumbnailImage: UIImageView = {
         let thumbnailImage = UIImageView()
         thumbnailImage.contentMode = .scaleToFill
-        thumbnailImage.backgroundColor = .white
+        thumbnailImage.backgroundColor = .systemBackground
         thumbnailImage.translatesAutoresizingMaskIntoConstraints = false
         return thumbnailImage
     }()
     
-    lazy var channelIconImage: UIImageView = {
+    private lazy var channelIconImage: UIImageView = {
         let channelIconImage = UIImageView()
-        channelIconImage.contentMode = .scaleToFill
+        channelIconImage.contentMode = .scaleAspectFill
+        channelIconImage.clipsToBounds = true
+        channelIconImage.layer.cornerRadius = 20
         channelIconImage.backgroundColor = .white
         channelIconImage.translatesAutoresizingMaskIntoConstraints = false
         return channelIconImage
     }()
     
-    lazy var textBoxStackView = {
+    private lazy var textBoxStackView = {
         let TextBoxStackView = UIStackView(arrangedSubviews: [titleLabel, labelStackView])
         TextBoxStackView.axis = .vertical
         TextBoxStackView.alignment = .leading
@@ -43,7 +45,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         return TextBoxStackView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.font = .systemFont(ofSize: 16, weight: .regular)
         title.numberOfLines = 2
@@ -52,7 +54,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         return title
     }()
     
-    lazy var labelStackView = {
+    private lazy var labelStackView = {
         let labelStackView = UIStackView(arrangedSubviews: [channelNameLabel, viewCountLabel, uploadDateLabel])
         labelStackView.axis = .horizontal
         labelStackView.alignment = .center
@@ -61,7 +63,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         return labelStackView
     }()
     
-    lazy var channelNameLabel: UILabel = {
+    private lazy var channelNameLabel: UILabel = {
         let channelNameLabel = UILabel()
         channelNameLabel.font = .systemFont(ofSize: 13, weight: .regular)
         channelNameLabel.textColor = .darkGray
@@ -69,7 +71,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         return channelNameLabel
     }()
     
-    lazy var viewCountLabel: UILabel = {
+    private lazy var viewCountLabel: UILabel = {
         let viewCountLabel = UILabel()
         viewCountLabel.font = .systemFont(ofSize: 13, weight: .regular)
         viewCountLabel.textColor = .darkGray
@@ -77,7 +79,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         return viewCountLabel
     }()
     
-    lazy var uploadDateLabel: UILabel = {
+    private lazy var uploadDateLabel: UILabel = {
         let uploadDateLabel = UILabel()
         uploadDateLabel.font = .systemFont(ofSize: 13, weight: .regular)
         uploadDateLabel.textColor = .darkGray
@@ -132,10 +134,28 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         titleLabel.text = video.title
         channelNameLabel.text = "\(video.channel.name)﹒"
         
-        let formatter = NumberFormatter()
+        let viewCountFormatter = NumberFormatter()
         let randomViewCount = Int.random(in: 1...999999999)
-        let formatted = formatter.viewCount(views: randomViewCount)
-        viewCountLabel.text = formatted
+        let viewCountFormatted = viewCountFormatter.viewCount(views: randomViewCount)
+        viewCountLabel.text = viewCountFormatted
+        
 //        uploadDateLabel.text = video.uploadDate
+        
+//        let uploadDateFormatter = DateFormatter()
+//        let uploadDateFormatted = uploadDateFormatter.uploadDate(uploadDate: video.publishedAt)
+//        uploadDateLabel.text = uploadDateFormatted
+        
+        
+        print(video.publishedAt)
+        let uploadDate = DateFormatter()
+        
+        
+        let uploadDateToago = uploadDate.uploadDate(uploadDateString: video.publishedAt)
+        
+        print(uploadDateToago)
+        
+        uploadDateLabel.text = uploadDateToago
+    
+
     }
 }

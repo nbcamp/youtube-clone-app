@@ -5,7 +5,7 @@ final class HomeView: UIView, RootView {
         didSet { observeUserChanged(user: user) }
     }
     
-    var refreshControl = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
     
     private lazy var videoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
