@@ -146,14 +146,8 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
 //        uploadDateLabel.text = uploadDateFormatted
         
         
-        print(video.publishedAt)
         let uploadDate = DateFormatter()
-        
-        
         let uploadDateToago = uploadDate.uploadDate(uploadDateString: video.publishedAt)
-        
-        print(uploadDateToago)
-        
         uploadDateLabel.text = uploadDateToago
     
 

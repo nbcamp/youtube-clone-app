@@ -99,11 +99,10 @@ extension NumberFormatter {
 
 extension DateFormatter {
     func uploadDate(uploadDateString: String) -> String {
-        let uploadDateFormatter = DateFormatter()
-        uploadDateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let uploadDateFormatter = ISO8601DateFormatter()
         
         guard let uploadDate = uploadDateFormatter.date(from: uploadDateString) else {
-            return String("---\(Date())")
+            return "error"
         }
         
         let calendar = Calendar.current
