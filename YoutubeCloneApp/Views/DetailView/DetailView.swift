@@ -1,21 +1,46 @@
 import UIKit
 import WebKit
 final class DetailView: UIView, RootView {
+    private let titleStackView: UIStackView = {
+        let stackview = UIStackView()
+        stackview.translatesAutoresizingMaskIntoConstraints = false
+        return stackview
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 22, weight: .bold)
-        label.text = "Harry potter"
+        label.text = "Harry Potter"
+        label.lineBreakMode = .byCharWrapping
+        label.numberOfLines = 2
         return label
     }()
-
+    
+    private let viewtimeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "조회수 5.8만회 7시간 전"
+        label.font = .systemFont(ofSize: 11)
+        label.textColor = .darkGray
+        return label
+    }()
+    
     private let profileImageButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(systemName: "person.crop.circle"), for: .normal)
         return button
     }()
-
+    
+    private let profileLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "해리포터"
+        label.font = .systemFont(ofSize: 14, weight: .bold)
+        return label
+    }()
+    
     private let overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,16 +50,23 @@ final class DetailView: UIView, RootView {
         return label
     }()
 
-
+    let overviewStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .top
+        return stackView
+    }()
+    
     private let likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("👍🏼", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
         button.setTitleColor(.white, for: .normal)
         button.sizeToFit()
         return button
     }()
-
+    
     private let webView: WKWebView = {
         let config = WKWebViewConfiguration()
         // fullscreen 막기
@@ -43,7 +75,7 @@ final class DetailView: UIView, RootView {
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
-
+    
     func configureConstraints() {
         let webViewContstraints = [
             webView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 15),
@@ -51,80 +83,109 @@ final class DetailView: UIView, RootView {
             webView.trailingAnchor.constraint(equalTo: trailingAnchor),
             webView.heightAnchor.constraint(equalToConstant: 250)
         ]
+
         let profileImageButtonConstraints = [
-            profileImageButton.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 18),
+            profileImageButton.topAnchor.constraint(equalTo: viewtimeLabel.bottomAnchor, constant: 18),
             profileImageButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             profileImageButton.heightAnchor.constraint(equalToConstant: 40),
             profileImageButton.widthAnchor.constraint(equalToConstant: 40)
         ]
-        let titleLabelConstraints = [
-            titleLabel.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 24),
-            titleLabel.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 10)
+
+        let profileLabelConstraints = [
+            profileLabel.centerYAnchor.constraint(equalTo: profileImageButton.centerYAnchor),
+            profileLabel.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 15)
         ]
 
-        let overviewLabelConstraints = [
-            overviewLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
-            overviewLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            overviewLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -50),
-            overviewLabel.heightAnchor.constraint(equalToConstant: 50)
+        let overviewstackViewConstraints = [
+            overviewStackView.topAnchor.constraint(equalTo: profileImageButton.bottomAnchor, constant: 15),
+            overviewStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            overviewStackView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ]
+        let titleStackViewConstraints = [
+            titleStackView.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 8),
+            titleStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            titleStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 20)
+        ]
+
         let likeButtonConstraints = [
-            likeButton.topAnchor.constraint(equalTo: webView.bottomAnchor, constant: 24),
+            likeButton.centerYAnchor.constraint(equalTo: profileLabel.centerYAnchor),
             likeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        ]
+        let viewtimeLabelConstraints = [
+            viewtimeLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
+            viewtimeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
         ]
 
         NSLayoutConstraint.activate(webViewContstraints)
         NSLayoutConstraint.activate(profileImageButtonConstraints)
-        NSLayoutConstraint.activate(titleLabelConstraints)
-        NSLayoutConstraint.activate(overviewLabelConstraints)
+        NSLayoutConstraint.activate(overviewstackViewConstraints)
+        NSLayoutConstraint.activate(titleStackViewConstraints)
+        NSLayoutConstraint.activate(profileLabelConstraints)
         NSLayoutConstraint.activate(likeButtonConstraints)
+        NSLayoutConstraint.activate(viewtimeLabelConstraints)
     }
-
-    func configure() {
+    
+    func configureVideo() {
         guard let url = URL(string: "https://www.youtube.com/embed/m6-A6SkJ0xw") else {
             return
         }
         webView.load(URLRequest(url: url))
     }
-
-
+    
     func initializeUI() {
         backgroundColor = .systemBackground
         addSubview(webView)
-        addSubview(titleLabel)
+        titleStackView.addArrangedSubview(titleLabel)
+        titleStackView.addSubview(viewtimeLabel)
+        addSubview(titleStackView)
         addSubview(profileImageButton)
-        addSubview(overviewLabel)
+        addSubview(profileLabel)
         addSubview(likeButton)
+        overviewStackView.addArrangedSubview(overviewLabel)
+        addSubview(overviewStackView)
         configureConstraints()
-        configure()
-        isSwipable()
+        configureVideo()
+        SwipeScreen()
+        setupLabelTap()
     }
-    func isSwipable() {
+    
+    @objc func overviewLabelTapped(_ sender: UITapGestureRecognizer) {
+        overviewLabel.numberOfLines = 0
+    }
+
+    func setupLabelTap() {
+        let labelTap = UITapGestureRecognizer(target: self, action: #selector(overviewLabelTapped(_:)))
+        overviewLabel.isUserInteractionEnabled = true
+        overviewLabel.addGestureRecognizer(labelTap)
+    }
+    
+    func SwipeScreen() {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-        self.addGestureRecognizer(panGestureRecognizer)
+        addGestureRecognizer(panGestureRecognizer)
     }
+    
     @objc func handlePanGesture(_ panGesture: UIPanGestureRecognizer) {
         let translation = panGesture.translation(in: self)
         let minY = frame.height * 0.15
         var originalPosition = CGPoint.zero
-
-        if panGesture.state == .began {
+        switch panGesture.state {
+        case .began:
             originalPosition = center
-        } else if panGesture.state == .changed {
+        case .changed:
             frame.origin = CGPoint(x: 0.0, y: translation.y)
-
+            
             if panGesture.location(in: self).y > minY {
                 frame.origin = originalPosition
             }
-
+            
             if frame.origin.y <= 0.0 {
                 frame.origin.y = 0.0
             }
-        } else if panGesture.state == .ended {
+        case .ended:
             if frame.origin.y >= frame.height * 0.5 {
                 UIView.animate(withDuration: 0.2,
                                animations: {
-                    self.frame.origin = CGPoint(
+                                   self.frame.origin = CGPoint(
                                        x: self.frame.origin.x,
                                        y: self.frame.size.height)
                                }, completion: { isCompleted in
@@ -137,6 +198,8 @@ final class DetailView: UIView, RootView {
                     self.frame.origin = originalPosition
                 })
             }
+        default:
+            break
         }
     }
 }
