@@ -1,7 +1,6 @@
 import UIKit
 
 final class SignInView: UIView, RootView {
-    
     private lazy var imageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -124,7 +123,6 @@ final class SignInView: UIView, RootView {
 }
 
 extension SignInView: UITextFieldDelegate {
-    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         print("textFieldShouldBeginEditing called for textField: \(textField)")
         return true
@@ -135,4 +133,3 @@ extension SignInView: UITextFieldDelegate {
         return true
     }
 }
-

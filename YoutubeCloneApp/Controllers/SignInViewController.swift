@@ -8,7 +8,6 @@ final class SignInViewController: TypedViewController<SignInView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -21,12 +20,15 @@ final class SignInViewController: TypedViewController<SignInView> {
         }
         EventBus.shared.on(SignInEvent.self, by: self) { listener, payload in
             AuthService.shared.signIn(email: payload.email, password: payload.password) { success in
-                if success {
-                    listener.dismiss(animated: true, completion: nil)
-                } else {
-                    let alert = UIAlertController(title: "Error", message: "Email or password is incorrect.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    listener.present(alert, animated: true, completion: nil)
+                DispatchQueue.main.async {
+                    if success {
+                        listener.dismiss(animated: true, completion: nil)
+                     
+                    } else {
+                        let alert = UIAlertController(title: "Error", message: "Email or password is incorrect.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        listener.present(alert, animated: true, completion: nil)
+                    }
                 }
             }
         }
@@ -56,12 +58,3 @@ final class SignInViewController: TypedViewController<SignInView> {
         view.transform = .identity
     }
 }
-
-
-  
-  
-
-
-
-
-

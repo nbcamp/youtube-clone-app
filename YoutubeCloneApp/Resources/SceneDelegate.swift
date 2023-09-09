@@ -5,14 +5,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-
-        let signInVC = SignInViewController()
-
-        let navigationController = UINavigationController(rootViewController: signInVC)
-
-        window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navigationController
+        window = .init(windowScene: windowScene)
         window?.makeKeyAndVisible()
+
+        AuthService.shared.storage = UserDefaultsStorage.shared
+        window?.rootViewController = RootViewController()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
