@@ -48,3 +48,17 @@ extension UIColor {
         self.init(hue: hsba.hue, saturation: hsba.saturation, brightness: hsba.brightness, alpha: hsba.alpha)
     }
 }
+
+extension UIResponder {
+    private weak static var _currentFirstResponder: UIResponder?
+
+    static var currentFirstResponder: UIResponder? {
+        _currentFirstResponder = nil
+        UIApplication.shared.sendAction(#selector(findFirstResponder(sender:)), to: nil, from: nil, for: nil)
+        return _currentFirstResponder
+    }
+
+    @objc private func findFirstResponder(sender: Any) {
+        UIResponder._currentFirstResponder = self
+    }
+}

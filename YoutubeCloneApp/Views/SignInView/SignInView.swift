@@ -23,6 +23,7 @@ final class SignInView: UIView, RootView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Enter your email"
         textField.borderStyle = .roundedRect
+        textField.delegate = self
         return textField
     }()
     
@@ -40,6 +41,7 @@ final class SignInView: UIView, RootView {
         textField.placeholder = "Enter your password"
         textField.borderStyle = .roundedRect
         textField.isSecureTextEntry = true
+        textField.delegate = self
         return textField
     }()
     
@@ -133,19 +135,4 @@ extension SignInView: UITextFieldDelegate {
         return true
     }
 }
-extension SignInView {
-    var emailAddress: String? {
-        return emailTextField.text
-    }
-    
-    var password: String? {
-        return passwordTextField.text
-    }
-    func setEmailTextFieldDelegate(_ delegate: UITextFieldDelegate?) {
-        emailTextField.delegate = delegate
-    }
 
-    func setPasswordTextFieldDelegate(_ delegate: UITextFieldDelegate?) {
-        passwordTextField.delegate = delegate
-    }
-}
