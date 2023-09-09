@@ -7,9 +7,10 @@ final class RootViewController: UITabBarController {
 
         DispatchQueue.main.async {
             if !AuthService.shared.isAuthenticated {
-                let signInVC = SignInViewController()
-                signInVC.modalPresentationStyle = .fullScreen
-                self.present(signInVC, animated: false)
+                let navigationController = UINavigationController()
+                navigationController.modalPresentationStyle = .fullScreen
+                navigationController.setViewControllers([SignInViewController()], animated: true)
+                self.present(navigationController, animated: false)
             }
         }
     }

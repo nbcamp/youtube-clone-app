@@ -127,6 +127,8 @@ final class SignUpView: UIView, RootView {
         emailTextField.delegate = self
         passwordTextField.delegate = self
         confirmPasswordTextField.delegate = self
+        
+        signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
     
     private func setupConstraints() {
@@ -137,6 +139,12 @@ final class SignUpView: UIView, RootView {
             profileImageView.heightAnchor.constraint(equalToConstant: 40),
             signUpButton.heightAnchor.constraint(equalToConstant: 40)
         ])
+    }
+    
+    @objc private func signUpButtonTapped() {
+        EventBus.shared.emit(SignUpEvent(payload: .init(
+            name: userNameTextField.text ?? "", avatar: profileImageView.image?.base64 ?? "",
+            email: emailTextField.text ?? "", password: passwordTextField.text ?? "")))
     }
 }
 
@@ -152,42 +160,3 @@ extension SignUpView: UITextFieldDelegate {
     }
 }
 
-// extension SignUpView {
-//    var userEmail: String? {
-//        return emailTextField.text
-//    }
-//
-//    var userPassword: String? {
-//        return passwordTextField.text
-//    }
-//
-//    var userConfirmPassword: String? {
-//        return confirmPasswordTextField.text
-//    }
-//
-//    func configureUI(delegate: UITextFieldDelegate, actionTarget: Any, action: Selector) {
-//        userNameTextField.delegate = delegate
-//        emailTextField.delegate = delegate
-//        passwordTextField.delegate = delegate
-//        confirmPasswordTextField.delegate = delegate
-//        signUpButton.addTarget(actionTarget, action: action, for: .touchUpInside)
-//    }
-//
-//    func findFirstResponder() -> UITextField? {
-//        return findFirstResponder(inView: self)
-//    }
-//
-//    private func findFirstResponder(inView view: UIView) -> UITextField? {
-//        if let textField = view as? UITextField, textField.isFirstResponder {
-//            return textField
-//        }
-//
-//        for subView in view.subviews {
-//            if let activeTextField = findFirstResponder(inView: subView) {
-//                return activeTextField
-//            }
-//        }
-//
-//        return nil
-//    }
-// }

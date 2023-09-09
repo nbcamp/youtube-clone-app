@@ -16,6 +16,7 @@ final class SignInViewController: TypedViewController<SignInView> {
         super.viewWillAppear(animated)
         EventBus.shared.on(PushToSignUpViewEvent.self, by: self) { listener, _ in
             let signUpVC = SignUpViewController()
+            print(listener.navigationController)
             listener.navigationController?.pushViewController(signUpVC, animated: true)
         }
         EventBus.shared.on(SignInEvent.self, by: self) { listener, payload in

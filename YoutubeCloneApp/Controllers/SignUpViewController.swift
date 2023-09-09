@@ -10,16 +10,14 @@ final class SignUpViewController: TypedViewController<SignUpView>, UITextFieldDe
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        EventBus.shared.on(SignUpEvent.self, by: self) { _, _ in
-//            AuthService.shared.signIn(email: payload.email, password: payload.password) { success in
-//                if success {
-//                    listener.dismiss(animated: true, completion: nil)
-//                } else {
-//                    let alert = UIAlertController(title: "Error", message: "Email or password is incorrect.", preferredStyle: .alert)
-//                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-//                    listener.present(alert, animated: true, completion: nil)
-//                }
-//            }
+        EventBus.shared.on(SignUpEvent.self, by: self) { listener, payload in
+            AuthService.shared.signUp(avatar: payload.avatar, name: payload.name,
+                                      email: payload.email, password: payload.password)
+            { _ in
+                DispatchQueue.main.async {
+                    listener.navigationController?.popViewController(animated: true)
+                }
+            }
         }
     }
 
