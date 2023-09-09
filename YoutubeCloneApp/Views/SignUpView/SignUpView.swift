@@ -1,6 +1,6 @@
 import UIKit
 
-final class SignUpView: UIView, RootView, UITextFieldDelegate {
+final class SignUpView: UIView, RootView {
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo.circle")
@@ -122,42 +122,44 @@ final class SignUpView: UIView, RootView, UITextFieldDelegate {
     }
 }
 
-extension SignUpView {
-    var userEmail: String? {
-        return emailTextField.text
-    }
+extension SignUpView: UITextFieldDelegate {}
 
-    var userPassword: String? {
-        return passwordTextField.text
-    }
-
-    var userConfirmPassword: String? {
-        return confirmPasswordTextField.text
-    }
-    
-    func configureUI(delegate: UITextFieldDelegate, actionTarget: Any, action: Selector) {
-        userNameTextField.delegate = delegate
-        emailTextField.delegate = delegate
-        passwordTextField.delegate = delegate
-        confirmPasswordTextField.delegate = delegate
-        signUpButton.addTarget(actionTarget, action: action, for: .touchUpInside)
-    }
-    
-    func findFirstResponder() -> UITextField? {
-        return findFirstResponder(inView: self)
-    }
-    
-    private func findFirstResponder(inView view: UIView) -> UITextField? {
-        if let textField = view as? UITextField, textField.isFirstResponder {
-            return textField
-        }
-
-        for subView in view.subviews {
-            if let activeTextField = findFirstResponder(inView: subView) {
-                return activeTextField
-            }
-        }
-
-        return nil
-    }
-}
+// extension SignUpView {
+//    var userEmail: String? {
+//        return emailTextField.text
+//    }
+//
+//    var userPassword: String? {
+//        return passwordTextField.text
+//    }
+//
+//    var userConfirmPassword: String? {
+//        return confirmPasswordTextField.text
+//    }
+//
+//    func configureUI(delegate: UITextFieldDelegate, actionTarget: Any, action: Selector) {
+//        userNameTextField.delegate = delegate
+//        emailTextField.delegate = delegate
+//        passwordTextField.delegate = delegate
+//        confirmPasswordTextField.delegate = delegate
+//        signUpButton.addTarget(actionTarget, action: action, for: .touchUpInside)
+//    }
+//
+//    func findFirstResponder() -> UITextField? {
+//        return findFirstResponder(inView: self)
+//    }
+//
+//    private func findFirstResponder(inView view: UIView) -> UITextField? {
+//        if let textField = view as? UITextField, textField.isFirstResponder {
+//            return textField
+//        }
+//
+//        for subView in view.subviews {
+//            if let activeTextField = findFirstResponder(inView: subView) {
+//                return activeTextField
+//            }
+//        }
+//
+//        return nil
+//    }
+// }

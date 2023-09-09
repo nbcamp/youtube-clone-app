@@ -8,5 +8,12 @@ struct SignInEvent: EventProtocol {
 }
 
 struct SignUpEvent: EventProtocol {
-    let payload: Void = ()
+    struct Payload {
+        let name: String
+        let avatar: Base64
+        let email: String
+        let password: String
+    }
+
+    let payload: Payload
 }

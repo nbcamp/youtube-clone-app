@@ -6,26 +6,27 @@ final class SignUpViewController: TypedViewController<SignUpView>, UITextFieldDe
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        rootView.configureUI(delegate: self, actionTarget: self, action: #selector(handleSignUpButtonTapped))
     }
 
-    @objc private func handleSignUpButtonTapped() {
-        guard let email = rootView.userEmail,
-              let password = rootView.userPassword,
-              let confirmPassword = rootView.userConfirmPassword,
-              password == confirmPassword
-        else {
-            return
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        EventBus.shared.on(SignUpEvent.self, by: self) { _, _ in
+//            AuthService.shared.signIn(email: payload.email, password: payload.password) { success in
+//                if success {
+//                    listener.dismiss(animated: true, completion: nil)
+//                } else {
+//                    let alert = UIAlertController(title: "Error", message: "Email or password is incorrect.", preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+//                    listener.present(alert, animated: true, completion: nil)
+//                }
+//            }
         }
+    }
 
-        AuthService.shared.signUp(email: email, password: password) { success in
-            if success {
-                print("success")
-            } else {
-                print("fail")
-            }
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        EventBus.shared.reset(self)
     }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -37,7 +38,7 @@ final class SignUpViewController: TypedViewController<SignUpView>, UITextFieldDe
 
         let keyboardHeight = keyboardFrame.cgRectValue.height
 
-        if let activeTextField = rootView.findFirstResponder() {
+        if let activeTextField = findFirstResponder(inView: rootView) {
             let textFieldBottomPoint = activeTextField.convert(activeTextField.bounds, to: rootView).maxY
             let overlap = textFieldBottomPoint - (view.bounds.height - keyboardHeight)
 
