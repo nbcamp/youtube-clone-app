@@ -1,6 +1,8 @@
 import UIKit
 
 class CommentTableViewCell: UITableViewCell {
+    var comment : Comment?
+    
     private lazy var overviewStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false

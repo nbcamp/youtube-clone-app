@@ -1,6 +1,11 @@
 import UIKit
 import WebKit
+
 final class DetailView: UIView, RootView {
+    
+    var comments: [Comment] = []
+    var comment : Comment?
+    
     private let titleStackView: UIStackView = {
         let stackview = UIStackView()
         stackview.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +67,7 @@ final class DetailView: UIView, RootView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setBackgroundImage(UIImage(systemName: "paperplane"), for: .normal)
-//        button.addTarget(self, action: #selector(writeComment), for: .touchUpInside)
+        button.addTarget(DetailView.self, action: #selector(writeComment), for: .touchUpInside)
         return button
     }()
     
@@ -170,7 +175,6 @@ final class DetailView: UIView, RootView {
             commentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             commentStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
             commentStackView.heightAnchor.constraint(equalToConstant: 40)
-
         ]
         let userProfileImageConstraints = [
             userProfileImage.widthAnchor.constraint(equalToConstant: 40)
@@ -217,9 +221,11 @@ final class DetailView: UIView, RootView {
         addSubview(commentStackView)
         commentTableView.dataSource = self
         commentTableView.delegate = self
+        commentTextField.delegate = self
         addKeyboardNotifications()
         configureConstraints()
         addTopBorderToTextField(with: UIColor.systemGray, andWidth: CGFloat(0.5))
+        
         hideKeyboard()
         configureVideo()
         SwipeScreen()
@@ -249,9 +255,9 @@ final class DetailView: UIView, RootView {
         commentStackView.addSubview(border)
     }
     
-    func addKeyboardNotifications(){
+    func addKeyboardNotifications() {
         // 키보드가 나타날 때 앱에게 알리는 메서드 추가
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         // 키보드가 사라질 때 앱에게 알리는 메서드 추가
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -271,6 +277,15 @@ final class DetailView: UIView, RootView {
         if frame.origin.y != 0 {
             frame.origin.y = 0
         }
+    }
+    
+    @objc func writeComment() {
+        if commentTextField.text != "" {
+            comment?.content = commentTextField.text ?? ""
+            EventBus.shared.emit(AddComentEvent(payload: .init(content: comment?.content ?? "")))
+        }
+        commentTextField.text = ""
+        commentTableView.reloadData()
     }
     
     @objc func handlePanGesture(_ panGesture: UIPanGestureRecognizer) {
@@ -313,16 +328,32 @@ final class DetailView: UIView, RootView {
     }
 }
 
-extension DetailView : UITableViewDelegate, UITableViewDataSource {
+
+extension DetailView: UITextFieldDelegate {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        writeButton.isEnabled = false
+        return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let text = (commentTextField.text! as NSString).replacingCharacters(in: range, with: string)
+        if !text.isEmpty {
+            writeButton.isEnabled = true
+        } else {
+            writeButton.isEnabled = false
+        }
+        return true
+    }
+}
+
+extension DetailView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-//        commentList.filter { $0.id == "ddd" }.count
+        return comments.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "CommentTableViewCell", for: indexPath) as? CommentTableViewCell else { return UITableViewCell() }
-//        cell.overviewLabel.text = commentList.filter { $0.id == "ddd" }[indexPath.row].comment
-//        cell.profileLabel.text = commentList.filter { $0.id == "ddd" }[indexPath.row].userid
+        cell.comment = comments[indexPath.row]
         return cell
     }
 
@@ -337,10 +368,11 @@ extension DetailView : UITableViewDelegate, UITableViewDataSource {
 
 extension DetailView {
     func hideKeyboard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self,
-            action: #selector(DetailView.dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self,
+                                         action: #selector(DetailView.dismissKeyboard))
         addGestureRecognizer(tap)
     }
+
     @objc func dismissKeyboard() {
         endEditing(true)
     }
