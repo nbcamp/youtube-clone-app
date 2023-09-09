@@ -8,5 +8,5 @@ struct SignInEvent: EventProtocol {
 }
 
 struct SignUpEvent: EventProtocol {
-    let payload: Void
+    let payload: Void = ()
 }

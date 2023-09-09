@@ -1,17 +1,14 @@
 import UIKit
 
+struct PushToSignUpViewEvent: EventProtocol {
+    let payload: Void = ()
+}
+
 final class SignInViewController: TypedViewController<SignInView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
         rootView.setEmailTextFieldDelegate(self)
-
-        EventBus.shared.on(SignUpButtonTappedEvent.self, by: self) { listener, payload in
-            self.handleSignUpButtonTapped(listener: listener, payload: payload)
-        }
-        EventBus.shared.on(SignInEvent.self, by: self) { listener, event in
-            self.handleSignIn(listener: listener, payload: event)
-        }
 
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -19,9 +16,13 @@ final class SignInViewController: TypedViewController<SignInView> {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        EventBus.shared.on(SignUpButtonTappedEvent.self, by: self, handleSignUpButtonTapped)
-        EventBus.shared.on(SignInEvent.self, by: self, handleSignIn)
+        EventBus.shared.on(PushToSignUpViewEvent.self, by: self) { listener, _ in
+            let signUpVC = SignUpViewController()
+            listener.navigationController?.pushViewController(signUpVC, animated: true)
+        }
+        EventBus.shared.on(SignInEvent.self, by: self) { listener, event in
+            self.handleSignIn(listener: listener, payload: event)
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -67,11 +68,6 @@ final class SignInViewController: TypedViewController<SignInView> {
     @objc private func handleSignUpButtonDirectly() {
         let signUpVC = SignUpViewController()
         navigationController?.pushViewController(signUpVC, animated: true)
-    }
-
-    private func handleSignUpButtonTapped(listener: SignInViewController, payload: SignUpButtonTappedEvent.Payload) {
-        let signUpVC = SignUpViewController()
-        listener.navigationController?.pushViewController(signUpVC, animated: true)
     }
 
     private func handleSignIn(listener: SignInViewController, payload: SignInEvent.Payload) {

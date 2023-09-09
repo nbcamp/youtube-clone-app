@@ -117,7 +117,7 @@ final class SignInView: UIView, RootView {
     }
 
     @objc private func signUpButtonTapped() {
-        EventBus.shared.emit(SignUpEvent(payload: ()))
+        EventBus.shared.emit(PushToSignUpViewEvent())
     }
 }
 
