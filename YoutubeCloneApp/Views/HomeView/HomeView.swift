@@ -29,6 +29,9 @@ final class HomeView: UIView, RootView {
     
     @objc func refreshCollectionView() {
         refreshControl.endRefreshing()
+        YoutubeService.shared.refreshVideos { error in
+            print("Error loading videos: \(error)")
+        }
     }
 
     func initializeUI() {
