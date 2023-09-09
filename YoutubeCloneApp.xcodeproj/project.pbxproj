@@ -50,6 +50,7 @@
 		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
 		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
 		554BA0D52AAC6B0400BFBDC5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D42AAC6B0400BFBDC5 /* CommentService.swift */; };
+		B84502242AA85CA900811C40 /* HomeVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84502232AA85CA900811C40 /* HomeVideoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +99,7 @@
 		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		554BA0D42AAC6B0400BFBDC5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
+		B84502232AA85CA900811C40 /* HomeVideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVideoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			children = (
 				333646DD2AA597C900C37275 /* YoutubeCloneApp */,
 				333646DC2AA597C900C37275 /* Products */,
+				B8031F272AAB49D1006BECFF /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -214,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				3336470F2AA5ABD500C37275 /* HomeView.swift */,
+				B84502232AA85CA900811C40 /* HomeVideoCell.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -288,6 +292,14 @@
 				333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */,
 			);
 			path = Youtube;
+			sourceTree = "<group>";
+		};
+		B8031F272AAB49D1006BECFF /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				B8031F262AA99860006BECFF /* Secrets.xcconfig */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -400,6 +412,7 @@
 				333646FD2AA5A8E200C37275 /* RootView.swift in Sources */,
 				554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */,
 				3336472B2AA5B05E00C37275 /* Identifier.swift in Sources */,
+				B84502242AA85CA900811C40 /* HomeVideoCell.swift in Sources */,
 				3336471F2AA5AF9000C37275 /* WeakRef.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

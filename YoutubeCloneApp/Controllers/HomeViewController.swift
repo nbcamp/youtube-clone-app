@@ -7,4 +7,24 @@ final class HomeViewController: TypedViewController<HomeView> {
             subscriber.rootView.user = user.new
         }
     }
+    
+    //동작정의
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        EventBus.shared.on(PushToDetailViewEvent.self, by: self) { (listener, payload) in
+            listener.navigationController?.pushViewController(DetailViewController(), animated: true)
+        }
+        
+        EventBus.shared.on(RefreshVideos.self, by: self) { (listener, payload) in
+// 리프레시 EventBus로 옮기기 실패..
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        EventBus.shared.reset(self)
+    }
 }
+
+
