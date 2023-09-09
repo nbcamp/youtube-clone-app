@@ -1,18 +1,24 @@
 import Foundation
 
-final class AuthService {
-    static var shared: AuthService = .init()
-    private init() {}
+class AuthService {
+    static let shared = AuthService()
 
     @Publishable private(set) var user: User?
     var isAuthenticated: Bool { user != nil }
     var storage: Storage?
 
-    func login(email: String, password: String) {
-        user = .init(
-            name: "Anonymous",
-            email: email,
-            password: password
-        )
+    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+            completion(true)
+        }
+    }
+
+    func signUp(avatar: Base64, name: String,
+                email: String, password: String, completion: @escaping (Bool) -> Void)
+    {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) {
+            self.user = User(avatar: avatar, name: name, email: email, password: password)
+            completion(true)
+        }
     }
 }
