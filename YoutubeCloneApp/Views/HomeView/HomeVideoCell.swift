@@ -110,7 +110,6 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
     }
     
     func configure(video: YoutubeVideo) {
-        
         if let thumbnailImageUrl = URL(string: video.thumbnail.url) {
             thumbnailImage.load(url: thumbnailImageUrl) { [weak self] loadedImage in
                 if let image = loadedImage {
@@ -138,13 +137,6 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         let randomViewCount = Int.random(in: 1...999999999)
         let viewCountFormatted = viewCountFormatter.viewCount(views: randomViewCount)
         viewCountLabel.text = viewCountFormatted
-        
-//        uploadDateLabel.text = video.uploadDate
-        
-//        let uploadDateFormatter = DateFormatter()
-//        let uploadDateFormatted = uploadDateFormatter.uploadDate(uploadDate: video.publishedAt)
-//        uploadDateLabel.text = uploadDateFormatted
-        
         
         let uploadDate = DateFormatter()
         let uploadDateToago = uploadDate.uploadDate(uploadDateString: video.publishedAt)

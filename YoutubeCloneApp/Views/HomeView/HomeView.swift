@@ -15,7 +15,7 @@ final class HomeView: UIView, RootView {
         return videoCollectionView
     }()
     
-    func configureCollectionView() {
+    private func configureCollectionView() {
         videoCollectionView.register(HomeVideoCell.self, forCellWithReuseIdentifier: HomeVideoCell.identifier)
         videoCollectionView.delegate = self
         videoCollectionView.dataSource = self
@@ -23,8 +23,8 @@ final class HomeView: UIView, RootView {
         videoCollectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
         refreshControl.attributedTitle = NSAttributedString(string: "잠시만요",
-                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray, NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
-        videoCollectionView.reloadData()
+                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,
+                                                                      NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
     }
     
     @objc func refreshCollectionView() {
@@ -34,17 +34,17 @@ final class HomeView: UIView, RootView {
     func initializeUI() {
         backgroundColor = .systemBackground
         addSubview(videoCollectionView)
+        
         configureCollectionView()
+        
         NSLayoutConstraint.activate([
             videoCollectionView.topAnchor.constraint(equalTo: topAnchor),
             videoCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             videoCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            videoCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            videoCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
         
-        //
         YoutubeService.shared.$videos.subscribe(by: self) { (subscriber, changes) in
-            
             DispatchQueue.main.async {
                 subscriber.videoCollectionView.reloadData()
             }
@@ -54,7 +54,7 @@ final class HomeView: UIView, RootView {
             print("Error loading videos: \(error)")
         }
     }
-
+    
     private func observeUserChanged(user: User?) {
         guard let user else { return }
         user.$name.subscribe(by: self, immediate: true) { (subscriber, changes) in
@@ -64,12 +64,11 @@ final class HomeView: UIView, RootView {
 
 extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return imageList.count
         return YoutubeService.shared.videos.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeVideoCell", for: indexPath) as! HomeVideoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeVideoCell.identifier, for: indexPath) as! HomeVideoCell
         
         let video = YoutubeService.shared.videos[indexPath.item]
         cell.configure(video: video)
@@ -88,4 +87,21 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         EventBus.shared.emit(PushToDetailViewEvent())
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let lastItem = YoutubeService.shared.videos.count - 1
+        if indexPath.item == lastItem {
+            YoutubeService.shared.loadMoreVideos { error in
+                if error != nil {
+                    print("Error loading more videos: \(error)")
+                } else {
+                    DispatchQueue.main.async {
+                        collectionView.reloadData()
+                    }
+                }
+            }
+        }
+    }
+    
+    
 }
