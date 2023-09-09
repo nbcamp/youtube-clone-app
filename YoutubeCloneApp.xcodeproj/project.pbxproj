@@ -46,6 +46,10 @@
 		333647462AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */; };
 		333647482AA70DA500C37275 /* YoutubeChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647472AA70DA500C37275 /* YoutubeChannelModel.swift */; };
 		3336474A2AA70DD600C37275 /* YoutubeThumbnailList'Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */; };
+		554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */; };
+		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
+		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
+		554BA0D52AAC6B0400BFBDC5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D42AAC6B0400BFBDC5 /* CommentService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +94,10 @@
 		333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelListResponseModel.swift; sourceTree = "<group>"; };
 		333647472AA70DA500C37275 /* YoutubeChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelModel.swift; sourceTree = "<group>"; };
 		333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoutubeThumbnailList'Model.swift"; sourceTree = "<group>"; };
+		554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		554BA0D42AAC6B0400BFBDC5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +205,7 @@
 				3336470A2AA5AB8B00C37275 /* APIService.swift */,
 				3336470C2AA5AB9C00C37275 /* AuthService.swift */,
 				333647382AA6E7E700C37275 /* YoutubeService.swift */,
+				554BA0D42AAC6B0400BFBDC5 /* CommentService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -221,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				333647152AA5AC5B00C37275 /* DetailView.swift */,
+				554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */,
 			);
 			path = DetailView;
 			sourceTree = "<group>";
@@ -251,6 +261,7 @@
 			children = (
 				3336472E2AA5B0D100C37275 /* UserModel.swift */,
 				3336473E2AA6EABB00C37275 /* Youtube */,
+				554BA0D22AAC590300BFBDC5 /* CommentModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -260,6 +271,7 @@
 			children = (
 				333647302AA5B0D800C37275 /* User.swift */,
 				333647432AA6F12900C37275 /* YoutubeVideo.swift */,
+				554BA0D02AAC57CD00BFBDC5 /* Comment.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -365,6 +377,7 @@
 				333646FF2AA5A9D700C37275 /* SignInViewController.swift in Sources */,
 				333646DF2AA597C900C37275 /* AppDelegate.swift in Sources */,
 				3336470D2AA5AB9C00C37275 /* AuthService.swift in Sources */,
+				554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */,
 				333647442AA6F12900C37275 /* YoutubeVideo.swift in Sources */,
 				3336471C2AA5AD9100C37275 /* ProfileViewController.swift in Sources */,
 				3336472F2AA5B0D100C37275 /* UserModel.swift in Sources */,
@@ -372,6 +385,7 @@
 				3336471A2AA5AD8300C37275 /* DetailViewController.swift in Sources */,
 				3336473D2AA6EAB700C37275 /* YoutubePageInfoModel.swift in Sources */,
 				333647182AA5AC6B00C37275 /* ProfileView.swift in Sources */,
+				554BA0D52AAC6B0400BFBDC5 /* CommentService.swift in Sources */,
 				333647052AA5AB1900C37275 /* SignUpView.swift in Sources */,
 				3336470B2AA5AB8B00C37275 /* APIService.swift in Sources */,
 				333647082AA5AB5C00C37275 /* SignUpViewController.swift in Sources */,
@@ -382,7 +396,9 @@
 				333646E12AA597C900C37275 /* SceneDelegate.swift in Sources */,
 				333647332AA5B12800C37275 /* Extensions.swift in Sources */,
 				333647122AA5ABEC00C37275 /* HomeViewController.swift in Sources */,
+				554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */,
 				333646FD2AA5A8E200C37275 /* RootView.swift in Sources */,
+				554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */,
 				3336472B2AA5B05E00C37275 /* Identifier.swift in Sources */,
 				3336471F2AA5AF9000C37275 /* WeakRef.swift in Sources */,
 			);
