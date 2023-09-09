@@ -6,3 +6,7 @@ struct SignInEvent: EventProtocol {
 
     let payload: Payload
 }
+
+struct SignUpEvent: EventProtocol {
+    let payload: Void
+}

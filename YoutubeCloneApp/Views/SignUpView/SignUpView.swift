@@ -1,6 +1,6 @@
 import UIKit
 
-final class SignUpView: UIView, RootView {
+final class SignUpView: UIView, RootView, UITextFieldDelegate {
     private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "photo.circle")
@@ -8,48 +8,75 @@ final class SignUpView: UIView, RootView {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-
-    private let userNameTextField: UITextField = {
+    
+    private lazy var userNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Name"
+        return label
+    }()
+    
+    private lazy var emailLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Email"
+        return label
+    }()
+    
+    private lazy var passwordLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Password"
+        return label
+    }()
+    
+    private lazy var confirmPasswordLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Confirm Password"
+        return label
+    }()
+    
+    private lazy var userNameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "이름"
         textField.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
+        textField.delegate = self
         return textField
     }()
-
     
-    private let emailTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "이메일"
         textField.keyboardType = .emailAddress
         textField.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
+        textField.delegate = self
         return textField
     }()
-
-    private let passwordTextField: UITextField = {
+    
+    private lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
         textField.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
+        textField.delegate = self
         return textField
     }()
-
-    private let confirmPasswordTextField: UITextField = {
+    
+    private lazy var confirmPasswordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Confirm Password"
         textField.isSecureTextEntry = true
         textField.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
         textField.layer.cornerRadius = 10
         textField.layer.masksToBounds = true
+        textField.delegate = self
         return textField
     }()
-
-    let signUpButton: UIButton = {
+    
+    private let signUpButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("SignUp", for: .normal)
         button.backgroundColor = .blue
@@ -57,110 +84,21 @@ final class SignUpView: UIView, RootView {
         button.setTitleColor(.white, for: .normal)
         return button
     }()
-
-    private let userNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Name"
-        return label
-    }()
-
-    private let emailLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Email"
-        return label
-    }()
-
-    private let passwordLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Password"
-        return label
-    }()
-
-    private let confirmPasswordLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Confirm Password"
-        return label
-    }()
-
-    func initializeUI() {
-        addSubview(profileImageView)
-        addSubview(userNameLabel)
-        addSubview(userNameTextField)
-        addSubview(emailLabel)
-        addSubview(emailTextField)
-        addSubview(passwordLabel)
-        addSubview(passwordTextField)
-        addSubview(confirmPasswordLabel)
-        addSubview(confirmPasswordTextField)
-        addSubview(signUpButton)
-
-        backgroundColor = .systemBackground
-
-        profileImageView.translatesAutoresizingMaskIntoConstraints = false
-        userNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        userNameTextField.translatesAutoresizingMaskIntoConstraints = false
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        emailTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordLabel.translatesAutoresizingMaskIntoConstraints = false
-        passwordTextField.translatesAutoresizingMaskIntoConstraints = false
-        confirmPasswordLabel.translatesAutoresizingMaskIntoConstraints = false
-        confirmPasswordTextField.translatesAutoresizingMaskIntoConstraints = false
-        signUpButton.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            profileImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            profileImageView.topAnchor.constraint(equalTo: topAnchor, constant: 150),
-            profileImageView.widthAnchor.constraint(equalToConstant: 100),
-            profileImageView.heightAnchor.constraint(equalToConstant: 100),
-
-            userNameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 50),
-            userNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
-            userNameLabel.bottomAnchor.constraint(equalTo: userNameTextField.topAnchor, constant: -5),
-            userNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            userNameTextField.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 80),
-            userNameTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            userNameTextField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8),
-            userNameTextField.heightAnchor.constraint(equalToConstant: 40),
-
-            emailLabel.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 10),
-            emailLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
-            emailLabel.bottomAnchor.constraint(equalTo: emailTextField.topAnchor, constant: -5),
-            emailLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            emailTextField.topAnchor.constraint(equalTo: userNameTextField.bottomAnchor, constant: 40),
-            emailTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            emailTextField.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor),
-            emailTextField.heightAnchor.constraint(equalToConstant: 40),
-
-            passwordLabel.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 10),
-            passwordLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
-            passwordLabel.bottomAnchor.constraint(equalTo: passwordTextField.topAnchor, constant: -5),
-            passwordLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 40),
-            passwordTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            passwordTextField.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
-
-            confirmPasswordLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 10),
-            confirmPasswordLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
-            confirmPasswordLabel.bottomAnchor.constraint(equalTo: confirmPasswordTextField.topAnchor, constant: -5),
-            confirmPasswordLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-
-            confirmPasswordTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 40),
-            confirmPasswordTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
-            confirmPasswordTextField.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor),
-            confirmPasswordTextField.heightAnchor.constraint(equalToConstant: 40),
-
-            signUpButton.topAnchor.constraint(equalTo: confirmPasswordTextField.bottomAnchor, constant: 40),
-            signUpButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            signUpButton.widthAnchor.constraint(equalTo: userNameTextField.widthAnchor),
-            signUpButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-    }
     
-
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [profileImageView, fieldsStackView, signUpButton])
+        stackView.axis = .vertical
+        stackView.spacing = 20
+        return stackView
+    }()
+    
+    private lazy var fieldsStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [userNameLabel, userNameTextField, emailLabel, emailTextField, passwordLabel, passwordTextField, confirmPasswordLabel, confirmPasswordTextField])
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        return stackView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initializeUI()
@@ -170,20 +108,56 @@ final class SignUpView: UIView, RootView {
         super.init(coder: coder)
         initializeUI()
     }
+    
+    func initializeUI() {
+        addSubview(mainStackView)
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            mainStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            mainStackView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 40),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -40)
+        ])
+    }
+}
 
-    var userNameTF: UITextField {
-        return userNameTextField
+extension SignUpView {
+    var userEmail: String? {
+        return emailTextField.text
     }
 
-    var emailTF: UITextField {
-        return emailTextField
+    var userPassword: String? {
+        return passwordTextField.text
     }
 
-    var passwordTF: UITextField {
-        return passwordTextField
+    var userConfirmPassword: String? {
+        return confirmPasswordTextField.text
     }
+    
+    func configureUI(delegate: UITextFieldDelegate, actionTarget: Any, action: Selector) {
+        userNameTextField.delegate = delegate
+        emailTextField.delegate = delegate
+        passwordTextField.delegate = delegate
+        confirmPasswordTextField.delegate = delegate
+        signUpButton.addTarget(actionTarget, action: action, for: .touchUpInside)
+    }
+    
+    func findFirstResponder() -> UITextField? {
+        return findFirstResponder(inView: self)
+    }
+    
+    private func findFirstResponder(inView view: UIView) -> UITextField? {
+        if let textField = view as? UITextField, textField.isFirstResponder {
+            return textField
+        }
 
-    var confirmPasswordTF: UITextField {
-        return confirmPasswordTextField
+        for subView in view.subviews {
+            if let activeTextField = findFirstResponder(inView: subView) {
+                return activeTextField
+            }
+        }
+
+        return nil
     }
 }
