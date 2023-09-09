@@ -102,6 +102,4 @@ extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UIColl
             }
         }
     }
-    
-    
 }

@@ -17,7 +17,7 @@ final class HomeViewController: TypedViewController<HomeView> {
         }
         
         EventBus.shared.on(RefreshVideos.self, by: self) { (listener, payload) in
-//            let refreshControl = UIRefreshControl()
+// 리프레시 EventBus로 옮기기 실패..
         }
     }
 

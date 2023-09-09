@@ -87,7 +87,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         return uploadDateLabel
     }()
     
-    func setupCell() {
+    private func setupCell() {
         contentView.addSubview(thumbnailImage)
         contentView.addSubview(channelIconImage)
         contentView.addSubview(textBoxStackView)
@@ -141,7 +141,5 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         let uploadDate = DateFormatter()
         let uploadDateToago = uploadDate.uploadDate(uploadDateString: video.publishedAt)
         uploadDateLabel.text = uploadDateToago
-    
-
     }
 }
