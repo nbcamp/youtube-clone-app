@@ -3,10 +3,20 @@ import UIKit
 final class SignInView: UIView, RootView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "Youtube Logo")
+        imageView.image = UIImage(named: "Youtube Main")
+        imageView.transform = .init(scaleX: 1.5, y: 1.5)
         return imageView
+    }()
+
+    private lazy var fieldContainer: UIStackView = {
+        let fieldsStackView = UIStackView(arrangedSubviews: [
+            emailGroup,
+            passwordGroup
+        ])
+        fieldsStackView.axis = .vertical
+        fieldsStackView.spacing = 12
+        return fieldsStackView
     }()
 
     private lazy var emailGroup = {
@@ -26,6 +36,16 @@ final class SignInView: UIView, RootView {
         return passwordGroup
     }()
 
+    private lazy var buttonContainer: UIStackView = {
+        let buttonsStackView = UIStackView(arrangedSubviews: [
+            signInButton,
+            signUpButton,
+        ])
+        buttonsStackView.axis = .vertical
+        buttonsStackView.spacing = 12
+        return buttonsStackView
+    }()
+
     private lazy var signInButton: UIButton = {
         let signInButton = Button(variant: .primary)
         signInButton.setTitle("Sign In", for: .normal)
@@ -38,25 +58,6 @@ final class SignInView: UIView, RootView {
         return signUpButton
     }()
 
-    private lazy var fieldsStackView: UIStackView = {
-        let fieldsStackView = UIStackView(arrangedSubviews: [
-            emailGroup,
-            passwordGroup
-        ])
-        fieldsStackView.translatesAutoresizingMaskIntoConstraints = false
-        fieldsStackView.axis = .vertical
-        fieldsStackView.spacing = 10
-        return fieldsStackView
-    }()
-
-    private lazy var buttonsStackView: UIStackView = {
-        let buttonsStackView = UIStackView(arrangedSubviews: [signInButton, signUpButton])
-        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
-        buttonsStackView.axis = .vertical
-        buttonsStackView.spacing = 10
-        return buttonsStackView
-    }()
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         endEditing(true)
@@ -65,23 +66,25 @@ final class SignInView: UIView, RootView {
     func initializeUI() {
         backgroundColor = .systemBackground
         addSubview(imageView)
-        addSubview(fieldsStackView)
-        addSubview(buttonsStackView)
+        addSubview(fieldContainer)
+        addSubview(buttonContainer)
 
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        fieldContainer.translatesAutoresizingMaskIntoConstraints = false
+        buttonContainer.translatesAutoresizingMaskIntoConstraints = false
         let guide = safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 20),
+            imageView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 40),
             imageView.widthAnchor.constraint(equalTo: guide.widthAnchor, multiplier: 0.5),
             imageView.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
-            
-            fieldsStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor),
-            fieldsStackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
-            fieldsStackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
-            
 
-            buttonsStackView.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
-            buttonsStackView.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
-            buttonsStackView.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -40)
+            fieldContainer.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 40),
+            fieldContainer.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
+            fieldContainer.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
+
+            buttonContainer.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
+            buttonContainer.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
+            buttonContainer.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -40)
         ])
 
         signInButton.addTarget(self, action: #selector(signInButtonTapped), for: .touchUpInside)

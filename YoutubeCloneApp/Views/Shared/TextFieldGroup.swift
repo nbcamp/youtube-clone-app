@@ -25,14 +25,14 @@ final class TextFieldGroup: UIStackView {
     private lazy var label = {
         let label = UILabel()
         label.textColor = .secondary
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
 
     private lazy var textField = {
         let textField = UITextField()
-        textField.layer.borderWidth = 2.0
-        textField.layer.borderColor = UIColor.systemGray3.cgColor
+        textField.layer.borderWidth = 1.0
+        textField.layer.borderColor = UIColor.systemGray4.cgColor
         textField.layer.cornerRadius = 5.0
         textField.borderStyle = .roundedRect
         return textField
@@ -42,7 +42,7 @@ final class TextFieldGroup: UIStackView {
         super.init(frame: .zero)
         addArrangedSubview(label)
         addArrangedSubview(textField)
-        spacing = 2
+        spacing = 6
         axis = .vertical
     }
 

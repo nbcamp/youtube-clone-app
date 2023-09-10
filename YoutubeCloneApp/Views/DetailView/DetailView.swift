@@ -2,7 +2,6 @@ import UIKit
 import WebKit
 
 final class DetailView: UIView, RootView {
-    
     var comments: [Comment] = []
     var comment : Comment?
     

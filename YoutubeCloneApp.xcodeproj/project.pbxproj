@@ -48,6 +48,8 @@
 		3336474A2AA70DD600C37275 /* YoutubeThumbnailList'Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */; };
 		3347BCB32AAD3EAC005DA0C0 /* TextFieldGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB22AAD3EAC005DA0C0 /* TextFieldGroup.swift */; };
 		3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB42AAD41E7005DA0C0 /* Button.swift */; };
+		3347BCB72AAD4CAF005DA0C0 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB62AAD4CAF005DA0C0 /* AvatarView.swift */; };
+		3347BCBA2AAD57B9005DA0C0 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */; };
 		554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */; };
 		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
 		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
@@ -99,6 +101,8 @@
 		333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoutubeThumbnailList'Model.swift"; sourceTree = "<group>"; };
 		3347BCB22AAD3EAC005DA0C0 /* TextFieldGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldGroup.swift; sourceTree = "<group>"; };
 		3347BCB42AAD41E7005DA0C0 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		3347BCB62AAD4CAF005DA0C0 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -179,6 +183,7 @@
 		333646F42AA5987000C37275 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3347BCB82AAD579F005DA0C0 /* Shared */,
 				333647342AA5CBEF00C37275 /* Events.swift */,
 				333646FA2AA5A8B200C37275 /* TypedViewController.swift */,
 				333646E22AA597C900C37275 /* RootViewController.swift */,
@@ -302,8 +307,17 @@
 		3347BCB12AAD3E93005DA0C0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				3347BCB62AAD4CAF005DA0C0 /* AvatarView.swift */,
 				3347BCB22AAD3EAC005DA0C0 /* TextFieldGroup.swift */,
 				3347BCB42AAD41E7005DA0C0 /* Button.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		3347BCB82AAD579F005DA0C0 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -421,6 +435,7 @@
 				333647482AA70DA500C37275 /* YoutubeChannelModel.swift in Sources */,
 				333646E12AA597C900C37275 /* SceneDelegate.swift in Sources */,
 				333647332AA5B12800C37275 /* Extensions.swift in Sources */,
+				3347BCB72AAD4CAF005DA0C0 /* AvatarView.swift in Sources */,
 				333647122AA5ABEC00C37275 /* HomeViewController.swift in Sources */,
 				554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */,
 				333646FD2AA5A8E200C37275 /* RootView.swift in Sources */,
@@ -429,6 +444,7 @@
 				B84502242AA85CA900811C40 /* HomeVideoCell.swift in Sources */,
 				3336471F2AA5AF9000C37275 /* WeakRef.swift in Sources */,
 				3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */,
+				3347BCBA2AAD57B9005DA0C0 /* PhotoPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

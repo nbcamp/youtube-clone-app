@@ -1,8 +1,23 @@
+import PhotosUI
 import UIKit
 
+struct PickImagesEvent: EventProtocol {
+    struct Payload {
+        weak var viewController: UIViewController?
+        let selectionLimit: Int?
+        let filter: PHPickerFilter?
+        let completion: ([UIImage]) -> Void
+    }
+
+    let payload: Payload
+}
+
 final class RootViewController: UITabBarController {
+    var photoPicker: PhotoPicker?
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupEvents()
         initializeTabBarController()
 
         DispatchQueue.main.async {
@@ -27,4 +42,21 @@ final class RootViewController: UITabBarController {
             return navigationController
         }, animated: false)
     }
+
+    private func setupEvents() {
+        EventBus.shared.on(PickImagesEvent.self, by: self) { listener, payload in
+            var config = PHPickerConfiguration()
+            config.selectionLimit = payload.selectionLimit ?? 0
+            config.filter = payload.filter
+            let picker = PHPickerViewController(configuration: config)
+            listener.photoPicker = PhotoPicker { [weak self] images in
+                payload.completion(images)
+                self?.photoPicker = nil
+            }
+            picker.delegate = listener.photoPicker
+            payload.viewController?.present(picker, animated: true)
+        }
+    }
+
+    deinit { EventBus.shared.reset(self) }
 }

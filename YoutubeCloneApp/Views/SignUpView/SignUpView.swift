@@ -1,150 +1,130 @@
 import UIKit
 
 final class SignUpView: UIView, RootView {
-    private lazy var profileImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(systemName: "photo.fill")
-        return iv
-    }()
-    
-    private lazy var userNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Name"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        return label
-    }()
-    
-    private lazy var userNameTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Enter your name"
-        textField.borderStyle = .roundedRect
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var emailLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Email"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        return label
-    }()
-    
-    private lazy var emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Enter your email"
-        textField.borderStyle = .roundedRect
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var passwordLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Password"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        return label
-    }()
-    
-    private lazy var passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Enter your password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var confirmPasswordLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Confirm Password"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        return label
-    }()
-    
-    private lazy var confirmPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Confirm your password"
-        textField.borderStyle = .roundedRect
-        textField.isSecureTextEntry = true
-        textField.delegate = self
-        return textField
-    }()
-    
-    private lazy var signUpButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Sign Up", for: .normal)
-        button.backgroundColor = .lightGray
-        button.layer.cornerRadius = 5
-        return button
-    }()
-    
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [profileImageView, fieldsStackView, signUpButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = 40
-        return stackView
+    private lazy var avatarView = {
+        let avatarView = AvatarView(size: 150)
+        return avatarView
     }()
 
-    private lazy var fieldsStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [userNameLabel, userNameTextField, emailLabel, emailTextField, passwordLabel, passwordTextField, confirmPasswordLabel, confirmPasswordTextField])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+    private lazy var fieldContainer: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [
+            nameGroup,
+            emailGroup,
+            passwordGroup,
+            confirmPasswordGroup,
+        ])
         stackView.axis = .vertical
-        stackView.spacing = 18
+        stackView.spacing = 12
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 60, left: 0, bottom: 0, right: 0)  // 여기서 상단 간격을 조절합니다.
         return stackView
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        initializeUI()
+
+    private lazy var nameGroup = {
+        let nameGroup = TextFieldGroup()
+        nameGroup.delegate = self
+        nameGroup.labelText = "Name"
+        nameGroup.placeholder = "Enter your name"
+        return nameGroup
+    }()
+
+    private lazy var emailGroup = {
+        let emailGroup = TextFieldGroup()
+        emailGroup.delegate = self
+        emailGroup.labelText = "Email"
+        emailGroup.placeholder = "Enter your email"
+        return emailGroup
+    }()
+
+    private lazy var passwordGroup = {
+        let passwordGroup = TextFieldGroup()
+        passwordGroup.delegate = self
+        passwordGroup.labelText = "Password"
+        passwordGroup.placeholder = "Enter your password"
+        passwordGroup.isSecureTextEntry = true
+        return passwordGroup
+    }()
+
+    private lazy var confirmPasswordGroup = {
+        let passwordGroup = TextFieldGroup()
+        passwordGroup.delegate = self
+        passwordGroup.labelText = "Confirm Password"
+        passwordGroup.placeholder = "Re-enter your password for confirm"
+        passwordGroup.isSecureTextEntry = true
+        return passwordGroup
+    }()
+
+    private lazy var buttonContainer: UIStackView = {
+        let buttonsStackView = UIStackView(arrangedSubviews: [
+            signUpButton,
+        ])
+        buttonsStackView.axis = .vertical
+        buttonsStackView.spacing = 12
+        return buttonsStackView
+    }()
+
+    private lazy var signUpButton: UIButton = {
+        let signUpButton = Button(variant: .primary)
+        signUpButton.setTitle("Sign Up", for: .normal)
+        return signUpButton
+    }()
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        endEditing(true)
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        initializeUI()
-    }
-    
     func initializeUI() {
         backgroundColor = .systemBackground
-        
-        addSubview(mainStackView)
-        
-        setupConstraints()
-        
-        userNameTextField.delegate = self
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        confirmPasswordTextField.delegate = self
-        
+        addSubview(avatarView)
+        addSubview(fieldContainer)
+        addSubview(buttonContainer)
+
+        let guide = safeAreaLayoutGuide
+        avatarView.translatesAutoresizingMaskIntoConstraints = false
+        fieldContainer.translatesAutoresizingMaskIntoConstraints = false
+        buttonContainer.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            avatarView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 40),
+            avatarView.centerXAnchor.constraint(equalTo: guide.centerXAnchor),
+
+            fieldContainer.topAnchor.constraint(equalTo: avatarView.bottomAnchor, constant: 20),
+            fieldContainer.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
+            fieldContainer.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
+
+            buttonContainer.leadingAnchor.constraint(equalTo: guide.leadingAnchor, constant: 20),
+            buttonContainer.trailingAnchor.constraint(equalTo: guide.trailingAnchor, constant: -20),
+            buttonContainer.bottomAnchor.constraint(equalTo: guide.bottomAnchor, constant: -40),
+        ])
+
+        avatarView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(avatarViewTapped)))
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
     }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 90),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 50),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -50),
-            profileImageView.heightAnchor.constraint(equalToConstant: 40),
-            signUpButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
+
+    @objc private func avatarViewTapped() {
+        EventBus.shared.emit(
+            PickImagesEvent(
+                payload: .init(
+                    viewController: viewController,
+                    selectionLimit: 1,
+                    filter: .images
+                ) { [weak self] images in
+                    self?.avatarView.image = images.first
+                }
+            )
+        )
     }
-    
+
     @objc private func signUpButtonTapped() {
-        EventBus.shared.emit(SignUpEvent(payload: .init(
-            name: userNameTextField.text ?? "", avatar: profileImageView.image?.base64 ?? "",
-            email: emailTextField.text ?? "", password: passwordTextField.text ?? "")))
+        EventBus.shared.emit(
+            SignUpEvent(
+                payload: .init(
+                    name: nameGroup.text ?? "",
+                    avatar: avatarView.image?.base64 ?? "",
+                    email: emailGroup.text ?? "",
+                    password: passwordGroup.text ?? ""
+                )
+            )
+        )
     }
 }
 
@@ -152,10 +132,9 @@ extension SignUpView: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         return true
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
 }
-
