@@ -127,7 +127,7 @@ final class HomeVideoCell: UICollectionViewCell, Identifier {
                 if let image = loadedImage {
                     self?.thumbnailImage.image = image
                 } else {
-                    print("error")
+                    debugPrint("error")
                 }
             }
         }
@@ -137,7 +137,7 @@ final class HomeVideoCell: UICollectionViewCell, Identifier {
                 if let image = loadedImage {
                     self?.channelIconImage.image = image
                 } else {
-                    print("error")
+                    debugPrint("error")
                 }
             }
         }
