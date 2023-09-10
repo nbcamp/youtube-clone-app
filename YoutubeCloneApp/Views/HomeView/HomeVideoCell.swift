@@ -1,28 +1,12 @@
-//
-//  HomeVideoCell.swift
-//  YoutubeCloneApp
-//
-//  Created by 김지훈 on 2023/09/06.
-//
-
 import UIKit
 
-class HomeVideoCell: UICollectionViewCell, Identifier {
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        setupCell()
-    }
-    required init?(coder: NSCoder) {
-        fatalError("Not implemented required init?(coder: NSCoder)")
-    }
-    
+final class HomeVideoCell: UICollectionViewCell, Identifier {
     private lazy var thumbnailImage: UIImageView = {
         let thumbnailImage = UIImageView()
-        thumbnailImage.contentMode = .scaleToFill
-        thumbnailImage.backgroundColor = .systemBackground
-        thumbnailImage.translatesAutoresizingMaskIntoConstraints = false
+        
+        thumbnailImage.backgroundColor = .clear
+        thumbnailImage.contentMode = .scaleAspectFill
+        thumbnailImage.clipsToBounds = true
         return thumbnailImage
     }()
     
@@ -32,77 +16,100 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         channelIconImage.clipsToBounds = true
         channelIconImage.layer.cornerRadius = 20
         channelIconImage.backgroundColor = .white
-        channelIconImage.translatesAutoresizingMaskIntoConstraints = false
+        
         return channelIconImage
     }()
     
     private lazy var textBoxStackView = {
-        let TextBoxStackView = UIStackView(arrangedSubviews: [titleLabel, labelStackView])
+        let TextBoxStackView = UIStackView(arrangedSubviews: [
+            titleLabel,
+            labelStackView,
+        ])
         TextBoxStackView.axis = .vertical
         TextBoxStackView.alignment = .leading
         TextBoxStackView.spacing = 1.0
-        TextBoxStackView.translatesAutoresizingMaskIntoConstraints = false
         return TextBoxStackView
     }()
     
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
-        title.font = .systemFont(ofSize: 16, weight: .regular)
+        title.font = .systemFont(ofSize: 14, weight: .regular)
         title.numberOfLines = 2
-        title.textColor = .black
-        title.translatesAutoresizingMaskIntoConstraints = false
+        title.textColor = .secondary
         return title
     }()
     
     private lazy var labelStackView = {
-        let labelStackView = UIStackView(arrangedSubviews: [channelNameLabel, viewCountLabel, uploadDateLabel])
+        let labelStackView = UIStackView(arrangedSubviews: [
+            channelNameLabel,
+            viewCountLabel,
+            uploadDateLabel
+        ])
         labelStackView.axis = .horizontal
         labelStackView.alignment = .center
         labelStackView.spacing = 0
-        labelStackView.translatesAutoresizingMaskIntoConstraints = false
         return labelStackView
     }()
     
     private lazy var channelNameLabel: UILabel = {
         let channelNameLabel = UILabel()
-        channelNameLabel.font = .systemFont(ofSize: 13, weight: .regular)
-        channelNameLabel.textColor = .darkGray
+        channelNameLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        channelNameLabel.textColor = .systemGray
         channelNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return channelNameLabel
     }()
     
     private lazy var viewCountLabel: UILabel = {
         let viewCountLabel = UILabel()
-        viewCountLabel.font = .systemFont(ofSize: 13, weight: .regular)
-        viewCountLabel.textColor = .darkGray
+        viewCountLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        viewCountLabel.textColor = .systemGray
         viewCountLabel.translatesAutoresizingMaskIntoConstraints = false
         return viewCountLabel
     }()
     
     private lazy var uploadDateLabel: UILabel = {
         let uploadDateLabel = UILabel()
-        uploadDateLabel.font = .systemFont(ofSize: 13, weight: .regular)
-        uploadDateLabel.textColor = .darkGray
+        uploadDateLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        uploadDateLabel.textColor = .systemGray
         uploadDateLabel.translatesAutoresizingMaskIntoConstraints = false
         return uploadDateLabel
     }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        setupCell()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("Not implemented required init?(coder: NSCoder)")
+    }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = bounds
+    }
+
     private func setupCell() {
         contentView.addSubview(thumbnailImage)
         contentView.addSubview(channelIconImage)
         contentView.addSubview(textBoxStackView)
         
+        thumbnailImage.translatesAutoresizingMaskIntoConstraints = false
+        channelIconImage.translatesAutoresizingMaskIntoConstraints = false
+        textBoxStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             thumbnailImage.topAnchor.constraint(equalTo: contentView.topAnchor),
-            thumbnailImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            thumbnailImage.widthAnchor.constraint(equalToConstant: contentView.bounds.width),
-            thumbnailImage.heightAnchor.constraint(equalToConstant: 208),
-            
+            thumbnailImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+            thumbnailImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+            thumbnailImage.heightAnchor.constraint(equalTo: thumbnailImage.widthAnchor, multiplier: 9 / 16),
+
             channelIconImage.widthAnchor.constraint(equalToConstant: 40),
             channelIconImage.heightAnchor.constraint(equalToConstant: 40),
-            channelIconImage.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 5),
+            channelIconImage.topAnchor.constraint(equalTo: thumbnailImage.bottomAnchor, constant: 16),
             channelIconImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            
+
             textBoxStackView.topAnchor.constraint(equalTo: channelIconImage.topAnchor),
             textBoxStackView.leadingAnchor.constraint(equalTo: channelIconImage.trailingAnchor, constant: 10),
             textBoxStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
@@ -134,7 +141,7 @@ class HomeVideoCell: UICollectionViewCell, Identifier {
         channelNameLabel.text = "\(video.channel.name)﹒"
         
         let viewCountFormatter = NumberFormatter()
-        let randomViewCount = Int.random(in: 1...999999999)
+        let randomViewCount = Int.random(in: 1 ... 999999999)
         let viewCountFormatted = viewCountFormatter.viewCount(views: randomViewCount)
         viewCountLabel.text = viewCountFormatted
         

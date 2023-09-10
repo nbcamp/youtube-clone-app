@@ -35,9 +35,9 @@ final class SignInViewController: TypedViewController<SignInView> {
                     if success {
                         listener.dismiss(animated: true, completion: nil)
                     } else {
-                        let alert = UIAlertController(title: "Error", message: "Email or password is incorrect.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Retry", style: .default, handler: nil))
-                        listener.present(alert, animated: true)
+                        EventBus.shared.emit(
+                            AlertErrorEvent(payload: .init(message: "Incorrect Input"))
+                        )
                     }
                 }
             }

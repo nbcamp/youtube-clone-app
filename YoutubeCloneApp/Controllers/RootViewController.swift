@@ -12,6 +12,14 @@ struct PickImagesEvent: EventProtocol {
     let payload: Payload
 }
 
+struct AlertErrorEvent: EventProtocol {
+    struct Payload {
+        let message: String
+    }
+
+    let payload: Payload
+}
+
 final class RootViewController: UITabBarController {
     var photoPicker: PhotoPicker?
 
@@ -28,6 +36,18 @@ final class RootViewController: UITabBarController {
                 self.present(navigationController, animated: false)
             }
         }
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let paddingTop: CGFloat = 10.0
+        tabBar.frame = .init(
+            x: tabBar.frame.origin.x,
+            y: tabBar.frame.origin.y - paddingTop,
+            width: tabBar.frame.width,
+            height: tabBar.frame.height + paddingTop
+        )
     }
 
     private func initializeTabBarController() {
@@ -55,6 +75,12 @@ final class RootViewController: UITabBarController {
             }
             picker.delegate = listener.photoPicker
             payload.viewController?.present(picker, animated: true)
+        }
+
+        EventBus.shared.on(AlertErrorEvent.self, by: self) { listener, payload in
+            let alert = UIAlertController(title: "Error", message: payload.message, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            listener.present(alert, animated: true)
         }
     }
 

@@ -1,23 +1,23 @@
 import UIKit
 
+struct PushToDetailViewEvent: EventProtocol {
+    let payload: Void = ()
+}
+
+struct RefreshVideos: EventProtocol {
+    let payload: Void = ()
+}
+
 final class HomeViewController: TypedViewController<HomeView> {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        AuthService.shared.$user.subscribe(by: self) { (subscriber, user) in
-            subscriber.rootView.user = user.new
-        }
-    }
-    
-    //동작정의
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        EventBus.shared.on(PushToDetailViewEvent.self, by: self) { (listener, payload) in
+        EventBus.shared.on(PushToDetailViewEvent.self, by: self) { listener, _ in
             listener.navigationController?.pushViewController(DetailViewController(), animated: true)
         }
-        
-        EventBus.shared.on(RefreshVideos.self, by: self) { (listener, payload) in
-// 리프레시 EventBus로 옮기기 실패..
+
+        EventBus.shared.on(RefreshVideos.self, by: self) { _, _ in
+            // 리프레시 EventBus로 옮기기 실패..
         }
     }
 
@@ -26,5 +26,3 @@ final class HomeViewController: TypedViewController<HomeView> {
         EventBus.shared.reset(self)
     }
 }
-
-

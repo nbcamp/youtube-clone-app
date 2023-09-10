@@ -1,108 +1,144 @@
 import UIKit
 
 final class HomeView: UIView, RootView {
-    weak var user: User? {
-        didSet { observeUserChanged(user: user) }
-    }
-    
-    private let refreshControl = UIRefreshControl()
-    
+    private var videos: [YoutubeVideo] = []
+
     private lazy var videoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let videoCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         videoCollectionView.backgroundColor = .systemBackground
-        videoCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        return videoCollectionView
-    }()
-    
-    private func configureCollectionView() {
         videoCollectionView.register(HomeVideoCell.self, forCellWithReuseIdentifier: HomeVideoCell.identifier)
         videoCollectionView.delegate = self
         videoCollectionView.dataSource = self
-        
         videoCollectionView.refreshControl = refreshControl
+        return videoCollectionView
+    }()
+
+    private lazy var refreshControl = {
+        let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshCollectionView), for: .valueChanged)
-        refreshControl.attributedTitle = NSAttributedString(string: "잠시만요",
-                                                         attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,
-                                                                      NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 18)])
-    }
-    
-    @objc func refreshCollectionView() {
+        return refreshControl
+    }()
+
+    private lazy var loadingIndicator = {
+        let loadingIndicator = UIActivityIndicatorView()
+        loadingIndicator.style = .large
+        loadingIndicator.hidesWhenStopped = true
+        return loadingIndicator
+    }()
+
+    @objc private func refreshCollectionView() {
         refreshControl.endRefreshing()
-        YoutubeService.shared.refreshVideos { error in
-            print("Error loading videos: \(error)")
-        }
+//        YoutubeService.shared.refreshVideos { _ in
+//            EventBus.shared.emit(
+//                AlertErrorEvent(payload: .init(
+//                    message: "Refresh videos failed."
+//                ))
+//            )
+//        }
     }
 
     func initializeUI() {
         backgroundColor = .systemBackground
         addSubview(videoCollectionView)
-        
-        configureCollectionView()
-        
+        addSubview(loadingIndicator)
+
+        let guide = safeAreaLayoutGuide
+        videoCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             videoCollectionView.topAnchor.constraint(equalTo: topAnchor),
             videoCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             videoCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             videoCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            loadingIndicator.topAnchor.constraint(equalTo: guide.topAnchor),
+            loadingIndicator.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
+            loadingIndicator.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            loadingIndicator.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
         ])
-        
-        YoutubeService.shared.$videos.subscribe(by: self) { (subscriber, changes) in
+
+        YoutubeService.shared.$loading.subscribe(by: self, immediate: true) { subscriber, changes in
             DispatchQueue.main.async {
-                subscriber.videoCollectionView.reloadData()
+                if changes.new {
+                    subscriber.loadingIndicator.startAnimating()
+                } else {
+                    subscriber.loadingIndicator.stopAnimating()
+                }
             }
         }
-        
-        YoutubeService.shared.loadVideos { error in
-            print("Error loading videos: \(error)")
-        }
-    }
-    
-    private func observeUserChanged(user: User?) {
-        guard let user else { return }
-        user.$name.subscribe(by: self, immediate: true) { (subscriber, changes) in
+
+        YoutubeService.shared.loadVideos { [weak self] videos in
+            guard let self else { return }
+            self.videos = videos
+            let indexPathsToInsert = (0 ..< videos.count).map { IndexPath(item: $0, section: 0) }
+            DispatchQueue.main.async {
+                self.videoCollectionView.performBatchUpdates {
+                    self.videoCollectionView.insertItems(at: indexPathsToInsert)
+                }
+            }
+        } errorHandler: { _ in
+            EventBus.shared.emit(
+                AlertErrorEvent(payload: .init(
+                    message: "Load videos failed."
+                ))
+            )
         }
     }
 }
 
-extension HomeView: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension HomeView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return YoutubeService.shared.videos.count
+        return videos.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeVideoCell.identifier, for: indexPath) as! HomeVideoCell
-        
-        let video = YoutubeService.shared.videos[indexPath.item]
-        cell.configure(video: video)
-        
+        cell.configure(video: videos[indexPath.item])
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width), height: 280)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0
-    }
-    
+}
+
+extension HomeView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         EventBus.shared.emit(PushToDetailViewEvent())
     }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let lastItem = YoutubeService.shared.videos.count - 1
-        if indexPath.item == lastItem {
-            YoutubeService.shared.loadMoreVideos { error in
-                if error != nil {
-                    print("Error loading more videos: \(error)")
-                } else {
-                    DispatchQueue.main.async {
-                        collectionView.reloadData()
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let distanceFromBottom = contentHeight - offsetY
+
+        if distanceFromBottom < scrollView.frame.size.height + 300 {
+            YoutubeService.shared.loadMoreVideos { [weak self] videos in
+                guard let self else { return }
+                
+                let startIndex = self.videos.count
+                let endIndex = startIndex + videos.count
+                let indexPathsToInsert = (self.videos.count ..< endIndex).map { IndexPath(item: $0, section: 0) }
+                self.videos.append(contentsOf: videos)
+
+                DispatchQueue.main.async {
+                    self.videoCollectionView.performBatchUpdates {
+                        self.videoCollectionView.insertItems(at: indexPathsToInsert)
                     }
                 }
+
+            } errorHandler: { error in
+                debugPrint(error)
+                EventBus.shared.emit(
+                    AlertErrorEvent(payload: .init(
+                        message: "Fetch more videos failed."
+                    ))
+                )
             }
         }
+    }
+}
+
+extension HomeView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = collectionView.bounds.width
+        return CGSize(width: width, height: width * 9 / 16 + 100)
     }
 }
