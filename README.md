@@ -16,7 +16,7 @@ Clone this repository and open `YoutubeCloneApp.xcodeproj` with [Xcode](https://
    ```
 2. Run the `setup.sh` script.
    ```bash
-   $ ./setup.sh
+   $ ./scripts/setup.sh
    Enter your Youtube API key: <insert your API key here>
    Setup complete!
    ```

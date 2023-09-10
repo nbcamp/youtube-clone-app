@@ -182,7 +182,6 @@
 			isa = PBXGroup;
 			children = (
 				3347BCB82AAD579F005DA0C0 /* Shared */,
-				333646FA2AA5A8B200C37275 /* TypedViewController.swift */,
 				333646E22AA597C900C37275 /* RootViewController.swift */,
 				333646FE2AA5A9D700C37275 /* SignInViewController.swift */,
 				333647072AA5AB5C00C37275 /* SignUpViewController.swift */,
@@ -314,6 +313,7 @@
 		3347BCB82AAD579F005DA0C0 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				333646FA2AA5A8B200C37275 /* TypedViewController.swift */,
 				3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */,
 			);
 			path = Shared;
