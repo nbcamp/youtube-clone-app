@@ -13,16 +13,17 @@ struct SignUpEvent: EventProtocol {
 }
 
 final class SignUpViewController: TypedViewController<SignUpView> {
+    private var keyboardHandler: KeyboardHandler?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        keyboardHandler = .init(view: rootView)
         setupNavigation()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        keyboardHandler?.register(view: rootView)
 
         EventBus.shared.on(SignUpEvent.self, by: self) { listener, payload in
             guard payload.password == payload.confirmPassword else {
@@ -51,7 +52,7 @@ final class SignUpViewController: TypedViewController<SignUpView> {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        keyboardHandler?.unregister()
         EventBus.shared.reset(self)
     }
 
@@ -64,40 +65,6 @@ final class SignUpViewController: TypedViewController<SignUpView> {
         navigationController?.popViewController(animated: true)
     }
 
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        else { return }
-
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-        if let activeTextField = findFirstResponder(inView: rootView) {
-            let textFieldBottomPoint = activeTextField.convert(activeTextField.bounds, to: rootView).maxY
-            let overlap = textFieldBottomPoint - (view.bounds.height - keyboardHeight) + 40
-
-            if overlap > 0 {
-                view.frame.origin.y = -CGFloat(overlap)
-            }
-        }
-    }
-
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        view.frame.origin.y = 0
-    }
-
-    private func findFirstResponder(inView view: UIView) -> UITextField? {
-        if let textField = view as? UITextField, textField.isFirstResponder {
-            return textField
-        }
-
-        for subView in view.subviews {
-            if let activeTextField = findFirstResponder(inView: subView) {
-                return activeTextField
-            }
-        }
-
-        return nil
-    }
-
     private func alertError(message: String) {
         EventBus.shared.emit(
             AlertErrorEvent(payload: .init(
@@ -106,6 +73,4 @@ final class SignUpViewController: TypedViewController<SignUpView> {
             ))
         )
     }
-
-    deinit { NotificationCenter.default.removeObserver(self) }
 }

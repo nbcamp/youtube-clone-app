@@ -55,6 +55,8 @@
 		3347BCC82AADCC7C005DA0C0 /* UIResponder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */; };
 		3347BCCA2AADCC8D005DA0C0 /* NumberFormatter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */; };
 		3347BCCC2AADCF2E005DA0C0 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */; };
+		3347BCCE2AADEA3B005DA0C0 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCCD2AADEA3B005DA0C0 /* UIView+Ext.swift */; };
+		3347BCD02AADEBE1005DA0C0 /* KeyboardHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCCF2AADEBE1005DA0C0 /* KeyboardHandler.swift */; };
 		554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */; };
 		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
 		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
@@ -113,6 +115,8 @@
 		3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Ext.swift"; sourceTree = "<group>"; };
 		3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Ext.swift"; sourceTree = "<group>"; };
 		3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		3347BCCD2AADEA3B005DA0C0 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		3347BCCF2AADEBE1005DA0C0 /* KeyboardHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardHandler.swift; sourceTree = "<group>"; };
 		554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -263,6 +267,7 @@
 				333647202AA5AFAC00C37275 /* Publishable.swift */,
 				333647222AA5AFC300C37275 /* EventBus.swift */,
 				332E29C82AAB27F600C21409 /* Env.swift */,
+				3347BCCF2AADEBE1005DA0C0 /* KeyboardHandler.swift */,
 				333647272AA5AFE300C37275 /* Storage */,
 				3347BCBE2AADCBD8005DA0C0 /* Extensions */,
 			);
@@ -334,6 +339,7 @@
 		3347BCBE2AADCBD8005DA0C0 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				3347BCCD2AADEA3B005DA0C0 /* UIView+Ext.swift */,
 				3347BCBF2AADCBF5005DA0C0 /* UIViewController+Ext.swift */,
 				3347BCC12AADCC0D005DA0C0 /* UIImage+Ext.swift */,
 				3347BCC52AADCC65005DA0C0 /* UIImageView+Ext.swift */,
@@ -452,6 +458,7 @@
 				3336473D2AA6EAB700C37275 /* YoutubePageInfoModel.swift in Sources */,
 				333647182AA5AC6B00C37275 /* ProfileView.swift in Sources */,
 				554BA0D52AAC6B0400BFBDC5 /* CommentService.swift in Sources */,
+				3347BCD02AADEBE1005DA0C0 /* KeyboardHandler.swift in Sources */,
 				333647052AA5AB1900C37275 /* SignUpView.swift in Sources */,
 				3336470B2AA5AB8B00C37275 /* APIService.swift in Sources */,
 				3347BCC02AADCBF5005DA0C0 /* UIViewController+Ext.swift in Sources */,
@@ -470,6 +477,7 @@
 				3336472B2AA5B05E00C37275 /* Identifier.swift in Sources */,
 				B84502242AA85CA900811C40 /* HomeVideoCell.swift in Sources */,
 				3336471F2AA5AF9000C37275 /* WeakRef.swift in Sources */,
+				3347BCCE2AADEA3B005DA0C0 /* UIView+Ext.swift in Sources */,
 				3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */,
 				3347BCC22AADCC0D005DA0C0 /* UIImage+Ext.swift in Sources */,
 				3347BCBA2AAD57B9005DA0C0 /* PhotoPicker.swift in Sources */,

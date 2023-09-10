@@ -17,6 +17,8 @@ final class DetailViewController: TypedViewController<DetailView> {
         didSet { rootView.configure(video: video) }
     }
 
+    private var keyboardHandler: KeyboardHandler?
+
     private var comments: [Comment] {
         guard let video else { return [] }
         return CommentService.shared.comments(of: video)
@@ -26,10 +28,12 @@ final class DetailViewController: TypedViewController<DetailView> {
         super.viewDidLoad()
         setupNavigation()
         rootView.comments = comments
+        keyboardHandler = .init(view: rootView)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        keyboardHandler?.register(view: rootView)
 
         EventBus.shared.on(CloseDetailViewEvent.self, by: self) { listener, _ in
             listener.dismiss(animated: true)
@@ -43,6 +47,7 @@ final class DetailViewController: TypedViewController<DetailView> {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        keyboardHandler?.unregister()
         EventBus.shared.reset(self)
     }
     

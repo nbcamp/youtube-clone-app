@@ -6,6 +6,10 @@ class TypedViewController<View: UIView>: UIViewController where View: RootView {
     override func loadView() {
         view = View()
         rootView.viewController = self
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
         rootView.initializeUI()
     }
 }

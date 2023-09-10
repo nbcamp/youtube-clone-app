@@ -50,7 +50,7 @@ final class DetailView: UIView, RootView {
     private let overviewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Apple SD Gothic Neo", size: 14)
+        label.font = .systemFont(ofSize: 14)
         label.numberOfLines = 3
         return label
     }()
@@ -215,7 +215,6 @@ final class DetailView: UIView, RootView {
         commentTableView.dataSource = self
         commentTableView.delegate = self
         commentTextField.delegate = self
-        addKeyboardNotifications()
         configureConstraints()
         addTopBorderToTextField(with: UIColor.systemGray, andWidth: CGFloat(0.5))
 
@@ -256,30 +255,6 @@ final class DetailView: UIView, RootView {
         border.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
         border.frame = CGRect(x: 0, y: 0, width: commentStackView.frame.width, height: borderWidth)
         commentStackView.addSubview(border)
-    }
-
-    func addKeyboardNotifications() {
-        // 키보드가 나타날 때 앱에게 알리는 메서드 추가
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        // 키보드가 사라질 때 앱에게 알리는 메서드 추가
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        // keyboardWillShow
-        // 현재 동작하고 있는 이벤트에서 키보드의 frame을 받아옴
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-
-        if frame.origin.y == 0 {
-            frame.origin.y -= keyboardHeight
-        }
-    }
-
-    @objc private func keyboardWillHide(_ sender: Notification) {
-        if frame.origin.y != 0 {
-            frame.origin.y = 0
-        }
     }
 
     @objc private func writeComment() {
@@ -351,7 +326,7 @@ extension DetailView: UITextFieldDelegate {
     }
 }
 
-extension DetailView: UITableViewDelegate, UITableViewDataSource {
+extension DetailView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
     }
@@ -361,7 +336,9 @@ extension DetailView: UITableViewDelegate, UITableViewDataSource {
         cell.comment = comments[indexPath.row]
         return cell
     }
+}
 
+extension DetailView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! CommentTableViewCell
 
