@@ -35,7 +35,7 @@ final class HomeVideoCell: UICollectionViewCell, Identifier {
         let title = UILabel()
         title.font = .systemFont(ofSize: 14, weight: .regular)
         title.numberOfLines = 2
-        title.textColor = .secondary
+        title.textColor = .label
         return title
     }()
     
