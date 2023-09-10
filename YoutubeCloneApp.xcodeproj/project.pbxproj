@@ -35,7 +35,6 @@
 		3336472B2AA5B05E00C37275 /* Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336472A2AA5B05E00C37275 /* Identifier.swift */; };
 		3336472F2AA5B0D100C37275 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336472E2AA5B0D100C37275 /* UserModel.swift */; };
 		333647312AA5B0D800C37275 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647302AA5B0D800C37275 /* User.swift */; };
-		333647332AA5B12800C37275 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647322AA5B12800C37275 /* Extensions.swift */; };
 		333647392AA6E7E700C37275 /* YoutubeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647382AA6E7E700C37275 /* YoutubeService.swift */; };
 		3336473B2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336473A2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift */; };
 		3336473D2AA6EAB700C37275 /* YoutubePageInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3336473C2AA6EAB700C37275 /* YoutubePageInfoModel.swift */; };
@@ -49,6 +48,13 @@
 		3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB42AAD41E7005DA0C0 /* Button.swift */; };
 		3347BCB72AAD4CAF005DA0C0 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB62AAD4CAF005DA0C0 /* AvatarView.swift */; };
 		3347BCBA2AAD57B9005DA0C0 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */; };
+		3347BCC02AADCBF5005DA0C0 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCBF2AADCBF5005DA0C0 /* UIViewController+Ext.swift */; };
+		3347BCC22AADCC0D005DA0C0 /* UIImage+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC12AADCC0D005DA0C0 /* UIImage+Ext.swift */; };
+		3347BCC42AADCC24005DA0C0 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC32AADCC24005DA0C0 /* UIColor+Ext.swift */; };
+		3347BCC62AADCC65005DA0C0 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC52AADCC65005DA0C0 /* UIImageView+Ext.swift */; };
+		3347BCC82AADCC7C005DA0C0 /* UIResponder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */; };
+		3347BCCA2AADCC8D005DA0C0 /* NumberFormatter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */; };
+		3347BCCC2AADCF2E005DA0C0 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */; };
 		554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */; };
 		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
 		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
@@ -87,7 +93,6 @@
 		3336472A2AA5B05E00C37275 /* Identifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifier.swift; sourceTree = "<group>"; };
 		3336472E2AA5B0D100C37275 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		333647302AA5B0D800C37275 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		333647322AA5B12800C37275 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		333647382AA6E7E700C37275 /* YoutubeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeService.swift; sourceTree = "<group>"; };
 		3336473A2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeVideoListResponseModel.swift; sourceTree = "<group>"; };
 		3336473C2AA6EAB700C37275 /* YoutubePageInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubePageInfoModel.swift; sourceTree = "<group>"; };
@@ -101,6 +106,13 @@
 		3347BCB42AAD41E7005DA0C0 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		3347BCB62AAD4CAF005DA0C0 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		3347BCBF2AADCBF5005DA0C0 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		3347BCC12AADCC0D005DA0C0 /* UIImage+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Ext.swift"; sourceTree = "<group>"; };
+		3347BCC32AADCC24005DA0C0 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
+		3347BCC52AADCC65005DA0C0 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
+		3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Ext.swift"; sourceTree = "<group>"; };
+		3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Ext.swift"; sourceTree = "<group>"; };
+		3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -140,9 +152,9 @@
 			isa = PBXGroup;
 			children = (
 				333646F22AA5985C00C37275 /* Resources */,
-				333647092AA5AB7D00C37275 /* Services */,
 				3336472C2AA5B0B800C37275 /* Models */,
 				3336472D2AA5B0C600C37275 /* ViewModels */,
+				333647092AA5AB7D00C37275 /* Services */,
 				333646F32AA5986600C37275 /* Views */,
 				333646F42AA5987000C37275 /* Controllers */,
 				3336471D2AA5AF7A00C37275 /* Utilities */,
@@ -157,7 +169,6 @@
 				333646E72AA597CA00C37275 /* Assets.xcassets */,
 				333646E02AA597C900C37275 /* SceneDelegate.swift */,
 				333646DE2AA597C900C37275 /* AppDelegate.swift */,
-				333647322AA5B12800C37275 /* Extensions.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -253,6 +264,7 @@
 				333647222AA5AFC300C37275 /* EventBus.swift */,
 				332E29C82AAB27F600C21409 /* Env.swift */,
 				333647272AA5AFE300C37275 /* Storage */,
+				3347BCBE2AADCBD8005DA0C0 /* Extensions */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -317,6 +329,20 @@
 				3347BCB92AAD57B9005DA0C0 /* PhotoPicker.swift */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		3347BCBE2AADCBD8005DA0C0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3347BCBF2AADCBF5005DA0C0 /* UIViewController+Ext.swift */,
+				3347BCC12AADCC0D005DA0C0 /* UIImage+Ext.swift */,
+				3347BCC52AADCC65005DA0C0 /* UIImageView+Ext.swift */,
+				3347BCC32AADCC24005DA0C0 /* UIColor+Ext.swift */,
+				3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */,
+				3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */,
+				3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B8031F272AAB49D1006BECFF /* Recovered References */ = {
@@ -396,8 +422,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3347BCC82AADCC7C005DA0C0 /* UIResponder+Ext.swift in Sources */,
 				333647212AA5AFAC00C37275 /* Publishable.swift in Sources */,
 				333647232AA5AFC300C37275 /* EventBus.swift in Sources */,
+				3347BCCC2AADCF2E005DA0C0 /* String+Ext.swift in Sources */,
 				333647402AA6EB0B00C37275 /* YoutubeVideoModel.swift in Sources */,
 				3336473B2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift in Sources */,
 				333647462AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift in Sources */,
@@ -417,6 +445,8 @@
 				333647442AA6F12900C37275 /* YoutubeVideo.swift in Sources */,
 				3336471C2AA5AD9100C37275 /* ProfileViewController.swift in Sources */,
 				3336472F2AA5B0D100C37275 /* UserModel.swift in Sources */,
+				3347BCCA2AADCC8D005DA0C0 /* NumberFormatter+Ext.swift in Sources */,
+				3347BCC42AADCC24005DA0C0 /* UIColor+Ext.swift in Sources */,
 				333647292AA5AFF200C37275 /* UserDefaultsStorage.swift in Sources */,
 				3336471A2AA5AD8300C37275 /* DetailViewController.swift in Sources */,
 				3336473D2AA6EAB700C37275 /* YoutubePageInfoModel.swift in Sources */,
@@ -424,13 +454,14 @@
 				554BA0D52AAC6B0400BFBDC5 /* CommentService.swift in Sources */,
 				333647052AA5AB1900C37275 /* SignUpView.swift in Sources */,
 				3336470B2AA5AB8B00C37275 /* APIService.swift in Sources */,
+				3347BCC02AADCBF5005DA0C0 /* UIViewController+Ext.swift in Sources */,
 				333647082AA5AB5C00C37275 /* SignUpViewController.swift in Sources */,
 				333647102AA5ABD500C37275 /* HomeView.swift in Sources */,
 				333647262AA5AFD600C37275 /* Storage.swift in Sources */,
 				333647392AA6E7E700C37275 /* YoutubeService.swift in Sources */,
+				3347BCC62AADCC65005DA0C0 /* UIImageView+Ext.swift in Sources */,
 				333647482AA70DA500C37275 /* YoutubeChannelModel.swift in Sources */,
 				333646E12AA597C900C37275 /* SceneDelegate.swift in Sources */,
-				333647332AA5B12800C37275 /* Extensions.swift in Sources */,
 				3347BCB72AAD4CAF005DA0C0 /* AvatarView.swift in Sources */,
 				333647122AA5ABEC00C37275 /* HomeViewController.swift in Sources */,
 				554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */,
@@ -440,6 +471,7 @@
 				B84502242AA85CA900811C40 /* HomeVideoCell.swift in Sources */,
 				3336471F2AA5AF9000C37275 /* WeakRef.swift in Sources */,
 				3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */,
+				3347BCC22AADCC0D005DA0C0 /* UIImage+Ext.swift in Sources */,
 				3347BCBA2AAD57B9005DA0C0 /* PhotoPicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

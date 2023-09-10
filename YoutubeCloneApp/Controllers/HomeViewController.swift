@@ -74,6 +74,7 @@ final class HomeViewController: TypedViewController<HomeView> {
         }
 
         EventBus.shared.on(LoadMoreVideosEvent.self, by: self) { _, payload in
+            print(payload)
             YoutubeService.shared.loadMoreVideos(
                 completionHandler: payload.completion,
                 errorHandler: { [weak self] error in
@@ -88,7 +89,7 @@ final class HomeViewController: TypedViewController<HomeView> {
         EventBus.shared.emit(
             AlertErrorEvent(payload: .init(
                 viewController: self,
-                message: "Fetch more videos failed."
+                message: message
             ))
         )
     }

@@ -30,17 +30,18 @@ final class SignInViewController: TypedViewController<SignInView> {
         }
 
         EventBus.shared.on(SignInEvent.self, by: self) { listener, payload in
-            AuthService.shared.signIn(email: payload.email, password: payload.password) { success in
+            AuthService.shared.signIn(
+                email: payload.email,
+                password: payload.password
+            ) { [weak listener] error in
                 DispatchQueue.main.async {
-                    if success {
-                        listener.dismiss(animated: true, completion: nil)
-                    } else {
-                        EventBus.shared.emit(
-                            AlertErrorEvent(payload: .init(
-                                viewController: self,
-                                message: "Incorrect Email or Password"
-                            ))
-                        )
+                    switch error {
+                    case .userNotFound:
+                        listener?.alertError(message: "User not found. Please sign Up.")
+                    case .incorrectInput:
+                        listener?.alertError(message: "Incorrect email address or password.")
+                    default:
+                        listener?.dismiss(animated: true, completion: nil)
                     }
                 }
             }
@@ -84,6 +85,15 @@ final class SignInViewController: TypedViewController<SignInView> {
         }
 
         return nil
+    }
+
+    private func alertError(message: String) {
+        EventBus.shared.emit(
+            AlertErrorEvent(payload: .init(
+                viewController: self,
+                message: message
+            ))
+        )
     }
 
     deinit { NotificationCenter.default.removeObserver(self) }

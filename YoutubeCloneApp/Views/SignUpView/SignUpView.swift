@@ -121,7 +121,8 @@ final class SignUpView: UIView, RootView {
                     name: nameGroup.text ?? "",
                     avatar: avatarView.image?.base64 ?? "",
                     email: emailGroup.text ?? "",
-                    password: passwordGroup.text ?? ""
+                    password: passwordGroup.text ?? "",
+                    confirmPassword: confirmPasswordGroup.text ?? ""
                 )
             )
         )

@@ -106,7 +106,7 @@ extension HomeView: UICollectionViewDelegate {
         let contentHeight = scrollView.contentSize.height
         let distanceFromBottom = contentHeight - offsetY
 
-        if distanceFromBottom < scrollView.frame.size.height + 300 {
+        if contentHeight > 0, distanceFromBottom < scrollView.frame.size.height + 300 {
             EventBus.shared.emit(LoadMoreVideosEvent(payload: .init(completion: { [weak self] videos in
                 guard let self else { return }
                 let startIndex = self.videos.count
