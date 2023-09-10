@@ -35,8 +35,12 @@ final class SignInViewController: TypedViewController<SignInView> {
                     if success {
                         listener.dismiss(animated: true, completion: nil)
                     } else {
+                        print(#function)
                         EventBus.shared.emit(
-                            AlertErrorEvent(payload: .init(message: "Incorrect Input"))
+                            AlertErrorEvent(payload: .init(
+                                viewController: self,
+                                message: "Incorrect Email or Password"
+                            ))
                         )
                     }
                 }

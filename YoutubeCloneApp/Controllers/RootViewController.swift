@@ -14,6 +14,7 @@ struct PickImagesEvent: EventProtocol {
 
 struct AlertErrorEvent: EventProtocol {
     struct Payload {
+        weak var viewController: UIViewController?
         let message: String
     }
 
@@ -77,10 +78,10 @@ final class RootViewController: UITabBarController {
             payload.viewController?.present(picker, animated: true)
         }
 
-        EventBus.shared.on(AlertErrorEvent.self, by: self) { listener, payload in
+        EventBus.shared.on(AlertErrorEvent.self, by: self) { _, payload in
             let alert = UIAlertController(title: "Error", message: payload.message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            listener.present(alert, animated: true)
+            payload.viewController?.present(alert, animated: true)
         }
     }
 

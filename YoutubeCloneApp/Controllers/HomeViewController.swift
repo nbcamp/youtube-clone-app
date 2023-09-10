@@ -87,6 +87,7 @@ final class HomeViewController: TypedViewController<HomeView> {
     private func alertError(message: String) {
         EventBus.shared.emit(
             AlertErrorEvent(payload: .init(
+                viewController: self,
                 message: "Fetch more videos failed."
             ))
         )
