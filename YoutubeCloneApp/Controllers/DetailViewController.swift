@@ -13,9 +13,7 @@ struct AddCommentEvent: EventProtocol {
 }
 
 final class DetailViewController: TypedViewController<DetailView> {
-    weak var video: YoutubeVideo? {
-        didSet { rootView.configure(video: video) }
-    }
+    weak var video: YoutubeVideo?
 
     private var keyboardHandler: KeyboardHandler?
 
@@ -29,6 +27,7 @@ final class DetailViewController: TypedViewController<DetailView> {
         setupNavigation()
         rootView.comments = comments
         keyboardHandler = .init(view: rootView)
+        rootView.configure(user: AuthService.shared.user, video: video)
     }
 
     override func viewWillAppear(_ animated: Bool) {

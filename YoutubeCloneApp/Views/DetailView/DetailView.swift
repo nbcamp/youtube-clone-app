@@ -5,7 +5,6 @@ final class DetailView: UIView, RootView {
     weak var video: YoutubeVideo?
 
     var comments: [Comment] = []
-    var comment: Comment?
 
     private lazy var containerView = {
         let containerView = UIStackView(arrangedSubviews: [
@@ -90,7 +89,7 @@ final class DetailView: UIView, RootView {
         channelInfoStackView.axis = .horizontal
         channelInfoStackView.spacing = 10
         channelInfoStackView.alignment = .center
-        
+
         channelInfoStackView.translatesAutoresizingMaskIntoConstraints = false
         channelInfoStackView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return channelInfoStackView
@@ -154,154 +153,147 @@ final class DetailView: UIView, RootView {
         return descriptionLabel
     }()
 
-//    private lazy var commentTableView: UITableView = {
-//        let commentTableview = UITableView()
-//        commentTableView.dataSource = self
-//        commentTableView.delegate = self
-//        commentTableview.translatesAutoresizingMaskIntoConstraints = false
-//        commentTableview.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
-//        return commentTableview
-//    }()
-//
-//    private lazy var writeButton = {
-//        let button = UIButton()
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.setBackgroundImage(UIImage(systemName: "paperplane"), for: .normal)
-//        button.addTarget(self, action: #selector(writeComment), for: .touchUpInside)
-//        return button
-//    }()
-//
-//    private lazy var userProfileImage: UIImageView = {
-//        let profileImage = UIImageView()
-//        profileImage.translatesAutoresizingMaskIntoConstraints = false
-//        profileImage.image = UIImage(systemName: "person.crop.circle")
-//        profileImage.sizeToFit()
-//        return profileImage
-//    }()
-//
-//    private lazy var commentTextField: UITextField = {
-//        let commentTextField = UITextField()
-//        commentTextField.translatesAutoresizingMaskIntoConstraints = false
-//        commentTextField.placeholder = "Write comment here"
-//        commentTextField.borderStyle = .roundedRect
-//        commentTextField.delegate = self
-//        commentTextField.layer.cornerRadius = 2
-//        commentTextField.layer.borderWidth = 2
-//        commentTextField.layer.borderColor = UIColor.gray.cgColor.copy(alpha: 0.8)
-//        return commentTextField
-//    }()
-//
-//    private lazy var commentStackView: UIStackView = {
-//        let stackView = UIStackView(arrangedSubviews: [
-//            userProfileImage,
-//            commentTextField,
-//            writeButton,
-//        ])
-//        stackView.translatesAutoresizingMaskIntoConstraints = false
-//        stackView.axis = .horizontal
-//        stackView.spacing = 10
-//        stackView.backgroundColor = .systemBackground
-//        return stackView
-//    }()
+    private lazy var commentContainer = {
+        let commentContainer = UIStackView(arrangedSubviews: [
+            commentTextFieldGroup,
+            commentTableView,
+        ])
+
+        commentContainer.backgroundColor = .secondary
+        commentContainer.layer.cornerRadius = 10.0
+        commentContainer.axis = .vertical
+        commentContainer.spacing = 10
+
+        commentContainer.isLayoutMarginsRelativeArrangement = true
+        commentContainer.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
+
+        return commentContainer
+    }()
+
+    private lazy var commentTextFieldGroup: UIStackView = {
+        userProfileImage.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        commentTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        leaveCommentButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+
+        let commentTextFieldGroup = UIStackView(arrangedSubviews: [
+            userProfileImage,
+            commentTextField,
+            leaveCommentButton,
+        ])
+
+        commentTextFieldGroup.axis = .horizontal
+        commentTextFieldGroup.distribution = .fill
+        commentTextFieldGroup.spacing = 10
+
+        return commentTextFieldGroup
+    }()
+
+    private lazy var userProfileImage: UIImageView = {
+        let userProfileImage = UIImageView()
+        userProfileImage.image = UIImage(systemName: "person.crop.circle")
+        userProfileImage.tintColor = .lightGray
+        userProfileImage.translatesAutoresizingMaskIntoConstraints = false
+        userProfileImage.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        userProfileImage.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        userProfileImage.layer.cornerRadius = 15
+        userProfileImage.layer.masksToBounds = true
+        return userProfileImage
+    }()
+
+    private lazy var commentTextField: UITextField = {
+        let commentTextField = UITextField()
+        commentTextField.borderStyle = .roundedRect
+        commentTextField.delegate = self
+        commentTextField.layer.cornerRadius = 2
+        commentTextField.layer.borderWidth = 2
+        commentTextField.layer.borderColor = UIColor.systemGray.cgColor.copy(alpha: 0.8)
+        commentTextField.font = .systemFont(ofSize: 14)
+        commentTextField.backgroundColor = .secondary
+        commentTextField.textColor = .white
+        commentTextField.attributedPlaceholder = .init(
+            string: "Add a comment...",
+            attributes: [
+                .foregroundColor: UIColor.lightGray,
+                .font: UIFont.systemFont(ofSize: 14),
+            ]
+        )
+        return commentTextField
+    }()
+
+    private lazy var leaveCommentButton = {
+        let leaveCommentButton = UIButton()
+        leaveCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        leaveCommentButton.setBackgroundImage(UIImage(systemName: "arrow.up.square.fill"), for: .normal)
+        leaveCommentButton.tintColor = .white
+        leaveCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        leaveCommentButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        leaveCommentButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        leaveCommentButton.addTarget(self, action: #selector(leaveComment), for: .touchUpInside)
+        return leaveCommentButton
+    }()
+
+    private lazy var commentTableView: UITableView = {
+        let commentTableView = UITableView()
+        commentTableView.backgroundColor = .clear
+        commentTableView.dataSource = self
+        commentTableView.delegate = self
+        commentTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
+        return commentTableView
+    }()
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        endEditing(true)
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+        endEditing(true)
+    }
 
     func initializeUI() {
         backgroundColor = .systemBackground
         addSubview(containerView)
+        addSubview(commentContainer)
 
         containerView.translatesAutoresizingMaskIntoConstraints = false
+        commentContainer.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+
+            commentContainer.topAnchor.constraint(equalTo: containerView.bottomAnchor, constant: 10),
+            commentContainer.bottomAnchor.constraint(equalTo: bottomAnchor),
+            commentContainer.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            commentContainer.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
         ])
-
-//        addSubview(profileImageButton)
-//        addSubview(profileLabel)
-//        addSubview(likeButton)
-//        addSubview(commentTableView)
-//        addSubview(commentStackView)
-
-        configureConstraints()
-//        addTopBorderToTextField(with: UIColor.systemGray, andWidth: CGFloat(0.5))
 
         enableSwipeClosing()
         enableMoreDescription()
     }
 
-    func configure(video: YoutubeVideo?) {
+    func configure(
+        user: User?,
+        video: YoutubeVideo?
+    ) {
         self.video = video
-
         titleLabel.text = video?.title
+        channelNameLabel.text = video?.channel.name
+        descriptionLabel.text = video?.description
+        userProfileImage.image = user?.uiAvatar
         if let thumbnailUrl = video?.channel.thumbnail.url,
            let url = URL(string: thumbnailUrl)
         { channelImageView.load(url: url) }
-        channelNameLabel.text = video?.channel.name
-        descriptionLabel.text = video?.description
 
         if let url = URL(string: video?.url ?? "") {
             webView.load(.init(url: url))
         }
     }
 
-    private func configureConstraints() {
-        let guide = safeAreaLayoutGuide
-
-//        let channelInfoStackViewConstraints = [
-//            channelInfoStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 10),
-//            channelInfoStackView.topAnchor.constraint(equalTo: titleStackView.bottomAnchor, constant: 10)
-//        ]
-
-//        let profileImageButtonConstraints = [
-//            profileImageButton.topAnchor.constraint(equalTo: viewTimeLabel.bottomAnchor, constant: 20),
-//            profileImageButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-//            profileImageButton.heightAnchor.constraint(equalToConstant: 40),
-//            profileImageButton.widthAnchor.constraint(equalToConstant: 40)
-//        ]
-//
-//        let profileLabelConstraints = [
-//            profileLabel.centerYAnchor.constraint(equalTo: profileImageButton.centerYAnchor),
-//            profileLabel.leadingAnchor.constraint(equalTo: profileImageButton.trailingAnchor, constant: 15)
-//        ]
-//
-
-//        let likeButtonConstraints = [
-//            likeButton.centerYAnchor.constraint(equalTo: profileLabel.centerYAnchor),
-//            likeButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-//        ]
-//        let viewTimeLabelConstraints = [
-//            viewTimeLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
-//            viewTimeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
-//        ]
-//        let commentTableViewConstraints = [
-//            commentTableView.topAnchor.constraint(equalTo: overviewStackView.bottomAnchor),
-//            commentTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            commentTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            commentTableView.bottomAnchor.constraint(equalTo: commentStackView.topAnchor)
-//        ]
-//        let commentStackViewConstraints = [
-//            commentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            commentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-//            commentStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-//            commentStackView.heightAnchor.constraint(equalToConstant: 40)
-//        ]
-//        let userProfileImageConstraints = [
-//            userProfileImage.widthAnchor.constraint(equalToConstant: 40)
-//        ]
-//        let writeButtonConstraints = [
-//            writeButton.widthAnchor.constraint(equalToConstant: 30)
-//        ]
-
-//        NSLayoutConstraint.activate(webViewConstraints)
-//        NSLayoutConstraint.activate(contentContainerConstraints)
-//        NSLayoutConstraint.activate(profileImageButtonConstraints)
-//        NSLayoutConstraint.activate(overviewStackViewConstraints)
-//        NSLayoutConstraint.activate(profileLabelConstraints)
-//        NSLayoutConstraint.activate(likeButtonConstraints)
-//        NSLayoutConstraint.activate(viewTimeLabelConstraints)
-//        NSLayoutConstraint.activate(commentTableViewConstraints)
-//        NSLayoutConstraint.activate(commentStackViewConstraints)
-//        NSLayoutConstraint.activate(userProfileImageConstraints)
-//        NSLayoutConstraint.activate(writeButtonConstraints)
+    private func enableSwipeClosing() {
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
+        addGestureRecognizer(panGestureRecognizer)
     }
 
     private func enableMoreDescription() {
@@ -314,27 +306,12 @@ final class DetailView: UIView, RootView {
         descriptionLabel.numberOfLines = 0
     }
 
-//
-//    func addTopBorderToTextField(with color: UIColor?, andWidth borderWidth: CGFloat) {
-//        let border = UIView()
-//        border.backgroundColor = color
-//        border.autoresizingMask = [.flexibleWidth, .flexibleBottomMargin]
-//        border.frame = CGRect(x: 0, y: 0, width: commentStackView.frame.width, height: borderWidth)
-//        commentStackView.addSubview(border)
-//    }
-//
-//    @objc private func writeComment() {
-//        if commentTextField.text != "" {
-//            comment?.content = commentTextField.text ?? ""
-//            EventBus.shared.emit(AddCommentEvent(payload: .init(content: comment?.content ?? "")))
-//        }
-//        commentTextField.text = ""
-//        commentTableView.reloadData()
-//    }
-
-    private func enableSwipeClosing() {
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePanGesture(_:)))
-        addGestureRecognizer(panGestureRecognizer)
+    @objc private func leaveComment() {
+        guard let comment = commentTextField.text, !comment.isEmpty else { endEditing(true); return }
+        EventBus.shared.emit(AddCommentEvent(
+            payload: .init(content: comment)
+        ))
+        commentTextField.text = ""
     }
 
     @objc private func handlePanGesture(_ panGesture: UIPanGestureRecognizer) {
@@ -380,41 +357,41 @@ final class DetailView: UIView, RootView {
     }
 }
 
-// extension DetailView: UITextFieldDelegate {
-//    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+extension DetailView: UITextFieldDelegate {
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
 //        writeButton.isEnabled = false
-//        return true
-//    }
-//
-//    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
 //        let text = (commentTextField.text! as NSString).replacingCharacters(in: range, with: string)
 //        if !text.isEmpty {
 //            writeButton.isEnabled = true
 //        } else {
 //            writeButton.isEnabled = false
 //        }
-//        return true
-//    }
-// }
-//
-// extension DetailView: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return comments.count
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as! CommentTableViewCell
-//        cell.comment = comments[indexPath.row]
-//        return cell
-//    }
-// }
-//
-// extension DetailView: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let cell = tableView.cellForRow(at: indexPath) as! CommentTableViewCell
-//
-//        tableView.performBatchUpdates {
-//            cell.changeLine()
-//        }
-//    }
-// }
+        return true
+    }
+}
+
+extension DetailView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return comments.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as! CommentTableViewCell
+        cell.comment = comments[indexPath.row]
+        return cell
+    }
+}
+
+extension DetailView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! CommentTableViewCell
+
+        tableView.performBatchUpdates {
+            cell.changeLine()
+        }
+    }
+}
