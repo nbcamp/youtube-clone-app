@@ -49,6 +49,11 @@ extension UIColor {
     }
 }
 
+extension UIColor {
+    static let primary = UIColor(named: "YoutubeRed")
+    static let secondary = UIColor(named: "AlmostBlack")
+}
+
 extension UIResponder {
     private weak static var _currentFirstResponder: UIResponder?
 

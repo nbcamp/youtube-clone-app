@@ -46,6 +46,8 @@
 		333647462AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */; };
 		333647482AA70DA500C37275 /* YoutubeChannelModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647472AA70DA500C37275 /* YoutubeChannelModel.swift */; };
 		3336474A2AA70DD600C37275 /* YoutubeThumbnailList'Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */; };
+		3347BCB32AAD3EAC005DA0C0 /* TextFieldGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB22AAD3EAC005DA0C0 /* TextFieldGroup.swift */; };
+		3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCB42AAD41E7005DA0C0 /* Button.swift */; };
 		554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */; };
 		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
 		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
@@ -95,6 +97,8 @@
 		333647452AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelListResponseModel.swift; sourceTree = "<group>"; };
 		333647472AA70DA500C37275 /* YoutubeChannelModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeChannelModel.swift; sourceTree = "<group>"; };
 		333647492AA70DD600C37275 /* YoutubeThumbnailList'Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "YoutubeThumbnailList'Model.swift"; sourceTree = "<group>"; };
+		3347BCB22AAD3EAC005DA0C0 /* TextFieldGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldGroup.swift; sourceTree = "<group>"; };
+		3347BCB42AAD41E7005DA0C0 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -162,6 +166,7 @@
 				333646E92AA597CA00C37275 /* LaunchScreen.storyboard */,
 				3336472A2AA5B05E00C37275 /* Identifier.swift */,
 				333646FC2AA5A8E200C37275 /* RootView.swift */,
+				3347BCB12AAD3E93005DA0C0 /* Shared */,
 				333647002AA5A9EB00C37275 /* SignInView */,
 				333647032AA5AAF400C37275 /* SignUpView */,
 				3336470E2AA5ABBA00C37275 /* HomeView */,
@@ -294,10 +299,18 @@
 			path = Youtube;
 			sourceTree = "<group>";
 		};
+		3347BCB12AAD3E93005DA0C0 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				3347BCB22AAD3EAC005DA0C0 /* TextFieldGroup.swift */,
+				3347BCB42AAD41E7005DA0C0 /* Button.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
 		B8031F272AAB49D1006BECFF /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				B8031F262AA99860006BECFF /* Secrets.xcconfig */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -387,6 +400,7 @@
 				332E29C92AAB27F600C21409 /* Env.swift in Sources */,
 				3336474A2AA70DD600C37275 /* YoutubeThumbnailList'Model.swift in Sources */,
 				333646FF2AA5A9D700C37275 /* SignInViewController.swift in Sources */,
+				3347BCB32AAD3EAC005DA0C0 /* TextFieldGroup.swift in Sources */,
 				333646DF2AA597C900C37275 /* AppDelegate.swift in Sources */,
 				3336470D2AA5AB9C00C37275 /* AuthService.swift in Sources */,
 				554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */,
@@ -414,6 +428,7 @@
 				3336472B2AA5B05E00C37275 /* Identifier.swift in Sources */,
 				B84502242AA85CA900811C40 /* HomeVideoCell.swift in Sources */,
 				3336471F2AA5AF9000C37275 /* WeakRef.swift in Sources */,
+				3347BCB52AAD41E7005DA0C0 /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

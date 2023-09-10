@@ -150,7 +150,6 @@ final class SignUpView: UIView, RootView {
 
 extension SignUpView: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        print("textFieldShouldBeginEditing called for textField: \(textField)")
         return true
     }
     
