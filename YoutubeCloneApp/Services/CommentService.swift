@@ -1,18 +1,34 @@
 import Foundation
 
 final class CommentService {
-    static var shared : CommentService = .init()
+    static var shared: CommentService = .init()
     private init() {}
-    
+
     @Publishable private(set) var comments: [Comment] = []
-    var storage: Storage?
-    
-    func showComments (videoId : String) -> [Comment] {
-        comments.filter{$0.videoId == videoId}
+
+    private lazy var key: String = .init(describing: self)
+    var storage: Storage? { didSet { comments = load() }}
+
+    func comments(of video: YoutubeVideo) -> [Comment] {
+        comments.filter { $0.videoId == video.id }
     }
-    
-    func addComment(user: User, content: String, videoId: String) {
-        let comment : Comment = Comment(id: "1", avatar: user.avatar, name: user.name, content: content, videoId: videoId)
+
+    func add(comment: String, to video: YoutubeVideo, by user: User) {
+        let comment = Comment(
+            avatar: user.avatar,
+            name: user.name,
+            content: comment,
+            videoId: video.id
+        )
         comments.append(comment)
+    }
+
+    private func save(comments: [Comment]) {
+        storage?.save(comments.map { $0.toModel() }, forKey: key)
+    }
+
+    private func load() -> [Comment] {
+        guard let models: [CommentModel] = storage?.load(forKey: key) else { return [] }
+        return models.compactMap { $0.toViewModel() }
     }
 }

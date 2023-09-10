@@ -6,14 +6,18 @@ final class Comment {
     var name: String
     var content : String
     var videoId : String
-    
-    init(id: String, avatar: Base64?, name: String, content: String, videoId: String) {
-        self.id = id
+
+    init(id: String? = nil, avatar: Base64?, name: String, content: String, videoId: String) {
+        self.id = id ?? UUID().uuidString
         self.avatar = avatar
         self.name = name
         self.content = content
         self.videoId = videoId
     }
+}
+
+extension Comment {
+    func toModel() -> CommentModel { .init(from: self) }
 }
 
 extension Comment {

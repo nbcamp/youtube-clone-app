@@ -18,7 +18,7 @@ final class YoutubeVideo {
     var thumbnail: Thumbnail
     var channel: Channel
 
-    var url: String { "https://www.youtube.com/watch?v=\(id)" }
+    var url: String { "https://www.youtube.com/embed/\(id)" }
 
     init(
         id: String,

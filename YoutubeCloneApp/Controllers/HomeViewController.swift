@@ -1,7 +1,11 @@
 import UIKit
 
 struct PushToDetailViewEvent: EventProtocol {
-    let payload: Void = ()
+    struct Payload {
+        let video: YoutubeVideo
+    }
+
+    let payload: Payload
 }
 
 struct LoadNewVideosEvent: EventProtocol {
@@ -43,8 +47,10 @@ final class HomeViewController: TypedViewController<HomeView> {
     }
 
     private func setupEvents() {
-        EventBus.shared.on(PushToDetailViewEvent.self, by: self) { listener, _ in
-            listener.navigationController?.pushViewController(DetailViewController(), animated: true)
+        EventBus.shared.on(PushToDetailViewEvent.self, by: self) { listener, payload in
+            let detailVC = DetailViewController()
+            detailVC.video = payload.video
+            listener.navigationController?.pushViewController(detailVC, animated: true)
         }
 
         EventBus.shared.on(LoadNewVideosEvent.self, by: self) { _, payload in
@@ -85,6 +91,6 @@ final class HomeViewController: TypedViewController<HomeView> {
             ))
         )
     }
-    
+
     deinit { EventBus.shared.reset(self) }
 }

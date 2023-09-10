@@ -1,7 +1,7 @@
 import UIKit
 
 final class HomeView: UIView, RootView {
-    private var videos: [YoutubeVideo] = []
+    var videos: [YoutubeVideo] = []
 
     private lazy var videoCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -97,7 +97,8 @@ extension HomeView: UICollectionViewDataSource {
 
 extension HomeView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        EventBus.shared.emit(PushToDetailViewEvent())
+        let video = videos[indexPath.item]
+        EventBus.shared.emit(PushToDetailViewEvent(payload: .init(video: video)))
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
