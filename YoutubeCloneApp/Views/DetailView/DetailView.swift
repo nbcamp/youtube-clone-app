@@ -4,11 +4,9 @@ import WebKit
 final class DetailView: UIView, RootView {
     weak var video: YoutubeVideo?
 
-    var comments: [Comment] = [
-        .init(avatar: nil, name: "User 1", content: "Content 1", videoId: "1"),
-        .init(avatar: nil, name: "User 2", content: String(repeating: "A", count: 300), videoId: "1"),
-        .init(avatar: nil, name: "User 3", content: "Content 3", videoId: "1"),
-    ]
+    var comments: [Comment] = [] {
+        didSet { commentTableView.backgroundView?.isHidden = !comments.isEmpty }
+    }
 
     private lazy var containerView = {
         let containerView = UIStackView(arrangedSubviews: [
@@ -170,10 +168,9 @@ final class DetailView: UIView, RootView {
 
         commentContainer.isLayoutMarginsRelativeArrangement = true
         commentContainer.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
-        
+
         commentTableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            
         ])
 
         return commentContainer
@@ -238,7 +235,7 @@ final class DetailView: UIView, RootView {
         submitCommentButton.translatesAutoresizingMaskIntoConstraints = false
         submitCommentButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
         submitCommentButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        submitCommentButton.addTarget(self, action: #selector(leaveComment), for: .touchUpInside)
+        submitCommentButton.addTarget(self, action: #selector(submitComment), for: .touchUpInside)
         return submitCommentButton
     }()
 
@@ -252,6 +249,8 @@ final class DetailView: UIView, RootView {
         commentTableView.delegate = self
         commentTableView.rowHeight = UITableView.automaticDimension
         commentTableView.estimatedRowHeight = 100
+        commentTableView.backgroundView = createTablePlaceholderView()
+        commentTableView.backgroundView?.isHidden = true
         commentTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         return commentTableView
     }()
@@ -317,16 +316,37 @@ final class DetailView: UIView, RootView {
         descriptionScrollView.addGestureRecognizer(tapGesture)
     }
 
+    private func createTablePlaceholderView() -> UIView {
+        let placeholderView = UILabel()
+
+        placeholderView.text = "Leave your first comment here!"
+        placeholderView.font = .systemFont(ofSize: 14, weight: .medium)
+        placeholderView.textColor = .lightGray
+        placeholderView.textAlignment = .center
+
+        return placeholderView
+    }
+
     @objc private func descriptionTapped(_ sender: UITapGestureRecognizer) {
         descriptionLabel.numberOfLines = 0
     }
 
-    @objc private func leaveComment() {
+    @objc private func submitComment() {
         guard let comment = commentTextField.text, !comment.isEmpty else { endEditing(true); return }
         EventBus.shared.emit(AddCommentEvent(
-            payload: .init(content: comment)
+            payload: .init(content: comment) { [weak self] _ in
+                guard let self else { return }
+                DispatchQueue.main.async {
+                    self.commentTableView.performBatchUpdates {
+                        let indexPath = IndexPath(row: 0, section: 0)
+                        self.commentTableView.insertRows(at: [indexPath], with: .automatic)
+                    }
+                    self.commentTextField.text = ""
+                    self.submitCommentButton.isEnabled = false
+                    self.endEditing(true)
+                }
+            }
         ))
-        commentTextField.text = ""
     }
 
     @objc private func handlePanGesture(_ panGesture: UIPanGestureRecognizer) {
@@ -399,7 +419,7 @@ extension DetailView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CommentTableViewCell.identifier, for: indexPath) as! CommentTableViewCell
-        cell.comment = comments[indexPath.row]
+        cell.comment = comments.reversed()[indexPath.row]
         return cell
     }
 }

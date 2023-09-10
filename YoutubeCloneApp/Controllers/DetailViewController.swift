@@ -7,6 +7,7 @@ struct CloseDetailViewEvent: EventProtocol {
 struct AddCommentEvent: EventProtocol {
     struct Payload {
         let content: String
+        let completion: (Comment) -> Void
     }
 
     let payload: Payload
@@ -25,8 +26,11 @@ final class DetailViewController: TypedViewController<DetailView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
-//        rootView.comments = comments
         keyboardHandler = .init(view: rootView)
+        CommentService.shared.$comments.subscribe(by: self, immediate: true) { subscriber, changes in
+            guard let video = subscriber.video else { return }
+            subscriber.rootView.comments = CommentService.shared.comments(of: video)
+        }
         rootView.configure(user: AuthService.shared.user, video: video)
     }
 
@@ -40,7 +44,7 @@ final class DetailViewController: TypedViewController<DetailView> {
 
         EventBus.shared.on(AddCommentEvent.self, by: self) { listener, payload in
             guard let video = listener.video, let user = AuthService.shared.user else { return }
-            CommentService.shared.add(comment: payload.content, to: video, by: user)
+            CommentService.shared.add(comment: payload.content, to: video, by: user, payload.completion)
         }
     }
 
@@ -49,7 +53,7 @@ final class DetailViewController: TypedViewController<DetailView> {
         keyboardHandler?.unregister()
         EventBus.shared.reset(self)
     }
-    
+
     private func setupNavigation() {
         navigationItem.leftBarButtonItem = .init(image: .init(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonTapped))
         navigationItem.leftBarButtonItem?.tintColor = .primary

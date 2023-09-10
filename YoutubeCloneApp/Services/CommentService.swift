@@ -13,7 +13,7 @@ final class CommentService {
         comments.filter { $0.videoId == video.id }
     }
 
-    func add(comment: String, to video: YoutubeVideo, by user: User) {
+    func add(comment: String, to video: YoutubeVideo, by user: User, _ completion: @escaping (Comment) -> Void) {
         let comment = Comment(
             avatar: user.avatar,
             name: user.name,
@@ -21,6 +21,8 @@ final class CommentService {
             videoId: video.id
         )
         comments.append(comment)
+        save(comments: comments)
+        completion(comment)
     }
 
     private func save(comments: [Comment]) {
