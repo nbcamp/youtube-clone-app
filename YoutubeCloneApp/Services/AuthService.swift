@@ -43,6 +43,11 @@ class AuthService {
         }
     }
 
+    func update(user: User) {
+        self.user = user
+        save(user: user)
+    }
+
     private func save(user: User?) {
         guard let model = user?.toModel() else { return }
         storage?.save(model, forKey: key)

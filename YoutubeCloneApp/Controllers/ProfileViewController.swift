@@ -1,12 +1,9 @@
 import PhotosUI
 import UIKit
 
-struct UpdateUserAvatarEvent: EventProtocol {
-    let payload: Void = ()
-}
-
 struct UpdateUserProfileEvent: EventProtocol {
     struct Payload {
+        let avatar: UIImage?
         let name: String
         let email: String
     }
@@ -19,26 +16,27 @@ final class ProfileViewController: TypedViewController<ProfileView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         rootView.user = user
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationItem.titleView = {
+            let titleView = UIImageView()
+            titleView.image = .init(named: "Youtube Main")
+            titleView.contentMode = .scaleAspectFit
+            return titleView
+        }()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        EventBus.shared.on(UpdateUserAvatarEvent.self, by: self) { listener, _ in
-            var configuration = PHPickerConfiguration()
-            configuration.selectionLimit = 1
-            configuration.filter = .images
-            let pickerVC = PHPickerViewController(configuration: configuration)
-            pickerVC.delegate = listener
-            pickerVC.modalPresentationStyle = .popover
-            listener.present(pickerVC, animated: true)
-        }
-
         EventBus.shared.on(UpdateUserProfileEvent.self, by: self) { listener, payload in
-            listener.user?.name = payload.name
-            listener.user?.email = payload.email
+            guard let user = listener.user else { return }
+            AuthService.shared.update(user: .init(
+                avatar: payload.avatar?.base64,
+                name: payload.name,
+                email: payload.email,
+                password: user.password
+            ))
         }
     }
 
@@ -57,7 +55,7 @@ extension ProfileViewController: PHPickerViewControllerDelegate {
               itemProvider.canLoadObject(ofClass: UIImage.self)
         else { return }
 
-        itemProvider.loadObject(ofClass: UIImage.self) {  [weak self] image, error in
+        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
             guard let self, let selectedImage = image as? UIImage else { return }
             self.user?.uiAvatar = selectedImage
         }
