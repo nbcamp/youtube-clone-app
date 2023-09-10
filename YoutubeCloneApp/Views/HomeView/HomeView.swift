@@ -47,10 +47,10 @@ final class HomeView: UIView, RootView {
         videoCollectionView.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            videoCollectionView.topAnchor.constraint(equalTo: topAnchor),
-            videoCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            videoCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            videoCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            videoCollectionView.topAnchor.constraint(equalTo: guide.topAnchor),
+            videoCollectionView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
+            videoCollectionView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
+            videoCollectionView.bottomAnchor.constraint(equalTo: guide.bottomAnchor),
 
             loadingIndicator.topAnchor.constraint(equalTo: guide.topAnchor),
             loadingIndicator.bottomAnchor.constraint(equalTo: guide.bottomAnchor),

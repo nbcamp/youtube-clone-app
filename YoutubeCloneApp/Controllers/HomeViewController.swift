@@ -29,15 +29,17 @@ struct LoadMoreVideosEvent: EventProtocol {
 }
 
 final class HomeViewController: TypedViewController<HomeView> {
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         setupEvents()
         rootView.initialize()
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        EventBus.shared.reset(self)
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationItem.titleView = {
+            let titleView = UIImageView()
+            titleView.image = .init(named: "Youtube Main")
+            titleView.contentMode = .scaleAspectFit
+            return titleView
+        }()
     }
 
     private func setupEvents() {
@@ -83,4 +85,6 @@ final class HomeViewController: TypedViewController<HomeView> {
             ))
         )
     }
+    
+    deinit { EventBus.shared.reset(self) }
 }
