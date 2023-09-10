@@ -55,7 +55,7 @@ final class RootViewController: UITabBarController {
             (HomeViewController.self, "house"),
             (ProfileViewController.self, "person"),
         ]
-
+        tabBar.tintColor = .primary
         setViewControllers(tabs.map { viewController, icon in
             let navigationController = UINavigationController(rootViewController: viewController.init())
             navigationController.tabBarItem = .init(title: nil, image: .init(systemName: icon), tag: 0)
