@@ -4,7 +4,11 @@ import WebKit
 final class DetailView: UIView, RootView {
     weak var video: YoutubeVideo?
 
-    var comments: [Comment] = []
+    var comments: [Comment] = [
+        .init(avatar: nil, name: "User 1", content: "Content 1", videoId: "1"),
+        .init(avatar: nil, name: "User 2", content: String(repeating: "A", count: 300), videoId: "1"),
+        .init(avatar: nil, name: "User 3", content: "Content 3", videoId: "1"),
+    ]
 
     private lazy var containerView = {
         let containerView = UIStackView(arrangedSubviews: [
@@ -166,19 +170,24 @@ final class DetailView: UIView, RootView {
 
         commentContainer.isLayoutMarginsRelativeArrangement = true
         commentContainer.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
+        
+        commentTableView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            
+        ])
 
         return commentContainer
     }()
 
     private lazy var commentTextFieldGroup: UIStackView = {
-        userProfileImage.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        userProfileImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         commentTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        leaveCommentButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        submitCommentButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
         let commentTextFieldGroup = UIStackView(arrangedSubviews: [
-            userProfileImage,
+            userProfileImageView,
             commentTextField,
-            leaveCommentButton,
+            submitCommentButton,
         ])
 
         commentTextFieldGroup.axis = .horizontal
@@ -188,7 +197,7 @@ final class DetailView: UIView, RootView {
         return commentTextFieldGroup
     }()
 
-    private lazy var userProfileImage: UIImageView = {
+    private lazy var userProfileImageView = {
         let userProfileImage = UIImageView()
         userProfileImage.image = UIImage(systemName: "person.crop.circle")
         userProfileImage.tintColor = .lightGray
@@ -200,7 +209,7 @@ final class DetailView: UIView, RootView {
         return userProfileImage
     }()
 
-    private lazy var commentTextField: UITextField = {
+    private lazy var commentTextField = {
         let commentTextField = UITextField()
         commentTextField.borderStyle = .roundedRect
         commentTextField.delegate = self
@@ -220,23 +229,29 @@ final class DetailView: UIView, RootView {
         return commentTextField
     }()
 
-    private lazy var leaveCommentButton = {
-        let leaveCommentButton = UIButton()
-        leaveCommentButton.translatesAutoresizingMaskIntoConstraints = false
-        leaveCommentButton.setBackgroundImage(UIImage(systemName: "arrow.up.square.fill"), for: .normal)
-        leaveCommentButton.tintColor = .white
-        leaveCommentButton.translatesAutoresizingMaskIntoConstraints = false
-        leaveCommentButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        leaveCommentButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        leaveCommentButton.addTarget(self, action: #selector(leaveComment), for: .touchUpInside)
-        return leaveCommentButton
+    private lazy var submitCommentButton = {
+        let submitCommentButton = UIButton()
+        submitCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        submitCommentButton.setBackgroundImage(UIImage(systemName: "arrow.up.square.fill"), for: .normal)
+        submitCommentButton.tintColor = .white
+        submitCommentButton.isEnabled = false
+        submitCommentButton.translatesAutoresizingMaskIntoConstraints = false
+        submitCommentButton.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        submitCommentButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        submitCommentButton.addTarget(self, action: #selector(leaveComment), for: .touchUpInside)
+        return submitCommentButton
     }()
 
     private lazy var commentTableView: UITableView = {
         let commentTableView = UITableView()
         commentTableView.backgroundColor = .clear
+        commentTableView.layer.borderColor = UIColor.lightGray.cgColor
+        commentTableView.layer.borderWidth = 1.0
+        commentTableView.layer.cornerRadius = 10.0
         commentTableView.dataSource = self
         commentTableView.delegate = self
+        commentTableView.rowHeight = UITableView.automaticDimension
+        commentTableView.estimatedRowHeight = 100
         commentTableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         return commentTableView
     }()
@@ -281,7 +296,7 @@ final class DetailView: UIView, RootView {
         titleLabel.text = video?.title
         channelNameLabel.text = video?.channel.name
         descriptionLabel.text = video?.description
-        userProfileImage.image = user?.uiAvatar
+        userProfileImageView.image = user?.uiAvatar
         if let thumbnailUrl = video?.channel.thumbnail.url,
            let url = URL(string: thumbnailUrl)
         { channelImageView.load(url: url) }
@@ -359,17 +374,20 @@ final class DetailView: UIView, RootView {
 
 extension DetailView: UITextFieldDelegate {
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-//        writeButton.isEnabled = false
+        submitCommentButton.isEnabled = false
         return true
     }
 
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//        let text = (commentTextField.text! as NSString).replacingCharacters(in: range, with: string)
-//        if !text.isEmpty {
-//            writeButton.isEnabled = true
-//        } else {
-//            writeButton.isEnabled = false
-//        }
+        let currentText = textField.text ?? ""
+        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+        let trimmedText = newText.trimmingCharacters(in: .whitespacesAndNewlines)
+        submitCommentButton.isEnabled = !trimmedText.isEmpty
+        return true
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         return true
     }
 }

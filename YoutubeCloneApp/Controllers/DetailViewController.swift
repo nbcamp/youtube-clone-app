@@ -25,7 +25,7 @@ final class DetailViewController: TypedViewController<DetailView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
-        rootView.comments = comments
+//        rootView.comments = comments
         keyboardHandler = .init(view: rootView)
         rootView.configure(user: AuthService.shared.user, video: video)
     }
