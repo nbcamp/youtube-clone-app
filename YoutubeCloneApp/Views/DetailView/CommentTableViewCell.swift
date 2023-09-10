@@ -1,6 +1,6 @@
 import UIKit
 
-class CommentTableViewCell: UITableViewCell {
+class CommentTableViewCell: UITableViewCell, Identifier {
     var comment : Comment?
     
     private lazy var overviewStackView: UIStackView = {

@@ -1,6 +1,6 @@
 import Foundation
 
-struct CommentModel {
+struct CommentModel: Codable {
     let id: String
     let avatar: Base64?
     let name: String
@@ -13,5 +13,17 @@ struct CommentModel {
         name = comment.name
         content = comment.content
         videoId = comment.videoId
+    }
+}
+
+extension CommentModel {
+    func toViewModel() -> Comment {
+        return .init(
+            id: id,
+            avatar: avatar,
+            name: name,
+            content: content,
+            videoId: videoId
+        )
     }
 }

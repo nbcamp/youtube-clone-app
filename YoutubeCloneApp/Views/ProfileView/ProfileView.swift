@@ -129,13 +129,34 @@ final class ProfileView: UIView, RootView {
 
     @objc private func avatarViewTapped() {
         guard isEditMode else { return }
-        EventBus.shared.emit(UpdateUserAvatarEvent())
+        EventBus.shared.emit(
+            PickImagesEvent(
+                payload: .init(
+                    viewController: viewController,
+                    selectionLimit: 1,
+                    filter: .images
+                ) { [weak self] images in
+                    self?.avatarImageView.image = images.first
+                }
+            )
+        )
     }
 
     @objc private func editButtonTapped() {
         isEditMode.toggle()
         editButton.setTitle(isEditMode ? "Done" : "Edit", for: .normal)
         dismissKeyboard()
+        if !isEditMode {
+            EventBus.shared.emit(
+                UpdateUserProfileEvent(
+                    payload: .init(
+                        avatar: avatarImageView.image,
+                        name: nameTextField.text ?? "",
+                        email: emailTextField.text ?? ""
+                    )
+                )
+            )
+        }
     }
 
     private func dismissKeyboard() {
@@ -154,14 +175,5 @@ extension ProfileView: UITextFieldDelegate {
             user?.$email.publish()
             return
         }
-
-        EventBus.shared.emit(
-            UpdateUserProfileEvent(
-                payload: .init(
-                    name: nameTextField.text ?? "",
-                    email: emailTextField.text ?? ""
-                )
-            )
-        )
     }
 }

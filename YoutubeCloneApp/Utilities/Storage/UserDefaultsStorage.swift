@@ -18,6 +18,7 @@ final class UserDefaultsStorage: Storage {
     }
 
     func remove(forKey key: String) {
+        print(key)
         UserDefaults.standard.removeObject(forKey: key)
     }
 }
