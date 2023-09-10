@@ -16,7 +16,7 @@ final class ProfileViewController: TypedViewController<ProfileView> {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        rootView.user = user
+
         navigationController?.navigationBar.backgroundColor = .white
         navigationItem.titleView = {
             let titleView = UIImageView()
@@ -24,6 +24,10 @@ final class ProfileViewController: TypedViewController<ProfileView> {
             titleView.contentMode = .scaleAspectFit
             return titleView
         }()
+
+        AuthService.shared.$user.subscribe(by: self, immediate: true) { subscriber, changes in
+            subscriber.rootView.user = changes.new
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -44,20 +48,5 @@ final class ProfileViewController: TypedViewController<ProfileView> {
         super.viewWillDisappear(animated)
 
         EventBus.shared.reset(self)
-    }
-}
-
-extension ProfileViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-
-        guard let itemProvider = results.first?.itemProvider,
-              itemProvider.canLoadObject(ofClass: UIImage.self)
-        else { return }
-
-        itemProvider.loadObject(ofClass: UIImage.self) { [weak self] image, _ in
-            guard let self, let selectedImage = image as? UIImage else { return }
-            self.user?.uiAvatar = selectedImage
-        }
     }
 }

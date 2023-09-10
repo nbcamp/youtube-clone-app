@@ -6,14 +6,13 @@ struct SignUpEvent: EventProtocol {
         let avatar: Base64
         let email: String
         let password: String
+        let confirmPassword: String
     }
 
     let payload: Payload
 }
 
 final class SignUpViewController: TypedViewController<SignUpView> {
-    var photoPicker: PhotoPicker?
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -24,15 +23,27 @@ final class SignUpViewController: TypedViewController<SignUpView> {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
         EventBus.shared.on(SignUpEvent.self, by: self) { listener, payload in
+            guard payload.password == payload.confirmPassword else {
+                listener.alertError(message: "Passwords do not match.")
+                return
+            }
             AuthService.shared.signUp(
                 avatar: payload.avatar,
                 name: payload.name,
                 email: payload.email,
                 password: payload.password
-            ) { _ in
+            ) { [weak listener] error in
                 DispatchQueue.main.async {
-                    listener.navigationController?.popViewController(animated: true)
+                    switch error {
+                    case .invalidEmail:
+                        listener?.alertError(message: "Invalid email format.")
+                    case .invalidPassword:
+                        listener?.alertError(message: "Invalid password format:\nmore than 6 chars\nwith at least one letter and number.")
+                    default:
+                        listener?.navigationController?.popViewController(animated: true)
+                    }
                 }
             }
         }
@@ -85,6 +96,15 @@ final class SignUpViewController: TypedViewController<SignUpView> {
         }
 
         return nil
+    }
+
+    private func alertError(message: String) {
+        EventBus.shared.emit(
+            AlertErrorEvent(payload: .init(
+                viewController: self,
+                message: message
+            ))
+        )
     }
 
     deinit { NotificationCenter.default.removeObserver(self) }

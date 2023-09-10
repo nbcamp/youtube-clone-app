@@ -54,6 +54,7 @@
 		3347BCC62AADCC65005DA0C0 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC52AADCC65005DA0C0 /* UIImageView+Ext.swift */; };
 		3347BCC82AADCC7C005DA0C0 /* UIResponder+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */; };
 		3347BCCA2AADCC8D005DA0C0 /* NumberFormatter+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */; };
+		3347BCCC2AADCF2E005DA0C0 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */; };
 		554BA0CF2AAC548C00BFBDC5 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */; };
 		554BA0D12AAC57CD00BFBDC5 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D02AAC57CD00BFBDC5 /* Comment.swift */; };
 		554BA0D32AAC590300BFBDC5 /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554BA0D22AAC590300BFBDC5 /* CommentModel.swift */; };
@@ -111,6 +112,7 @@
 		3347BCC52AADCC65005DA0C0 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 		3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIResponder+Ext.swift"; sourceTree = "<group>"; };
 		3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NumberFormatter+Ext.swift"; sourceTree = "<group>"; };
+		3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		554BA0CE2AAC548C00BFBDC5 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		554BA0D02AAC57CD00BFBDC5 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		554BA0D22AAC590300BFBDC5 /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
@@ -150,9 +152,9 @@
 			isa = PBXGroup;
 			children = (
 				333646F22AA5985C00C37275 /* Resources */,
-				333647092AA5AB7D00C37275 /* Services */,
 				3336472C2AA5B0B800C37275 /* Models */,
 				3336472D2AA5B0C600C37275 /* ViewModels */,
+				333647092AA5AB7D00C37275 /* Services */,
 				333646F32AA5986600C37275 /* Views */,
 				333646F42AA5987000C37275 /* Controllers */,
 				3336471D2AA5AF7A00C37275 /* Utilities */,
@@ -338,6 +340,7 @@
 				3347BCC32AADCC24005DA0C0 /* UIColor+Ext.swift */,
 				3347BCC72AADCC7C005DA0C0 /* UIResponder+Ext.swift */,
 				3347BCC92AADCC8D005DA0C0 /* NumberFormatter+Ext.swift */,
+				3347BCCB2AADCF2E005DA0C0 /* String+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				3347BCC82AADCC7C005DA0C0 /* UIResponder+Ext.swift in Sources */,
 				333647212AA5AFAC00C37275 /* Publishable.swift in Sources */,
 				333647232AA5AFC300C37275 /* EventBus.swift in Sources */,
+				3347BCCC2AADCF2E005DA0C0 /* String+Ext.swift in Sources */,
 				333647402AA6EB0B00C37275 /* YoutubeVideoModel.swift in Sources */,
 				3336473B2AA6E9B000C37275 /* YoutubeVideoListResponseModel.swift in Sources */,
 				333647462AA70D5B00C37275 /* YoutubeChannelListResponseModel.swift in Sources */,

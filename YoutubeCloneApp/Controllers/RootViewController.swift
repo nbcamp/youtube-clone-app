@@ -70,9 +70,9 @@ final class RootViewController: UITabBarController {
             config.selectionLimit = payload.selectionLimit ?? 0
             config.filter = payload.filter
             let picker = PHPickerViewController(configuration: config)
-            listener.photoPicker = PhotoPicker { [weak self] images in
+            listener.photoPicker = PhotoPicker { [weak listener] images in
                 payload.completion(images)
-                self?.photoPicker = nil
+                listener?.photoPicker = nil
             }
             picker.delegate = listener.photoPicker
             payload.viewController?.present(picker, animated: true)
