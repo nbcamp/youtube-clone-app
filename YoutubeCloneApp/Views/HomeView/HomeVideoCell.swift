@@ -91,6 +91,11 @@ final class HomeVideoCell: UICollectionViewCell, Identifier {
         contentView.frame = bounds
     }
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        thumbnailImage.image = nil
+    }
+
     private func setupCell() {
         contentView.addSubview(thumbnailImage)
         contentView.addSubview(channelIconImage)

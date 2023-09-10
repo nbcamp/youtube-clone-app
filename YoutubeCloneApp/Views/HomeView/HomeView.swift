@@ -28,14 +28,14 @@ final class HomeView: UIView, RootView {
     }()
 
     @objc private func refreshCollectionView() {
-        refreshControl.endRefreshing()
-//        YoutubeService.shared.refreshVideos { _ in
-//            EventBus.shared.emit(
-//                AlertErrorEvent(payload: .init(
-//                    message: "Refresh videos failed."
-//                ))
-//            )
-//        }
+        EventBus.shared.emit(RefreshVideosEvent(payload: .init(completion: { [weak self] videos in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                self.videos = videos
+                self.videoCollectionView.reloadData()
+                self.refreshControl.endRefreshing()
+            }
+        })))
     }
 
     func initializeUI() {
@@ -67,8 +67,10 @@ final class HomeView: UIView, RootView {
                 }
             }
         }
+    }
 
-        YoutubeService.shared.loadVideos { [weak self] videos in
+    func initialize() {
+        EventBus.shared.emit(LoadNewVideosEvent(payload: .init(completion: { [weak self] videos in
             guard let self else { return }
             self.videos = videos
             let indexPathsToInsert = (0 ..< videos.count).map { IndexPath(item: $0, section: 0) }
@@ -77,13 +79,7 @@ final class HomeView: UIView, RootView {
                     self.videoCollectionView.insertItems(at: indexPathsToInsert)
                 }
             }
-        } errorHandler: { _ in
-            EventBus.shared.emit(
-                AlertErrorEvent(payload: .init(
-                    message: "Load videos failed."
-                ))
-            )
-        }
+        })))
     }
 }
 
@@ -110,28 +106,18 @@ extension HomeView: UICollectionViewDelegate {
         let distanceFromBottom = contentHeight - offsetY
 
         if distanceFromBottom < scrollView.frame.size.height + 300 {
-            YoutubeService.shared.loadMoreVideos { [weak self] videos in
+            EventBus.shared.emit(LoadMoreVideosEvent(payload: .init(completion: { [weak self] videos in
                 guard let self else { return }
-                
                 let startIndex = self.videos.count
                 let endIndex = startIndex + videos.count
                 let indexPathsToInsert = (self.videos.count ..< endIndex).map { IndexPath(item: $0, section: 0) }
                 self.videos.append(contentsOf: videos)
-
                 DispatchQueue.main.async {
                     self.videoCollectionView.performBatchUpdates {
                         self.videoCollectionView.insertItems(at: indexPathsToInsert)
                     }
                 }
-
-            } errorHandler: { error in
-                debugPrint(error)
-                EventBus.shared.emit(
-                    AlertErrorEvent(payload: .init(
-                        message: "Fetch more videos failed."
-                    ))
-                )
-            }
+            })))
         }
     }
 }
@@ -139,6 +125,6 @@ extension HomeView: UICollectionViewDelegate {
 extension HomeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width
-        return CGSize(width: width, height: width * 9 / 16 + 100)
+        return CGSize(width: width, height: width * 9 / 16 + 80)
     }
 }
