@@ -1,6 +1,6 @@
 import UIKit
 
-class TypedViewController<View: UIView>: UIViewController where View: RootView {
+class TypedViewController<View: RootView>: UIViewController {
     var rootView: View { view as! View }
 
     override func loadView() {
