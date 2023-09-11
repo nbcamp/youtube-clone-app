@@ -69,17 +69,12 @@ final class HomeView: UIView, RootView {
         }
     }
 
-    func initialize() {
-        EventBus.shared.emit(LoadNewVideosEvent(payload: .init(completion: { [weak self] videos in
-            guard let self else { return }
-            self.videos = videos
-            let indexPathsToInsert = (0 ..< videos.count).map { IndexPath(item: $0, section: 0) }
-            DispatchQueue.main.async {
-                self.videoCollectionView.performBatchUpdates {
-                    self.videoCollectionView.insertItems(at: indexPathsToInsert)
-                }
-            }
-        })))
+    func configure(videos: [YoutubeVideo]) {
+        self.videos = videos
+        let indexPathsToInsert = (0 ..< videos.count).map { IndexPath(item: $0, section: 0) }
+        videoCollectionView.performBatchUpdates {
+            self.videoCollectionView.insertItems(at: indexPathsToInsert)
+        }
     }
 }
 

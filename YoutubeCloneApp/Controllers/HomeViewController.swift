@@ -8,14 +8,6 @@ struct PushToDetailViewEvent: EventProtocol {
     let payload: Payload
 }
 
-struct LoadNewVideosEvent: EventProtocol {
-    struct Payload {
-        let completion: ([YoutubeVideo]) -> Void
-    }
-
-    let payload: Payload
-}
-
 struct RefreshVideosEvent: EventProtocol {
     struct Payload {
         let completion: ([YoutubeVideo]) -> Void
@@ -36,13 +28,27 @@ final class HomeViewController: TypedViewController<HomeView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupEvents()
-        rootView.initialize()
+
         navigationItem.titleView = {
             let titleView = UIImageView()
             titleView.image = .init(named: "Youtube Logo")
             titleView.contentMode = .scaleAspectFit
             return titleView
         }()
+
+        AuthService.shared.$user.subscribe(by: self, immediate: true) { subscriber, changes in
+            guard changes.new != nil else { return }
+            AuthService.shared.$user.unsubscribe(by: subscriber)
+            YoutubeService.shared.loadVideos(
+                completionHandler: { [weak subscriber] videos in
+                    DispatchQueue.main.async { subscriber?.rootView.configure(videos: videos) }
+                },
+                errorHandler: { [weak subscriber] error in
+                    debugPrint(error)
+                    subscriber?.alertError(message: "Failed to load new videos.")
+                }
+            )
+        }
     }
 
     private func setupEvents() {
@@ -52,16 +58,6 @@ final class HomeViewController: TypedViewController<HomeView> {
             detailVC.modalPresentationStyle = .custom
             detailVC.isModalInPresentation = false
             listener.present(detailVC, animated: true)
-        }
-
-        EventBus.shared.on(LoadNewVideosEvent.self, by: self) { _, payload in
-            YoutubeService.shared.loadVideos(
-                completionHandler: payload.completion,
-                errorHandler: { [weak self] error in
-                    debugPrint(error)
-                    self?.alertError(message: "Failed to load new videos.")
-                }
-            )
         }
 
         EventBus.shared.on(RefreshVideosEvent.self, by: self) { _, payload in

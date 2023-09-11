@@ -27,10 +27,10 @@ final class ProfileView: UIView, RootView {
     private lazy var avatarView = {
         let avatarView = UIView()
         avatarView.tintColor = .systemGray
-        avatarView.layer.borderWidth = 5.0
-        avatarView.layer.borderColor = UIColor.systemGray.cgColor
+        avatarView.layer.borderWidth = 1.0
+        avatarView.layer.borderColor = UIColor.systemGray5.cgColor
 
-        let width: CGFloat = 150
+        let width: CGFloat = 100
         avatarView.layer.cornerRadius = width / 2
         avatarView.layer.masksToBounds = true
         avatarView.addSubview(avatarImageView)
@@ -60,6 +60,7 @@ final class ProfileView: UIView, RootView {
     private lazy var nameTextField = {
         let nameTextField = UITextField()
         nameTextField.delegate = self
+        nameTextField.font = .systemFont(ofSize: 20, weight: .bold)
         return nameTextField
     }()
 
@@ -72,6 +73,8 @@ final class ProfileView: UIView, RootView {
     private lazy var emailTextField = {
         let emailTextField = UITextField()
         emailTextField.delegate = self
+        emailTextField.font = .systemFont(ofSize: 14)
+        emailTextField.textColor = .label.withAlphaComponent(0.8)
         return emailTextField
     }()
 
@@ -102,7 +105,7 @@ final class ProfileView: UIView, RootView {
         containerView.translatesAutoresizingMaskIntoConstraints = false
         let guide = safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 40),
+            containerView.topAnchor.constraint(equalTo: guide.topAnchor, constant: 20),
             containerView.leadingAnchor.constraint(equalTo: guide.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: guide.trailingAnchor),
         ])
