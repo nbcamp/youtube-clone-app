@@ -25,13 +25,15 @@ final class AuthService {
     ) {
         loading = true
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            let user = self?.load()
+            guard let self else { completion(nil); return }
+            let user = storage != nil ? self.load() : self.user
             guard let user else { completion(.userNotFound); return }
             guard user.email == email,
                   user.password == password
             else { completion(.incorrectInput); return }
+            self.user = user
             completion(nil)
-            self?.loading = false
+            self.loading = false
         }
     }
 
@@ -44,16 +46,24 @@ final class AuthService {
     ) {
         loading = true
         DispatchQueue.global().asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self else { completion(nil); return }
             guard email.test(pattern: .email) else { completion(.invalidEmail); return }
             guard password.test(pattern: .password) else { completion(.invalidPassword); return }
 
-            self?.save(user: .init(
+            let user: User = .init(
                 avatar: avatar,
                 name: name,
                 email: email,
                 password: password
-            ))
-            self?.loading = false
+            )
+
+            if storage != nil {
+                self.save(user: user)
+            } else {
+                self.user = user
+            }
+
+            self.loading = false
             completion(nil)
         }
     }

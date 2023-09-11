@@ -37,10 +37,9 @@ final class HomeViewController: TypedViewController<HomeView> {
         super.viewDidLoad()
         setupEvents()
         rootView.initialize()
-        navigationController?.navigationBar.backgroundColor = .white
         navigationItem.titleView = {
             let titleView = UIImageView()
-            titleView.image = .init(named: "Youtube Main")
+            titleView.image = .init(named: "Youtube Logo")
             titleView.contentMode = .scaleAspectFit
             return titleView
         }()
@@ -50,7 +49,9 @@ final class HomeViewController: TypedViewController<HomeView> {
         EventBus.shared.on(PushToDetailViewEvent.self, by: self) { listener, payload in
             let detailVC = DetailViewController()
             detailVC.video = payload.video
-            listener.navigationController?.pushViewController(detailVC, animated: true)
+            detailVC.modalPresentationStyle = .custom
+            detailVC.isModalInPresentation = false
+            listener.present(detailVC, animated: true)
         }
 
         EventBus.shared.on(LoadNewVideosEvent.self, by: self) { _, payload in
@@ -74,7 +75,6 @@ final class HomeViewController: TypedViewController<HomeView> {
         }
 
         EventBus.shared.on(LoadMoreVideosEvent.self, by: self) { _, payload in
-            print(payload)
             YoutubeService.shared.loadMoreVideos(
                 completionHandler: payload.completion,
                 errorHandler: { [weak self] error in

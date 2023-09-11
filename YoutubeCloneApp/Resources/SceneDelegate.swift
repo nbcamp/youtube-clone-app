@@ -9,6 +9,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
 
         AuthService.shared.storage = UserDefaultsStorage.shared
+        CommentService.shared.storage = UserDefaultsStorage.shared
         window?.rootViewController = RootViewController()
     }
 

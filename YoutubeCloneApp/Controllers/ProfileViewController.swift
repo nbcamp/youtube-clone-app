@@ -17,10 +17,9 @@ final class ProfileViewController: TypedViewController<ProfileView> {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationController?.navigationBar.backgroundColor = .white
         navigationItem.titleView = {
             let titleView = UIImageView()
-            titleView.image = .init(named: "Youtube Main")
+            titleView.image = .init(named: "Youtube Logo")
             titleView.contentMode = .scaleAspectFit
             return titleView
         }()

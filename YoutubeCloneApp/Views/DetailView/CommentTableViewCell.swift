@@ -1,76 +1,75 @@
 import UIKit
 
-class CommentTableViewCell: UITableViewCell, Identifier {
-    var comment : Comment?
-    
-    private lazy var overviewStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-
-    private lazy var profileImage: UIImageView = {
-        let profileImage = UIImageView()
-        profileImage.translatesAutoresizingMaskIntoConstraints = false
-        profileImage.image = UIImage(systemName: "person.crop.circle")
-        profileImage.sizeToFit()
-        return profileImage
-    }()
-
-    private lazy var profileLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 12)
-        label.textColor = .darkGray
-        label.text = "@user-dsfnasdlf"
-        return label
-    }()
-
-    private lazy var overviewLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Apple SD Gothic Neo", size: 14)
-        label.numberOfLines = 4
-        label.text = ""
-        return label
-    }()
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
+final class CommentTableViewCell: UITableViewCell, Identifier {
+    weak var comment: Comment? {
+        didSet {
+            profileImageView.image = comment?.uiAvatar ?? .init(systemName: "person.crop.circle")
+            profileUsernameLabel.text = comment?.name
+            commentLabel.text = comment?.content
+        }
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
+    private lazy var containerView = {
+        let containerView = UIStackView(arrangedSubviews: [
+            profileImageView,
+            contentStackView,
+        ])
+        containerView.axis = .horizontal
+        containerView.spacing = 10.0
+        containerView.alignment = .top
+        containerView.isLayoutMarginsRelativeArrangement = true
+        containerView.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
+        return containerView
+    }()
+
+    private lazy var contentStackView = {
+        let contentStackView = UIStackView(arrangedSubviews: [
+            profileUsernameLabel,
+            commentLabel,
+        ])
+        contentStackView.axis = .vertical
+        contentStackView.spacing = 4.0
+        return contentStackView
+    }()
+
+    private lazy var profileImageView = {
+        let profileImageView = UIImageView()
+        profileImageView.image = .init(systemName: "person.crop.circle")
+        profileImageView.tintColor = .lightGray
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        profileImageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        profileImageView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        profileImageView.layer.cornerRadius = 15
+        profileImageView.layer.masksToBounds = true
+        return profileImageView
+    }()
+
+    private lazy var profileUsernameLabel = {
+        let profileUsernameLabel = UILabel()
+        profileUsernameLabel.translatesAutoresizingMaskIntoConstraints = false
+        profileUsernameLabel.font = .systemFont(ofSize: 12)
+        profileUsernameLabel.textColor = .lightGray
+        profileUsernameLabel.text = "Anonymous"
+        return profileUsernameLabel
+    }()
+
+    private lazy var commentLabel: UILabel = {
+        let commentLabel = UILabel()
+        commentLabel.translatesAutoresizingMaskIntoConstraints = false
+        commentLabel.font = .systemFont(ofSize: 14)
+        commentLabel.text = "Comment"
+        commentLabel.textColor = .white
+        commentLabel.numberOfLines = 4
+        return commentLabel
+    }()
 
     func changeLine() {
-        overviewLabel.numberOfLines = 0
-    }
-
-    private func setConstraint() {
-        contentView.addSubview(overviewStackView)
-        contentView.addSubview(profileImage)
-        overviewStackView.addArrangedSubview(profileLabel)
-        overviewStackView.addArrangedSubview(overviewLabel)
-        overviewStackView.axis = .vertical
-        overviewStackView.alignment = .top
-        overviewStackView.spacing = 5
-        NSLayoutConstraint.activate([
-            profileImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            profileImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            profileImage.widthAnchor.constraint(equalToConstant: 35),
-            profileImage.heightAnchor.constraint(equalToConstant: 35),
-            overviewStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            overviewStackView.leadingAnchor.constraint(equalTo: profileImage.trailingAnchor, constant: 10),
-            overviewStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            overviewStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -15)
-
-        ])
+        commentLabel.numberOfLines = commentLabel.numberOfLines > 0 ? 0 : 2
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setConstraint()
+        configureUI()
     }
 
     @available(*, unavailable)
@@ -78,7 +77,18 @@ class CommentTableViewCell: UITableViewCell, Identifier {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setData(_ data: String) {
-        
+    private func configureUI() {
+        backgroundColor = .clear
+
+        selectionStyle = .none
+        addSubview(containerView)
+
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: topAnchor),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
     }
 }
