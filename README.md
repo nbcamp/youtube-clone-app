@@ -368,70 +368,14 @@ View->>User: Update UI & Display
     3. Secrets.xcconfig가 아니라 이름에 오타라도 발생하면 gitignore가 안되서 저장소에 노출될 위험이 있음
     
 - #두번째 시도: Script를 활용하여 빌드할 때 바꿔치기
-    
-    project.pbxproj의 관리에서 벗어나기 위해 환경변수 관리 파일을 Root Directory에 추가해야 함
-    
-    - `.env.example` 파일 추가 (`.env` 파일 gitignore에 추가)
-        
-        ```bash
-        export ENV_VAR_YOUTUBE_API_KEY=""
-        ```
-        
-    - `scripts/setup.sh` 파일 추가 (실행 시 API Key를 물어보고 입력을 기반으로 `.env` 파일 생성)
-        
-        ```bash
-        #!/bin/bash
-        
-        cd $(git rev-parse --show-toplevel)
-        
-        read -p "Enter your Youtube API key: " YOUTUBE_API_KEY
-        
-        if [ ! -f .env ]; then
-          cp .env.example .env
-        fi
-        
-        sed -i '' "s/ENV_VAR_YOUTUBE_API_KEY=.*/ENV_VAR_YOUTUBE_API_KEY=$YOUTUBE_API_KEY/" .env
-        
-        echo "Setup complete!"
-        ```
-        
-        ```bash
-        $ ./scripts/setup.sh
-        Enter your Youtube API key: <insert your API key here>
-        Setup complete!
-        ```
-        
+    >project.pbxproj의 관리에서 벗어나기 위해 환경변수 관리 파일을 Root Directory에 추가해야 함
+    - [`.env.example`](/.env.example) 파일 추가 (`.env` 파일 gitignore에 추가)
+    - [`scripts/setup.sh`](/scripts/setup.sh) 파일 추가 (실행 시 API Key를 물어보고 입력을 기반으로 `.env` 파일 생성)
     - xcode의 scheme에서 build 시 실행할 스크립트 등록 (pre-actions, post-actions)
-        - `prebuild.sh` : Env.swift에 접근하여 `.env` 파일에 등록된 환경변수로 교체
-            
-            ```bash
-            source $SRCROOT/.env
-            ENV_FILE=$SRCROOT/YoutubeCloneApp/Utilities/Env.swift
-            
-            while IFS="=" read -r key value; do
-              if grep -q "$key" "$ENV_FILE"; then
-                sed -i '' "s/$key/$value/g" "$ENV_FILE"
-              fi
-            done < <(env | grep "^ENV_VAR_")
-            ```
-            
-        - `postbuild.sh` : Env.swift에 접근하여 원래 값으로 교체
-            
-            ```bash
-            source $SRCROOT/.env
-            ENV_FILE=$SRCROOT/YoutubeCloneApp/Utilities/Env.swift
-            
-            while IFS="=" read -r key value; do
-              if grep -q "$value" "$ENV_FILE"; then
-                sed -i '' "s/$value/$key/g" "$ENV_FILE"
-              fi
-            done < <(env | grep "^ENV_VAR_")
-            ```
-            
-    
-    <aside>
+        - [`prebuild.sh`](/scripts/prebuild.sh): Env.swift에 접근하여 `.env` 파일에 등록된 환경변수로 교체
+        - [`postbuild.sh`](/scripts/postbuild.sh): Env.swift에 접근하여 원래 값으로 교체
+
     ⚠️ **문제점**
     
     1. 빌드 진행 중 실패하면 post-action이 실행되지 않음 → 빌드 실패했는데 커밋하지 마세요.
     2. Env.swift 파일을 연 채로 빌드를 수행하면 가끔 쓰기가 제대로 수행되지 않음 → 열지 마세요.
-    </aside>
