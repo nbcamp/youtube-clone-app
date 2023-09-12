@@ -169,16 +169,13 @@ end
 
 1. [`RootView`](/YoutubeCloneApp/Views/RootView.swift) & [`TypedViewController`](/YoutubeCloneApp/Controllers/Shared/TypedViewController.swift) 적용
     - `UIViewController` 가 가진 `view` 속성을 대체할 `RootView` 정의
-        
         ```swift
         // RootView.swift
         protocol RootView: UIView {
             func initializeUI()
         }
         ```
-        
     - RootView를 generic 타입으로 받아 `loadView` 함수 내에서 `view` 속성을 교체
-        
         ```swift
         // TypedViewController.swift
         class TypedViewController<View: RootView>: UIViewController {
@@ -196,18 +193,16 @@ end
             }
         }
         ```
-        
     - `SignInView` 에서 모든 UI를 작성하고 `SignInViewController` 에서는 비즈니스 로직만 포함
-        
         ```swift
         // 사용법
         final class SignInView: UIView, RootView { ... } // RootView 채택 필요
         
         final class SignInViewController: TypedViewController<SignInView> {
-        	  override func viewDidLoad() {
+            override func viewDidLoad() {
                 super.viewDidLoad()
         
-        				rootView; // SignInView 타입
+                rootView; // SignInView 타입
             }
         }
         ```
@@ -249,7 +244,7 @@ end
             @Publishable var email: String
             var password: String
    
-    		    // ...
+            // ...
         }
     
         // Views/ProfileView.swift
