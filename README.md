@@ -362,7 +362,7 @@ View->>User: Update UI & Display
     2. Configuration 과정을 수행하면서 project.pbxproj 파일이 변경됨 (불필요한 변경 내역 생성 및 충돌 야기)
     3. Secrets.xcconfig가 아니라 이름에 오타라도 발생하면 gitignore가 안되서 저장소에 노출될 위험이 있음
     
-- #두번째 시도: Script를 활용하여 빌드할 때 바꿔치기
+- #(위 문제점을 해결하기 위한) 두번째 시도: Script를 활용하여 빌드할 때 바꿔치기
     >project.pbxproj의 관리에서 벗어나기 위해 환경변수 관리 파일을 Root Directory에 추가해야 함
     - [`.env.example`](/.env.example) 파일 추가 (`.env` 파일 gitignore에 추가)
     - [`scripts/setup.sh`](/scripts/setup.sh) 파일 추가 (실행 시 API Key를 물어보고 입력을 기반으로 `.env` 파일 생성)
